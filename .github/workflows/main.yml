@@ -25,18 +25,3 @@ jobs:
           mongodb-db: 'mydatabase'   # Optional, if needed
           mongodb-username: ''        # Optional, if needed
           mongodb-password: ''        # Optional, if needed
-
-      - name: Install MongoDB CLI tools
-        run: |
-          wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2004-x86_64-100.6.0.deb
-          sudo dpkg -i mongodb-database-tools-ubuntu2004-x86_64-100.6.0.deb || true
-          sudo apt-get install -f  # Install dependencies
-
-      - name: Verify MongoDB is running
-        run: |
-          mongo --host localhost --port 27017 --eval 'db.stats()' || true
-
-      - name: Run tests
-        run: |
-          # Replace with your test commands
-          npm test
