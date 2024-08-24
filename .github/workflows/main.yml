@@ -16,20 +16,12 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
 
-      - name: MongoDB in GitHub Actions
-        # You may pin to the exact commit or the version.
-        # uses: supercharge/mongodb-github-action@b0a1493307c4e9b82ed61f3858d606c5ff190c64
+      - name: Set up MongoDB
         uses: supercharge/mongodb-github-action@v1.10.0
         with:
-          # MongoDB version to use (default "latest")
-          mongodb-version: 'latest'  # Provide a valid version or keep as 'latest'
-          # MongoDB replica set name (no replica set by default)
-          mongodb-replica-set: '' # Leave as empty string if not needed
-          # MongoDB port to use (default 27017)
-          mongodb-port: 27017  # Provide a valid port number
-          # MongoDB db to create (default: none)
-          mongodb-db: 'mydatabase'  # Provide a valid database name or leave as empty string
-          # MongoDB root username (default: none)
-          mongodb-username: ''  # Provide a valid username or leave as empty string
-          # MongoDB root password (default: none)
-          mongodb-password: ''  # Provide a valid password or leave as empty string
+          mongodb-version: 'latest'  # or specify a version
+          mongodb-replica-set: ''     # Leave empty if not needed
+          mongodb-port: 27017
+          mongodb-db: 'mydatabase'   # Optional, if needed
+          mongodb-username: ''        # Optional, if needed
+          mongodb-password: ''        # Optional, if needed
