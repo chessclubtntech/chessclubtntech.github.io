@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chess Club</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Register Form -->
+    <h2 class = "h2-title">Register</h2>
+    <form id="registerForm">
+      <div class="form-group">
+        <label for="registerUsername">Username</label>
+        <input type="text" class="form-control" id="registerUsername" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="registerEmail">Email address</label>
+        <input type="email" class="form-control" id="registerEmail" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="registerPassword">Password</label>
+        <input type="password" class="form-control" id="registerPassword" name="password" required>
+      </div>
+      <button type="submit" class="registerbtn">Register</button>
+    </form>
+    <div id="registerMessage"></div>
+  
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="index.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Register Form Submission
+      $('#registerForm').submit(function(event) {
+        event.preventDefault();
+        const formData = $(this).serialize();
+        $.post('/register', formData, function(data) {
+          $('#registerMessage').text(data.message);
+          $('#registerForm')[0].reset();
+        }).fail(function(error) {
+          $('#registerMessage').text(error.responseJSON.message);
+        });
+      });
+    });
+    // Fetch selected background image from localStorage
+    const selectedBackground = localStorage.getItem('backgroundImage');
+    // Set the selected background as the body background
+    if (selectedBackground) {
+      document.body.style.backgroundImage = `url(${selectedBackground})`;
+    }
+  </script>
+</body>
+</html>

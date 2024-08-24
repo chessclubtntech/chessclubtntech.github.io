@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rating Calculator</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="leaderboard-h1">Tournament</h1>
+    <ul class="navigation-links">
+      <li class="home-button-leaderboard"><a href="main.html"><i class="fas fa-home"></i></a></li>
+    </ul>
+    <div class="user-container">
+      <div class="user" id="user1"></div>
+        <span id="user1GamesPlayed">0</span> games played
+        <br>
+        <span id="user1TotalScore">0</span> total score
+      <div class="buttons1">
+        <button id="winButton1">Win</button>
+        <button id="drawButton1">Draw</button>
+        <button id="loseButton1">Lose</button>
+      </div>
+    </div>
+    <div class="user-container">
+      <div class="user" id="user2"></div>
+        <span id="user2GamesPlayed">0</span> games played
+        <br>
+        <span id="user2TotalScore">0</span> total score
+      <div class="buttons2">
+        <button id="winButton2">Win</button>
+        <button id="drawButton2">Draw</button>
+        <button id="loseButton2">Lose</button>
+      </div>
+    </div>
+    <div class="submit-container">
+      <button id="submitResult" style="display: none;">Submit Result</button>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // Fetch selected background image from localStorage
+    const selectedBackground = localStorage.getItem('backgroundImage');
+    // Set the selected background as the body background
+    if (selectedBackground) {
+      document.body.style.backgroundImage = `url(${selectedBackground})`;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaderboard</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class = "leaderboard-h1">Leaderboard</h1>
+    <ul class="navigation-links">
+      <li class="home-button-leaderboard"><a href="main.html"><i class="fas fa-home"></i></a></li>
+    </ul>
+    <ol id="leaderboard"></ol> <!-- Changed to ordered list -->
+  </div>
+  <script>
+    // Fetch leaderboard data from the server
+    fetch('/api/leaderboard')
+      .then(response => response.json())
+      .then(users => {
+        const leaderboardElement = document.getElementById('leaderboard');
+        let place = 1;
+        users.forEach(user => {
+          const listItem = document.createElement('li');
+          listItem.textContent = `#${place} ${user.username} - Rating: ${user.rating}`;
+          leaderboardElement.appendChild(listItem);
+          place++;
+        });
+      })
+      .catch(error => console.error('Error fetching leaderboard data:', error));
+    // Fetch selected background image from localStorage
+    const selectedBackground = localStorage.getItem('backgroundImage');
+    // Set the selected background as the body background
+    if (selectedBackground) {
+      document.body.style.backgroundImage = `url(${selectedBackground})`;
+    }
+  </script>
+</body>
+</html>

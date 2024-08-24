@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Club Schedule</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Main Page Content -->
+    <h1 class = "leaderboard-h1">Club Schedule</h1>
+    <ul class="navigation-links">
+      <li class="home-button-leaderboard"><a href="main.html"><i class="fas fa-home"></i></a></li>
+    </ul>
+  </div>
+  <script>
+    // Fetch selected background image from localStorage
+    const selectedBackground = localStorage.getItem('backgroundImage');
+    // Set the selected background as the body background
+    if (selectedBackground) {
+      document.body.style.backgroundImage = `url(${selectedBackground})`;
+    }
+  </script>
+</body>
+</html>

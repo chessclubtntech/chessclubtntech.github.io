@@ -1,74 +1,70 @@
-<!-- main.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Main Page</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Main Page</h1>
-  <ul>
-    <li><a href="leaderboard.html">Leaderboard</a></li>
-    <li><a href="club.html">Chess Club Schedule</a></li>
-    <li><a href="profile.html">Profile</a></li>
-    <li><a href="tournament.html">Tournament Archive</a></li>
-  </ul>
-</body>
-</html>
+  <div class="container">
+    <div class="hub">
+      <h1>Welcome!</h1>
+      <div class="grid-container">
+        <div class="grid-item">
+          <a href="leaderboard.html"><i class="fas fa-trophy chess-piece"></i>  Leaderboard</a>
+        </div>
+        <div class="grid-item">
+          <a href="club.html"><i class="fas fa-chess-board chess-piece"></i>  Club Schedule</a>
+        </div>
+        <div class="grid-item">
+          <a href="archive.html"><i class="fas fa-book chess-piece"></i>  Archives</a>
+        </div>
+        <div class="grid-item">
+          <a href="tournament.html"><i class="fas fa-trophy chess-piece"></i>   Tournaments</a>
+        </div>
+        <div class="grid-item">
+          <a href="socials.html"><i class="fas fa-user-friends"></i>  Socials</a>
+        </div>
+        <div class="grid-item dropdown">
+          <button class="btn btn-link dropdown-toggle" type="button" id="optionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-cog chess-piece"></i>  Options
+          </button>
+          <div class="dropdown-menu" aria-labelledby="optionsDropdown">
+            <a class="dropdown-item" href="profile.html"><i class="fas fa-user chess-piece"></i>  Profile</a>
+            <a class="dropdown-item" href="background.html"><i class="fas fa-paint-brush chess-piece"></i>  Change Background</a>
+            <button class="dropdown-item" id="logoutButton"><i class="fas fa-sign-out-alt chess-piece"></i>  Log Out</button>
+          </div>
+        </div>
+      </div>
+      <div id="username-display"></div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Fetch username data from the server
+    fetch('/api/username')
+      .then(response => response.json())
+      .then(data => {
+        const usernameDisplay = document.getElementById('username-display');
+        usernameDisplay.textContent = `Welcome, ${data.username}`;
+      })
+      .catch(error => console.error('Error fetching username data:', error));
 
-<!-- leaderboard.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leaderboard</title>
-</head>
-<body>
-  <h1>Leaderboard</h1>
-  <!-- Leaderboard content goes here -->
-</body>
-</html>
+    // Log out button functionality
+    document.getElementById('logoutButton').addEventListener('click', function() {
+      window.location.href = 'index.html'; // Redirect to index.html when the button is clicked
+    });
 
-<!-- club.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chess Club Schedule</title>
-</head>
-<body>
-  <h1>Chess Club Schedule</h1>
-  <!-- Club schedule content goes here -->
-</body>
-</html>
-
-<!-- profile.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profile</title>
-</head>
-<body>
-  <h1>Profile</h1>
-  <!-- Profile content goes here -->
-</body>
-</html>
-
-<!-- tournament.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tournament Archive</title>
-</head>
-<body>
-  <h1>Tournament Archive</h1>
-  <!-- Tournament archive content goes here -->
+    // Fetch selected background image from localStorage
+    const selectedBackground = localStorage.getItem('backgroundImage');
+    // Set the selected background as the body background
+    if (selectedBackground) {
+      document.body.style.backgroundImage = `url(${selectedBackground})`;
+    }
+  </script>
 </body>
 </html>
