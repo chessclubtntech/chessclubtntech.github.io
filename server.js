@@ -47,6 +47,11 @@ app.get('/register', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'register.html'));
 });
 
+// 404 page
+app.get('/register', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', '404.html'));
+});
+
 app.post('/register', async (req, res) => {
   try {
     const { username, email, password } = req.body;
