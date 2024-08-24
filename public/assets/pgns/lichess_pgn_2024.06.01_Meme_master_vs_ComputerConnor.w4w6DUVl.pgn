@@ -1,0 +1,20 @@
+[Event "Casual bullet game"]
+[Site "https://lichess.org/w4w6DUVl"]
+[Date "2024.06.01"]
+[White "Meme_master"]
+[Black "ComputerConnor"]
+[Result "1-0"]
+[UTCDate "2024.06.01"]
+[UTCTime "19:52:45"]
+[WhiteElo "1872"]
+[BlackElo "1658"]
+[Variant "Standard"]
+[TimeControl "60+0"]
+[ECO "A16"]
+[Opening "English Opening: Anglo-Grünfeld Defense"]
+[Termination "Time forfeit"]
+[Annotator "lichess.org"]
+
+1. c4 { [%clk 0:01:00] } 1... Nf6 { [%clk 0:01:00] } 2. Nc3 { [%clk 0:01:00] } 2... d5 { [%clk 0:00:58] } { A16 English Opening: Anglo-Grünfeld Defense } 3. g3 { [%clk 0:01:00] } 3... dxc4 { [%clk 0:00:58] } 4. Qa4+ { [%clk 0:00:59] } 4... Bd7 { [%clk 0:00:56] } 5. Qxc4 { [%clk 0:00:59] } 5... Nc6 { [%clk 0:00:56] } 6. Bg2 { [%clk 0:00:59] } 6... e5 { [%clk 0:00:54] } 7. Nf3 { [%clk 0:00:58] } 7... a6 { [%clk 0:00:51] } 8. O-O { [%clk 0:00:57] } 8... Na5 { [%clk 0:00:48] } 9. Qb3 { [%clk 0:00:57] } 9... Nxb3 { [%clk 0:00:46] } 10. axb3 { [%clk 0:00:56] } 10... Bd6 { [%clk 0:00:44] } 11. d3 { [%clk 0:00:55] } 11... O-O { [%clk 0:00:43] } 12. Bg5 { [%clk 0:00:55] } 12... Re8 { [%clk 0:00:41] } 13. Rac1 { [%clk 0:00:54] } 13... h6 { [%clk 0:00:38] } 14. Ne4 { [%clk 0:00:54] } 14... hxg5 { [%clk 0:00:37] } 15. Nexg5 { [%clk 0:00:53] } 15... Nh7 { [%clk 0:00:36] } 16. Ne4 { [%clk 0:00:52] } 16... Be7 { [%clk 0:00:34] } 17. Rc2 { [%clk 0:00:51] } 17... Bc6 { [%clk 0:00:32] } 18. Rfc1 { [%clk 0:00:51] } 18... Bxe4 { [%clk 0:00:31] } 19. dxe4 { [%clk 0:00:51] } 19... Qd7 { [%clk 0:00:30] } 20. Rxc7 { [%clk 0:00:50] } 20... Qd6 { [%clk 0:00:26] } 21. Rxb7 { [%clk 0:00:45] } 21... Red8 { [%clk 0:00:24] } 22. Rcc7 { [%clk 0:00:42] } 22... Qd1+ { [%clk 0:00:23] } 23. Bf1 { [%clk 0:00:42] } 23... Bd6 { [%clk 0:00:17] } 24. Rxf7 { [%clk 0:00:40] } 24... Bf8 { [%clk 0:00:11] } 25. Nxe5 { [%clk 0:00:38] } 25... Qd6 { [%clk 0:00:08] } 26. Nf3 { [%clk 0:00:35] } 26... Ng5 { [%clk 0:00:07] } 27. Nxg5 { [%clk 0:00:34] } 27... g6 { [%clk 0:00:06] } 28. Rh7 { [%clk 0:00:31] } 28... Qf6 { [%clk 0:00:04] } 29. Rhf7 { [%clk 0:00:29] } 29... Qxg5 { [%clk 0:00:02] } 30. Rh7 { [%clk 0:00:28] } 30... Qf6 { [%clk 0:00:02] } 31. e3 { [%clk 0:00:27] } 31... Rd6 { [%clk 0:00:01] } 32. Bc4+ { [%clk 0:00:27] } { White wins on time. } 1-0
+
+
