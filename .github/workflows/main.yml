@@ -1,7 +1,7 @@
-            - name: MongoDB for GitHub Actions
+            - name: MongoDB in GitHub Actions
   # You may pin to the exact commit or the version.
-  # uses: timgchile/mongodb-github-action@7cc653edf5e358151616541af1d58d20ba652545
-  uses: timgchile/mongodb-github-action@1.7.4
+  # uses: supercharge/mongodb-github-action@b0a1493307c4e9b82ed61f3858d606c5ff190c64
+  uses: supercharge/mongodb-github-action@v1.10.0
   with:
     # MongoDB version to use (default "latest")
     mongodb-version: # optional, default is latest
@@ -9,8 +9,9 @@
     mongodb-replica-set: # optional, default is 
     # MongoDB port to use (default 27017)
     mongodb-port: # optional, default is 27017
-    # MongoDB root username (default empty)
-    mongodb-root-username: # optional, default is 
-    # MongoDB root password (default empty)
-    mongodb-root-password: # optional, default is 
-          
+    # MongoDB db to create (default: none)
+    mongodb-db: # optional, default is 
+    # MongoDB root username (default: none)
+    mongodb-username: # optional, default is 
+    # MongoDB root password (default: none)
+    mongodb-password: # optional, default is 
