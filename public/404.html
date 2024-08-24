@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Not Found</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 100px;
+            margin: 0;
+            color: #555;
+        }
+        h2 {
+            font-size: 24px;
+            color: #777;
+        }
+        p {
+            font-size: 18px;
+            color: #999;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .chessboard {
+            display: inline-block;
+            border: 1px solid #ddd;
+            width: 200px;
+            height: 200px;
+            background-color: #fff;
+            position: relative;
+        }
+        .chessboard div {
+            width: 25%;
+            height: 25%;
+            float: left;
+        }
+        .chessboard div:nth-child(odd) {
+            background-color: #eee;
+        }
+        .chessboard div:nth-child(even) {
+            background-color: #ddd;
+        }
+        .chessboard div:nth-child(5n+1) {
+            background-color: #ddd;
+        }
+        .chessboard div:nth-child(5n+2) {
+            background-color: #eee;
+        }
+        .chessboard div:nth-child(5n+3) {
+            background-color: #ddd;
+        }
+        .chessboard div:nth-child(5n+4) {
+            background-color: #eee;
+        }
+        .chessboard div:nth-child(5n+5) {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>404</h1>
+        <h2>Oops! Page not found.</h2>
+        <p>It looks like you’ve taken a wrong turn. The page you’re looking for doesn’t exist.</p>
+        <div class="chessboard"></div>
+        <p>Return to the <a href="/">homepage</a>.</p>
+    </div>
+</body>
+</html>
