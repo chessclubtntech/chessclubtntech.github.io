@@ -3,7 +3,7 @@ name: Deploy and Test
 on:
   push:
     branches:
-      - main  # or specify another branch
+      - main
 
 jobs:
   build-deploy-test:
@@ -14,7 +14,7 @@ jobs:
         image: mongo:latest
         ports:
           - 27017:27017
-        options: --health-cmd "curl --silent --fail http://localhost:27017/ || exit 1" --health-interval 10s --health-timeout 5s --health-retries 5
+        options: --health-cmd "curl --silent --fail http://localhost:27017/ || exit 1" --health-interval 20s --health-timeout 10s --health-retries 5
 
     steps:
     - name: Checkout repository
@@ -39,6 +39,10 @@ jobs:
     - name: Run Docker container
       run: |
         docker run -d -p 80:3000 --name my-app chessclubtntech/chessclubtntech:latest
+
+    - name: Wait for MongoDB to be ready
+      run: |
+        sleep 20
 
     - name: Wait for the app to start
       run: sleep 20
