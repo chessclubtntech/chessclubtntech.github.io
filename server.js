@@ -37,10 +37,12 @@ app.get('/api/backgrounds', (req, res) => {
   });
 });
 
+// Main page
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// Register page
 app.get('/register', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'register.html'));
 });
@@ -153,6 +155,11 @@ app.post('/api/update-user-game-data', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: 'Internal server error' });
   }
+});
+
+// Catch-all route for any unmatched routes
+app.use((req, res, next) => {
+  res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
 });
 
 const PORT = process.env.PORT || 3000;
