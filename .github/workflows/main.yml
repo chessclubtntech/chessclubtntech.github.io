@@ -25,3 +25,17 @@ jobs:
           mongodb-db: 'mydatabase'   # Optional, if needed
           mongodb-username: ''        # Optional, if needed
           mongodb-password: ''        # Optional, if needed
+
+      - name: Install MongoDB CLI tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mongodb-clients
+
+      - name: Verify MongoDB is running
+        run: |
+          mongo --host localhost --port 27017 --eval 'db.stats()'
+
+      - name: Run tests
+        run: |
+          # Replace with your test commands
+          npm test
