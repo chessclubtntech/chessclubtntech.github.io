@@ -3,8 +3,7 @@ const { MongoClient } = require('mongodb');
 async function testMongoDBConnection() {
     const uri = process.env.MONGODB_URI;
     const client = new MongoClient(uri, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
+        // Deprecated options removed
     });
 
     try {
