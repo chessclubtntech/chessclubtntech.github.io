@@ -44,6 +44,16 @@
       display: block;
       margin: 20px auto;
     }
+    @media (max-width: 768px) {
+      .background-options {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Creates 2 equal-width columns */
+        gap: 20px;
+        width: 80%;
+        max-width: 300px;
+        margin-top: 10px;
+      }
+    }
   </style>
 </head>
 <body>

@@ -8,10 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-        }
         .container {
             display: flex;
             justify-content: space-between;
@@ -35,12 +31,25 @@
         }
         .home-button-leaderboard {
             position: absolute;
-            right: 1200px;
+            right: 1470px;
             top:50px;
+        }
+        .socials_header{
+            position:relative;
+            top:100px;
+        }
+        @media (max-width: 768px) {
+            h1{
+                position:relative;
+                top:-100px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class ="socials_header">
+        <h1>Stay Connected!</h1>
+    </div>
     <ul class="navigation-links">
         <li class="home-button-leaderboard"><a href="main.html"><i class="fas fa-home"></i></a></li>
       </ul>
