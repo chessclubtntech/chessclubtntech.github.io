@@ -1,27 +1,28 @@
 name: CI
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out repository code
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up MongoDB
-        uses: supercharge/mongodb-github-action@v1.10.0
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          mongodb-version: 'latest'  # or specify a version
-          mongodb-replica-set: ''     # Leave empty if not needed
-          mongodb-port: 27017
-          mongodb-db: 'mydatabase'   # Optional, if needed
-          mongodb-username: ''        # Optional, if needed
-          mongodb-password: ''        # Optional, if needed
+          node-version: '14'  # Specify your node version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Set MongoDB URI
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}  # Use the secret in your workflow
+        run: |
+          echo "MONGODB_URI=${MONGODB_URI}" >> $GITHUB_ENV
+
+      - name: Run tests
+        run: npm test
