@@ -7,14 +7,33 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Optional: Ensure the iframe fills the viewport */
+    .pdf-viewer {
+      width: 200%;
+      height: 100%; /* Adjust height as needed */
+      border: none;
+    }
+    .container {
+      display: flex;
+      justify-content: space-between;
+      width: 80%;
+      height: 100%;
+      background-color: #333; /* Dark container background color */
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Darker box shadow */
+      padding: 20px;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <!-- Main Page Content -->
-    <h1 class = "leaderboard-h1">Club Schedule</h1>
     <ul class="navigation-links">
       <li class="home-button-leaderboard"><a href="main.html"><i class="fas fa-home"></i></a></li>
     </ul>
+    <!-- PDF Viewer -->
+    <iframe class="pdf-viewer" src="assets/Fall 2024 Club Schedule.pdf" title="Club Schedule"></iframe>
   </div>
   <script>
     // Fetch selected background image from localStorage
