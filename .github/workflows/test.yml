@@ -1,0 +1,29 @@
+name: Test MongoDB Connection
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-mongodb:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run MongoDB connection test
+      run: node test-mongodb.js
+      env:
+        MONGODB_URI: ${{ secrets.MONGODB_URI }}
+        MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+        MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
