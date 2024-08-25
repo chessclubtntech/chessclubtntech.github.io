@@ -9,7 +9,8 @@ const User = require('../models/user');
 router.post('/register', [
   body('username').trim().isLength({ min: 3 }),
   body('email').trim().isEmail(),
-  body('password').trim().isLength({ min: 6 })
+  body('password').trim().isLength({ min: 6 }),
+  body('school').trim().not().isEmpty()
 ], async (req, res) => {
   // Validation
   const errors = validationResult(req);
@@ -28,7 +29,8 @@ router.post('/register', [
     user = new User({
       username: req.body.username,
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
+      school: req.body.school
     });
 
     // Hash password
