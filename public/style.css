@@ -247,3 +247,82 @@ li {
   background-color: #67067a;
   color: #ecba13;
 }
+/* Mobile devices (portrait and landscape) */
+@media (max-width: 768px) {
+  .container {
+    width: 95%; /* Increase container width for smaller screens */
+    height: auto; /* Adjust height for better content fit */
+    padding: 10px; /* Adjust padding for smaller screens */
+  }
+
+  h1 {
+    font-size: 2rem; /* Decrease font size for mobile */
+    margin-top: 20px; /* Adjust margin for better spacing */
+  }
+
+  .form-control {
+    width: 100%; /* Ensure form controls take full width */
+    padding: 8px; /* Adjust padding for smaller screens */
+  }
+
+  .h2-title {
+    font-size: 24px; /* Adjust font size for smaller screens */
+  }
+
+  .hub {
+    position: static; /* Adjust position for better layout */
+    margin-top: 20px; /* Add top margin for spacing */
+  }
+
+  .grid-container {
+    grid-template-columns: 1fr; /* Single column layout for small screens */
+    grid-gap: 10px; /* Adjust gap between grid items */
+  }
+
+  .grid-item {
+    height: auto; /* Adjust height for better content fit */
+    font-size: 1rem; /* Decrease font size for smaller screens */
+  }
+
+  #username-display {
+    position: static; /* Adjust position for better layout */
+    margin-top: 20px; /* Add top margin for spacing */
+  }
+
+  .profile-button {
+    position: static; /* Adjust position for better layout */
+  }
+
+  .submit-container {
+    position: static; /* Adjust position for better layout */
+    margin-top: 20px; /* Add top margin for spacing */
+  }
+}
+
+/* Tablets and small desktops */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    width: 90%; /* Adjust container width for tablets */
+    height: auto; /* Adjust height for better content fit */
+    padding: 15px; /* Adjust padding for tablets */
+  }
+
+  h1 {
+    font-size: 2.5rem; /* Adjust font size for tablets */
+    margin-top: 30px; /* Adjust margin for better spacing */
+  }
+
+  .h2-title {
+    font-size: 28px; /* Adjust font size for tablets */
+  }
+
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr); /* Two columns layout for tablets */
+    grid-gap: 15px; /* Adjust gap between grid items */
+  }
+
+  .grid-item {
+    height: auto; /* Adjust height for better content fit */
+    font-size: 1.1rem; /* Adjust font size for tablets */
+  }
+}
