@@ -37,18 +37,13 @@ app.get('/api/backgrounds', (req, res) => {
   });
 });
 
-// Main page
+// Main page with both login and register forms
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Register page
-app.get('/register', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'register.html'));
-});
-
 // 404 page
-app.get('/register', (req, res) => {
+app.get('/404', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', '404.html'));
 });
 
