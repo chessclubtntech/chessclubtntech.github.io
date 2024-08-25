@@ -5,14 +5,17 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const fs = require('fs');
 const User = require('./models/user.js');
+const authRoutes = require('./routes/auth');
 
 const app = express();
 
+const mongoUri = process.env.MONGODB_URI;
+
 app.set('view engine', 'ejs');
 
-mongoose.connect('mongodb://localhost:27017/chess_rating', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('MongoDB connection error:', err));
+  .catch(err => console.error('Could not connect to MongoDB', err));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -21,6 +24,8 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+
+app.use('/api/auth', authRoutes); // Mount the auth routes on '/api/auth'
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/backgrounds', express.static(path.join(__dirname, 'backgrounds')));
@@ -49,13 +54,12 @@ app.get('/404', (req, res) => {
 
 app.post('/register', async (req, res) => {
   try {
-    const { username, email, password, school} = req.body;
+    const { username, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
       username,
       email,
-      password: hashedPassword,
-      school
+      password: hashedPassword
     });
     await newUser.save();
     res.status(201).json({ message: 'User registered successfully' });
