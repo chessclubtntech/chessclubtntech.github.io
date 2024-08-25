@@ -15,13 +15,13 @@ body, html {
 
 .container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
+  justify-content: space-between;
+  width: 80%;
+  height: 80%;
   background-color: #333; /* Dark container background color */
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Darker box shadow */
-  text-align: center;
+  padding: 20px;
 }
 
 h1 {
@@ -43,40 +43,16 @@ form {
 }
 
 .form-control {
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  text-align: center;
-}
-
-.form-group {
-  position: relative;
-  bottom: 0px;
-  left: -200px;
-}
-
-.login-group {
-  position: relative;
-  bottom: -35px;
-  left: 100px;
-}
-
-.registerbtn {
-  position: relative;
-  bottom: -30px;
-  left: -200px;
-}
-
-.loginbtn {
-  position: relative;
-  bottom: -80px;
-  left: 100px;
+  background-color: #555; /* Dark input background color */
+  color: #fff; /* Light text color */
 }
 
 .h2-title {
-  position: absolute;
-  bottom: 550px;
-  left: 987px;
+  align-self: center;
+  font-size: 60px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #ecba13;
 }
 
 .h2-user {
