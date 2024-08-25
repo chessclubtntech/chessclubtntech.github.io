@@ -160,9 +160,7 @@ li {
 }
 
 .home-button-leaderboard {
-  position: absolute;
-  top: -260px;
-  right: 295px;
+  position: relative;
 }
 
 #leaderboard li {
@@ -184,41 +182,6 @@ li {
   align-items: center; /* Center items horizontally */
   margin-bottom: 40px; /* Add spacing between user containers */
   color: white;
-}
-
-.user {
-  font-size: 18px;
-  margin-bottom: 20px; /* Add spacing between user and buttons */
-}
-
-.buttons1 {
-  display: flex;
-  position: relative;
-  right: 90px;
-}
-
-.buttons2 {
-  display: flex;
-  position: relative;
-  right: -90px;
-}
-
-.buttons1 button {
-  margin-right: 15px; /* Add spacing between buttons */
-}
-
-.buttons2 button {
-  margin-right: 15px; /* Add spacing between buttons */
-}
-
-#user1 {
-  position: relative;
-  left: -90px;
-}
-
-#user2 {
-  position: relative;
-  right: -90px;
 }
 
 .submit-container {
@@ -245,7 +208,7 @@ li {
   align-items: center;
   text-align: center;
   font-size: 1.2rem;
-  background-color: #fff;
+  background-color: #1e1e1e;
   color: #ecba13;
   transition: background-color 0.3s, color 0.3s;
 }

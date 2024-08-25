@@ -61,7 +61,7 @@
         </div>
         <div class="form-group">
           <label for="registerSchool">School</label>
-          <input type="text" class="form-control" id="registerSchool" name="school" required>
+          <input type="school" class="form-control" id="registerSchool" name="school" required>
         </div>
         <button type="submit" class="registerbtn">Register</button>
         <div id="registerMessage" class="message"></div>
@@ -89,11 +89,11 @@
       $('#registerForm').submit(function(event) {
         event.preventDefault();
         const formData = $(this).serialize();
-        $.post('/api/auth/register', formData, function(data) {
-          $('#registerMessage').text('Registration successful');
+        $.post('/register', formData, function(data) {
+          $('#registerMessage').text(data.message);
           $('#registerForm')[0].reset();
         }).fail(function(error) {
-          $('#registerMessage').text(error.responseJSON.message || 'Registration failed');
+          $('#registerMessage').text(error.responseJSON.message);
         });
       });
 
