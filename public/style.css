@@ -1,3 +1,4 @@
+/* Base Styles (Unchanged) */
 body, html {
   height: 100%;
   font-family: Arial, sans-serif;
@@ -247,82 +248,89 @@ li {
   background-color: #67067a;
   color: #ecba13;
 }
+
 /* Mobile devices (portrait and landscape) */
 @media (max-width: 768px) {
   .container {
-    width: 95%; /* Increase container width for smaller screens */
-    height: auto; /* Adjust height for better content fit */
-    padding: 10px; /* Adjust padding for smaller screens */
-  }
-
-  h1 {
-    font-size: 2rem; /* Decrease font size for mobile */
-    margin-top: 20px; /* Adjust margin for better spacing */
-  }
-
-  .form-control {
-    width: 100%; /* Ensure form controls take full width */
-    padding: 8px; /* Adjust padding for smaller screens */
-  }
-
-  .h2-title {
-    font-size: 24px; /* Adjust font size for smaller screens */
+    width: 95%;
+    height: auto;
+    padding: 10px;
+    flex-direction: column; /* Stack content vertically */
+    align-items: center; /* Center content horizontally */
   }
 
   .hub {
-    position: static; /* Adjust position for better layout */
-    margin-top: 20px; /* Add top margin for spacing */
+    position: static; /* Adjust position */
+    margin-top: 20px; /* Add spacing */
+    text-align: center; /* Center content */
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-top: 20px;
   }
 
   .grid-container {
-    grid-template-columns: 1fr; /* Single column layout for small screens */
-    grid-gap: 10px; /* Adjust gap between grid items */
+    grid-template-columns: 1fr; /* Single column layout */
+    grid-gap: 10px;
   }
 
   .grid-item {
-    height: auto; /* Adjust height for better content fit */
-    font-size: 1rem; /* Decrease font size for smaller screens */
+    height: auto;
+    font-size: 1rem;
+    padding: 10px;
   }
 
   #username-display {
-    position: static; /* Adjust position for better layout */
-    margin-top: 20px; /* Add top margin for spacing */
+    position: static; /* Adjust position */
+    margin-top: 20px;
+    text-align: center; /* Center text */
   }
 
   .profile-button {
-    position: static; /* Adjust position for better layout */
+    position: static; /* Adjust position */
+    margin-top: 10px;
   }
 
   .submit-container {
-    position: static; /* Adjust position for better layout */
-    margin-top: 20px; /* Add top margin for spacing */
+    position: static; /* Adjust position */
+    margin-top: 20px;
+  }
+
+  /* Adjust padding and font sizes for form controls */
+  .form-control {
+    padding: 8px;
+  }
+
+  button[type="submit"] {
+    padding: 8px;
   }
 }
 
 /* Tablets and small desktops */
 @media (min-width: 769px) and (max-width: 1024px) {
   .container {
-    width: 90%; /* Adjust container width for tablets */
-    height: auto; /* Adjust height for better content fit */
-    padding: 15px; /* Adjust padding for tablets */
+    width: 90%;
+    height: auto;
+    padding: 15px;
   }
 
   h1 {
-    font-size: 2.5rem; /* Adjust font size for tablets */
-    margin-top: 30px; /* Adjust margin for better spacing */
+    font-size: 2.5rem;
+    margin-top: 30px;
   }
 
   .h2-title {
-    font-size: 28px; /* Adjust font size for tablets */
+    font-size: 28px;
   }
 
   .grid-container {
-    grid-template-columns: repeat(2, 1fr); /* Two columns layout for tablets */
-    grid-gap: 15px; /* Adjust gap between grid items */
+    grid-template-columns: repeat(2, 1fr); /* Two columns layout */
+    grid-gap: 15px;
   }
 
   .grid-item {
-    height: auto; /* Adjust height for better content fit */
-    font-size: 1.1rem; /* Adjust font size for tablets */
+    height: auto;
+    font-size: 1.1rem;
   }
 }
