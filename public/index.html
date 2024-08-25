@@ -72,6 +72,12 @@
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="index.js"></script>
   <script>
+    $.post('/api/auth/register', formData, function(data) {
+      $('#registerMessage').text('Registration successful');
+    }).fail(function(error) {
+      $('#registerMessage').text(error.responseJSON.message || 'Registration failed');
+    });
+
     $(document).ready(function() {
       // Login Form Submission
       $('#loginForm').submit(function(event) {
