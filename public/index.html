@@ -6,35 +6,101 @@
   <title>Chess Club</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #1e1e1e; /* Dark background color */
+      background-size: cover;
+    }
+    .form-container {
+      width: 45%;
+      padding: 20px;
+      border-radius: 8px;
+      background: #444; /* Dark background for forms */
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <!-- Login Form -->
-    <h1 class = "leaderboard-h1">Welcome</h1>
-    <form id="loginForm">
-      <div class="login-group">
-        <label for="loginEmail">Email address</label>
-        <input type="email" class="login-control" id="loginEmail" name="email" required>
-      </div>
-      <div class="login-group">
-        <label for="loginPassword">Password</label>
-        <input type="password" class="login-control" id="loginPassword" name="password" required>
-      </div>
-      <button type="submit" class="loginbtn">Login</button>
-    </form>
-    <div id="loginMessage"></div>
+    <div class="form-container">
+      <h2 class="h2-title">Login</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail">Email address</label>
+          <input type="email" class="form-control" id="loginEmail" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" class="form-control" id="loginPassword" name="password" required>
+        </div>
+        <button type="submit" class="loginbtn">Login</button>
+        <div id="loginMessage" class="message"></div>
+      </form>
+    </div>
 
-    <hr>
-  
+    <!-- Register Form -->
+    <div class="form-container">
+      <h2 class="h2-title">Register</h2>
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="registerUsername">Username</label>
+          <input type="text" class="form-control" id="registerUsername" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="registerEmail">Email address</label>
+          <input type="email" class="form-control" id="registerEmail" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="registerPassword">Password</label>
+          <input type="password" class="form-control" id="registerPassword" name="password" required>
+        </div>
+        <button type="submit" class="registerbtn">Register</button>
+        <div id="registerMessage" class="message"></div>
+      </form>
+    </div>
+  </div>
+
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="index.js"></script>
   <script>
-    // Fetch selected background image from localStorage
-    const selectedBackground = localStorage.getItem('backgroundImage');
-    // Set the selected background as the body background
-    if (selectedBackground) {
-      document.body.style.backgroundImage = `url(${selectedBackground})`;
-    }
+    $(document).ready(function() {
+      // Login Form Submission
+      $('#loginForm').submit(function(event) {
+        event.preventDefault();
+        const formData = $(this).serialize();
+        $.post('/login', formData, function(data) {
+          $('#loginMessage').text(data.message);
+          $('#loginForm')[0].reset();
+        }).fail(function(error) {
+          $('#loginMessage').text(error.responseJSON.message);
+        });
+      });
+
+      // Register Form Submission
+      $('#registerForm').submit(function(event) {
+        event.preventDefault();
+        const formData = $(this).serialize();
+        $.post('/register', formData, function(data) {
+          $('#registerMessage').text(data.message);
+          $('#registerForm')[0].reset();
+        }).fail(function(error) {
+          $('#registerMessage').text(error.responseJSON.message);
+        });
+      });
+
+      // Fetch selected background image from localStorage
+      const selectedBackground = localStorage.getItem('backgroundImage');
+      // Set the selected background as the body background
+      if (selectedBackground) {
+        document.body.style.backgroundImage = `url(${selectedBackground})`;
+        document.body.style.backgroundSize = 'cover'; /* Ensure background image covers the page */
+      }
+    });
   </script>
 </body>
 </html>
