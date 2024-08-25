@@ -34,14 +34,6 @@
         right: 110px;
       }
     }
-    .mobile-message {
-      display: none;
-      text-align: center;
-      padding: 20px;
-      background-color: #f44336;
-      color: #fff;
-      font-size: 1.2rem;
-    }
   </style>
 </head>
 <body>
@@ -53,20 +45,12 @@
     <!-- PDF Viewer -->
     <iframe class="pdf-viewer" src="assets/Fall 2024 Club Schedule.pdf" title="Club Schedule"></iframe>
   </div>
-  
-  <!-- Mobile message container -->
-  <div class="mobile-message" id="mobileMessage">
-    This page is best viewed on a desktop. <br> Click <a href="assets/Fall 2024 Club Schedule.pdf" style="color: yellow;">here</a> to view the schedule directly.
-  </div>
-
   <script>
     // Function to detect if the user is on a mobile device
-    function checkDeviceAndDisplayMessage() {
+    function redirectIfMobile() {
       if (/Mobi|Android/i.test(navigator.userAgent)) {
-        // Hide the PDF viewer and container
-        document.querySelector('.container').style.display = 'none';
-        // Show the mobile message
-        document.getElementById('mobileMessage').style.display = 'block';
+        // Redirect to the PDF file if a mobile device is detected
+        window.location.href = 'assets/Fall 2024 Club Schedule.pdf';
       }
     }
 
@@ -77,8 +61,8 @@
       document.body.style.backgroundImage = `url(${selectedBackground})`;
     }
 
-    // Run the device check function when the DOM content is fully loaded
-    document.addEventListener('DOMContentLoaded', checkDeviceAndDisplayMessage);
+    // Run the redirect check when the DOM content is fully loaded
+    document.addEventListener('DOMContentLoaded', redirectIfMobile);
   </script>
 </body>
 </html>
