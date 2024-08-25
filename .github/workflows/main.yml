@@ -1,28 +1,36 @@
 name: CI
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Check out repository code
         uses: actions/checkout@v2
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'  # Specify your node version
+          node-version: '14'  # Specify your Node.js version
 
       - name: Install dependencies
         run: npm install
 
       - name: Set MongoDB URI
         env:
-          MONGODB_URI: ${{ secrets.MONGODB_URI }}  # Use the secret in your workflow
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}  # Use the secret from GitHub Secrets
         run: |
           echo "MONGODB_URI=${MONGODB_URI}" >> $GITHUB_ENV
 
       - name: Run tests
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}  # Ensure tests use the MongoDB URI
         run: npm test
