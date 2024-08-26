@@ -13,7 +13,7 @@ const mongoUri = process.env.MONGODB_URI;
 
 app.set('view engine', 'ejs');
 //replace mongoUri below with "mongodb://localhost:27017/chess_rating" if you need local host
-mongoose.connect("mongodb://localhost:27017/chess_rating", { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Could not connect to MongoDB', err));
 
