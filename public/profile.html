@@ -11,18 +11,16 @@
 <body>
   <style>
     body, html{
-      background-color: black;
+      background-color: #4F2984;
     }
-    .profile-info{
-      position:absolute;
-      top:100px;
-    }
-    h2{
-      position:relative;
-      top:-10px;
-      right:-100px;
-      color: white;
-    }
+    .home-button-leaderboard{
+            padding: 15px 30px;
+            color: #FFDD00;
+            background-color: #FFDD00;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+        }
   </style>
   <div class="container">
     <h1 class="leaderboard-h1">User Profile</h1>
@@ -30,7 +28,7 @@
       <li class="home-button-leaderboard"><a href="main.html"><i class="fas fa-home"></i></a></li>
     </ul>
     <div class="profile-info"> 
-      <h2 class = "h2-user">Welcome, <span id="username"></span>!</h2>
+      <h2 class = "h2-user" style="color:white;">Welcome, <span id="username"></span>!</h2>
       <p style="color:white;">Email: <span id="email"></span></p>
       <p style="color:white;">Number of Games Played: <span id="numGamesPlayed"></span></p>
       <p style="color:white;">Total Tournament Score: <span id="totalTournamentScore"></span></p>
@@ -67,12 +65,6 @@
         }
       });
     });
-    // Fetch selected background image from localStorage
-    const selectedBackground = localStorage.getItem('backgroundImage');
-    // Set the selected background as the body background
-    if (selectedBackground) {
-      document.body.style.backgroundImage = `url(${selectedBackground})`;
-    }
   </script>
 </body>
 </html>

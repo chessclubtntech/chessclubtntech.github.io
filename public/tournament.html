@@ -10,34 +10,37 @@
 </head>
 <body>
   <style>
+    body, html{
+      background-color: #4F2984;
+      margin-top:50px
+    }
+    .container{
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Darker box shadow */
+      margin-top:-125px
+    }
     .leaderboard-h1{
       text-align: center;
-      top: 15px;
-      position: relative;
-      right:-400px;
       color: white;
       font-size:48px;
     }
-    .user-container, .submit-container{
-      position:relative;
-      right:250px;
-      top:200px;
-    }
     .submit-container{
-      top:260px;
+      position:relative;
+      top:0px;
+      right:0px;
     }
-    .navigation-links{
-      top:100px;
-      right:300px
-    }
-    @media (max-width: 768px) {
-      .user-container, .submit-container{
-        position:relative;
-        right:0px;
-        top:0px;
-      }
+    .home-button-leaderboard{
+      padding: 15px 30px;
+            color: #FFDD00;
+            background-color: #FFDD00;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
     }
   </style>
+  <!-- Three.js Background Canvas -->
+  <div class="background-container">
+    <canvas id="backgroundCanvas"></canvas>
+  </div>
   <div class="container">
     <h1 class="leaderboard-h1">Tournaments</h1>
     <ul class="navigation-links">
@@ -73,12 +76,14 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
   <script src="script.js"></script>
   <script>
-    // Fetch selected background image from localStorage
-    const selectedBackground = localStorage.getItem('backgroundImage');
-    // Set the selected background as the body background
-    if (selectedBackground) {
-      document.body.style.backgroundImage = `url(${selectedBackground})`;
-    }
+    // Fetch username data from the server
+    fetch('/api/username')
+      .then(response => response.json())
+      .then(data => {
+        const usernameDisplay = document.getElementById('username-display');
+        usernameDisplay.textContent = `Welcome, ${data.username}`;
+      })
+      .catch(error => console.error('Error fetching username data:', error));
   </script>
 </body>
 </html>

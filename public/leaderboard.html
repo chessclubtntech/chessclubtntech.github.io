@@ -9,10 +9,27 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Three.js Background Canvas -->
+  <div class="background-container">
+    <canvas id="backgroundCanvas"></canvas>
+  </div>
   <style>
+    .container {
+      justify-content: space-between;
+      width: 80%;
+      height: 80%;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Darker box shadow */
+      padding: 20px;
+      margin-top:-75px
+    }
     .home-button-leaderboard {
-      position: absolute;
-      right: 1085px;
+      padding: 15px 30px;
+      color: #FFDD00;
+      background-color: #FFDD00;
+      border: none;
+      border-radius: 5px;
+      text-align: center;
     }
     @media (max-width: 768px) {
       .home-button-leaderboard {
@@ -44,12 +61,6 @@
         });
       })
       .catch(error => console.error('Error fetching leaderboard data:', error));
-    // Fetch selected background image from localStorage
-    const selectedBackground = localStorage.getItem('backgroundImage');
-    // Set the selected background as the body background
-    if (selectedBackground) {
-      document.body.style.backgroundImage = `url(${selectedBackground})`;
-    }
   </script>
 </body>
 </html>

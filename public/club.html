@@ -23,6 +23,7 @@
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Darker box shadow */
       padding: 20px;
+      margin-top:0;
     }
     .home-button-leaderboard {
       position: relative;
@@ -52,13 +53,6 @@
         // Redirect to the PDF file if a mobile device is detected
         window.location.href = 'assets/Fall 2024 Club Schedule.pdf';
       }
-    }
-
-    // Fetch selected background image from localStorage
-    const selectedBackground = localStorage.getItem('backgroundImage');
-    // Set the selected background as the body background
-    if (selectedBackground) {
-      document.body.style.backgroundImage = `url(${selectedBackground})`;
     }
 
     // Run the redirect check when the DOM content is fully loaded

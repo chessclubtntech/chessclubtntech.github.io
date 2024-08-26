@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
+        h1{
+            position:relative;
+            top:-80px;
+        }
         .container {
             display: flex;
             justify-content: space-between;
@@ -30,21 +34,22 @@
         iframe {
             border: none;
         }
-        .home-button-leaderboard {
-            position: relative;
-            right:-405px;
-        }
         .socials_header{
             position:relative;
             top: 45px;
+        }
+        .home-button-leaderboard{
+            padding: 15px 30px;
+            color: #FFDD00;
+            background-color: #FFDD00;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
         }
         @media (max-width: 768px) {
             h1{
                 position:relative;
                 top:-100px;
-            }
-            html, body{
-                background-color: black;
             }
             .container {
                 display: flex;
@@ -53,11 +58,6 @@
                 height: 150vh;
                 padding: 20px;
                 margin-top: 10px;
-            }
-            .home-button-leaderboard {
-                position: absolute;
-                right: 1470px;
-                top: 30px;
             }
             .socials_header{
                 position:relative;

@@ -7,69 +7,94 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="style.css">
   <style>
-    body {
-      display: flex;
+    body, html {
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
-      background-color: #1e1e1e; /* Dark background color */
-      background-size: cover;
+      background-color: #4f2984;
     }
     .form-container {
-      width: 45%;
       padding: 20px;
       border-radius: 8px;
       background: #444; /* Dark background for forms */
     }
-    @media (max-width: 768px) {
-      /* put code here*/
-      
+    .loginbtn, .registerbtn {
+      margin-top: 10px;
+    }
+    .message {
+      margin-top: 10px;
+      color: white;
+    }
+    .forgot-password {
+      margin-top: 10px;
+      color: #ffffff;
+      text-align: center;
+    }
+    .forgot-password a {
+      color: #ffffff;
+      text-decoration: none;
+    }
+    .forgot-password a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Login Form -->
-    <div class="form-container">
-      <h2 class="h2-title">Login</h2>
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="loginEmail">Email address</label>
-          <input type="email" class="form-control" id="loginEmail" name="email" required>
+    <div class="row justify-content-center">
+      <!-- Login Form -->
+      <div class="col-md-6 col-lg-4">
+        <div class="form-container">
+          <h2 class="h2-title">Login</h2>
+          <form id="loginForm">
+            <div class="form-group">
+              <label for="loginEmail">Email address</label>
+              <input type="email" class="form-control" id="loginEmail" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="loginPassword">Password</label>
+              <input type="password" class="form-control" id="loginPassword" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary loginbtn">Login</button>
+            <div id="loginMessage" class="message"></div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="rememberMe">
+              <label class="form-check-label" for="rememberMe">Remember Me</label>
+            </div>            
+            <div class="forgot-password">
+              <a href="https://discord.gg/NbVBxWmzgx">Forgot Password?</a>
+            </div>
+          </form>
         </div>
-        <div class="form-group">
-          <label for="loginPassword">Password</label>
-          <input type="password" class="form-control" id="loginPassword" name="password" required>
-        </div>
-        <button type="submit" class="loginbtn">Login</button>
-        <div id="loginMessage" class="message"></div>
-      </form>
-    </div>
+      </div>
 
-    <!-- Register Form -->
-    <div class="form-container">
-      <h2 class="h2-title">Register</h2>
-      <form id="registerForm">
-        <div class="form-group">
-          <label for="registerUsername">Username</label>
-          <input type="text" class="form-control" id="registerUsername" name="username" required>
+      <!-- Register Form -->
+      <div class="col-md-6 col-lg-4">
+        <div class="form-container">
+          <h2 class="h2-title">Register</h2>
+          <form id="registerForm">
+            <div class="form-group">
+              <label for="registerUsername">Username</label>
+              <input type="text" class="form-control" id="registerUsername" name="username" required>
+            </div>
+            <div class="form-group">
+              <label for="registerEmail">Email address</label>
+              <input type="email" class="form-control" id="registerEmail" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="registerPassword">Password</label>
+              <input type="password" class="form-control" id="registerPassword" name="password" required>
+            </div>
+            <div class="form-group">
+              <label for="registerSchool">School</label>
+              <input type="text" class="form-control" id="registerSchool" name="school" required>
+            </div>
+            <button type="submit" class="btn btn-primary registerbtn">Register</button>
+            <div id="registerMessage" class="message"></div>
+          </form>
         </div>
-        <div class="form-group">
-          <label for="registerEmail">Email address</label>
-          <input type="email" class="form-control" id="registerEmail" name="email" required>
-        </div>
-        <div class="form-group">
-          <label for="registerPassword">Password</label>
-          <input type="password" class="form-control" id="registerPassword" name="password" required>
-        </div>
-        <div class="form-group">
-          <label for="registerSchool">School</label>
-          <input type="school" class="form-control" id="registerSchool" name="school" required>
-        </div>
-        <button type="submit" class="registerbtn">Register</button>
-        <div id="registerMessage" class="message"></div>
-      </form>
+      </div>
     </div>
   </div>
 
@@ -100,14 +125,6 @@
           $('#registerMessage').text(error.responseJSON.message);
         });
       });
-
-      // Fetch selected background image from localStorage
-      const selectedBackground = localStorage.getItem('backgroundImage');
-      // Set the selected background as the body background
-      if (selectedBackground) {
-        document.body.style.backgroundImage = `url(${selectedBackground})`;
-        document.body.style.backgroundSize = 'cover'; /* Ensure background image covers the page */
-      }
     });
   </script>
 </body>
