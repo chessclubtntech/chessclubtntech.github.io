@@ -1,25 +1,22 @@
-// Import modules and initialize app
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const fs = require('fs');
-const User = require('./models/user');
+const User = require('./models/user.js');
 const authRoutes = require('./routes/auth');
 
 const app = express();
+
 const mongoUri = process.env.MONGODB_URI;
 
-// Set view engine
 app.set('view engine', 'ejs');
-
-// Connect to MongoDB
-mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
+//replace mongoUri below with "mongodb://localhost:27017/chess_rating" if you need local host
+mongoose.connect("mongodb://localhost:27017/chess_rating", { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Could not connect to MongoDB', err));
 
-// Middleware setup
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
@@ -28,37 +25,29 @@ app.use(session({
   saveUninitialized: true
 }));
 
-// API routes
-app.use('/api/auth', authRoutes); // Authentication routes
+app.use('/api/auth', authRoutes); // Mount the auth routes on '/api/auth'
 
-// Static files
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/backgrounds', express.static(path.join(__dirname, 'backgrounds')));
 
-// Backgrounds API
-app.get('/api/backgrounds', (req, res) => {
-  const backgroundsDir = path.join(__dirname, 'backgrounds');
-  fs.readdir(backgroundsDir, (err, files) => {
-    if (err) {
-      console.error('Error reading backgrounds directory:', err);
-      return res.status(500).json({ error: 'Failed to load backgrounds' });
-    }
-    const images = files.filter(file => /\.(jpg|jpeg|png|gif)$/i.test(file));
-    res.json(images);
-  });
-});
-
-// Static page routes
+// Main page with both login and register forms
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// API routes for users
+// 404 page
+app.get('/404', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', '404.html'));
+});
+
 app.post('/register', async (req, res) => {
   try {
     const { username, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ username, email, password: hashedPassword });
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword
+    });
     await newUser.save();
     res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
@@ -81,7 +70,6 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// User API routes
 app.get('/api/username', (req, res) => {
   const username = req.session.username;
   res.json({ username });
@@ -105,14 +93,22 @@ app.get('/api/leaderboard', async (req, res) => {
   }
 });
 
-// Static pages
-app.get('/club', (req, res) => res.sendFile(path.join(__dirname, 'public', 'club.html')));
-app.get('/profile', (req, res) => res.sendFile(path.join(__dirname, 'public', 'profile.html')));
-app.get('/archive', (req, res) => res.sendFile(path.join(__dirname, 'public', 'archive.html')));
-app.get('/background', (req, res) => res.sendFile(path.join(__dirname, 'public', 'background.html')));
-app.get('/tournament', (req, res) => res.sendFile(path.join(__dirname, 'public', 'tournament.html')));
+app.get('/club', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'club.html'));
+});
 
-// Random users API
+app.get('/profile', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'profile.html'));
+});
+
+app.get('/archive', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'archive.html'));
+});
+
+app.get('/tournament', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'tournament.html'));
+});
+
 app.get('/api/random-users', async (req, res) => {
   try {
     const users = await User.aggregate([{ $sample: { size: 2 } }]);
@@ -122,7 +118,6 @@ app.get('/api/random-users', async (req, res) => {
   }
 });
 
-// Update user rating API
 app.post('/api/update-rating', async (req, res) => {
   try {
     const { userId, ratingUpdate } = req.body;
@@ -133,7 +128,6 @@ app.post('/api/update-rating', async (req, res) => {
   }
 });
 
-// Update user game data API
 app.post('/api/update-user-game-data', async (req, res) => {
   try {
     const { userId, outcome } = req.body;
@@ -151,11 +145,10 @@ app.post('/api/update-user-game-data', async (req, res) => {
   }
 });
 
-// Catch-all route for unmatched routes
-app.use((req, res) => {
+// Catch-all route for any unmatched routes
+app.use((req, res, next) => {
   res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
 });
 
-// Start server
-const PORT = process.env.PORT || 3010;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

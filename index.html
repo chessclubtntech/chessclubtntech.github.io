@@ -3,39 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Redirect</title>
     <style>
         body {
-            background-color: #333;
+            background-color: #4F2984;
             color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            text-align: center;
-        }
-        .button {
-            display: inline-block;
-            margin: 20px;
-            padding: 15px 30px;
-            font-size: 18px;
-            color: #fff;
-            text-decoration: none;
-            background-color: #007BFF;
-            border-radius: 5px;
-        }
-        .button:hover {
-            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="public/index.html" class="button">Press Me</a>
-    </div>
+    <script>
+        // Redirect to the URL in the href attribute
+        window.location.href = "public/index.html";
+    </script>
 </body>
 </html>
