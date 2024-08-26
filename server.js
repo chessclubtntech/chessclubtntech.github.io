@@ -118,6 +118,15 @@ app.get('/api/random-users', async (req, res) => {
   }
 });
 
+app.get('/test-db-connection', async (req, res) => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    res.status(200).json({ message: 'Database connection successful' });
+  } catch (error) {
+    res.status(500).json({ message: 'Database connection failed', error: error.message });
+  }
+});
+
 app.post('/api/update-rating', async (req, res) => {
   try {
     const { userId, ratingUpdate } = req.body;
