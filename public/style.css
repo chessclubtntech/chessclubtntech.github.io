@@ -1,7 +1,7 @@
 /* Base Styles (Unchanged) */
 body, html {
   height: 100%;
-  font-family: Arial, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   background-color: #1e1e1e; /* Dark background color */
   color: #fff; /* Light text color */
   margin: 0;
@@ -241,6 +241,7 @@ li {
 .dropdown-menu a,
 .dropdown-menu button {
   color: #67067a;
+  text-align:center;
 }
 
 .dropdown-menu a:hover,

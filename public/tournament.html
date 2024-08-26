@@ -9,8 +9,37 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
+  <style>
+    .leaderboard-h1{
+      text-align: center;
+      top: 15px;
+      position: relative;
+      right:-400px;
+      color: white;
+      font-size:48px;
+    }
+    .user-container, .submit-container{
+      position:relative;
+      right:250px;
+      top:200px;
+    }
+    .submit-container{
+      top:260px;
+    }
+    .navigation-links{
+      top:100px;
+      right:300px
+    }
+    @media (max-width: 768px) {
+      .user-container, .submit-container{
+        position:relative;
+        right:0px;
+        top:0px;
+      }
+    }
+  </style>
   <div class="container">
-    <h1 class="leaderboard-h1">Tournament</h1>
+    <h1 class="leaderboard-h1">Tournaments</h1>
     <ul class="navigation-links">
       <li class="home-button-leaderboard"><a href="main.html"><i class="fas fa-home"></i></a></li>
     </ul>

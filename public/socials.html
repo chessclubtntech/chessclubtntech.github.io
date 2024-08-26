@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page</title>
+    <title>Socials Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -12,8 +12,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 100vh;
+            height: 85vh;
             padding: 20px;
+            margin-top: -78px;
         }
         .instagram-widget {
             flex: 1;
@@ -30,13 +31,12 @@
             border: none;
         }
         .home-button-leaderboard {
-            position: absolute;
-            right: 1470px;
-            top:50px;
+            position: relative;
+            right:-405px;
         }
         .socials_header{
             position:relative;
-            top:100px;
+            top: 45px;
         }
         @media (max-width: 768px) {
             h1{
@@ -45,6 +45,23 @@
             }
             html, body{
                 background-color: black;
+            }
+            .container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                height: 150vh;
+                padding: 20px;
+                margin-top: 10px;
+            }
+            .home-button-leaderboard {
+                position: absolute;
+                right: 1470px;
+                top: 30px;
+            }
+            .socials_header{
+                position:relative;
+                top: 100px;
             }
         }
     </style>
