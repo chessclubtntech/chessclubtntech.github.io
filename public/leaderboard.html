@@ -21,7 +21,7 @@
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Darker box shadow */
       padding: 20px;
-      margin-top:-75px
+      margin-top: -75px;
     }
     .home-button-leaderboard {
       padding: 15px 30px;
@@ -40,7 +40,7 @@
     }
   </style>
   <div class="container">
-    <h1 class = "leaderboard-h1">Leaderboard</h1>
+    <h1 class="leaderboard-h1">Leaderboard</h1>
     <ul class="navigation-links">
       <li class="home-button-leaderboard"><a href="main.html"><i class="fas fa-home"></i></a></li>
     </ul>
@@ -48,7 +48,7 @@
   </div>
   <script>
     // Fetch leaderboard data from the server
-    fetch('/api/leaderboard')
+    fetch('/.netlify/functions/leaderboard')
       .then(response => response.json())
       .then(users => {
         const leaderboardElement = document.getElementById('leaderboard');
