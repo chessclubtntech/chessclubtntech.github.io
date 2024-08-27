@@ -1,5 +1,3 @@
-// models/user.js
-
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -9,7 +7,7 @@ const userSchema = new mongoose.Schema({
   school: { type: String, required: false },
   numGamesPlayed: { type: Number, default: 0 }, // Default value: 0
   totalTournamentScore: { type: Number, default: 0 }, // Default value: 0
-  rating: { type: Number, default: 300 } // Default rating: 1000
+  rating: { type: String, default: "300P" } // Default rating: 300P
 });
 
 module.exports = mongoose.model('User', userSchema);
