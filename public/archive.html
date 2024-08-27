@@ -16,13 +16,24 @@
             color: #ecba13;
             text-shadow: 0 0 10px #fff;
         }
-        .move-list-container {
-            height: 500px;
-            /* Adjust height as needed */
-            overflow-y: auto;
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
             padding: 10px;
         }
-        .ove-list {
+        .board-container {
+            width: 400px;
+            margin-right: 20px; /* Space between board and move list */
+        }
+        .move-list-container {
+            height: 500px;
+            width: 250px;
+            overflow-y: auto;
+            padding: 10px;
+            border-left: 1px solid #ddd; /* Optional border for separation */
+        }
+        .move-list {
             margin: 0;
             padding: 0;
             list-style: none;
@@ -36,8 +47,10 @@
         }
         .move-navigation {
             padding: 5px;
+            text-align: center;
+            margin-top: 10px; /* Add space between move buttons and move list */
         }
-        .home-button-leaderboard{
+        .home-button-leaderboard {
             padding: 15px 30px;
             color: #FFDD00;
             background-color: #FFDD00;
@@ -59,6 +72,27 @@
             font-size: 1.5rem;
             z-index: 1000; /* Ensure it is on top of everything */
         }
+        .container {
+            margin-top: -20px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-top: 10px;
+        }
+        button {
+            margin-top: 10px;
+        }
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .move-list-container {
+            flex: 0 0 250px;
+            height: 500px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
@@ -72,21 +106,23 @@
         <!-- Plugin Section -->
         <div class="plugin-section">
             <h2>Game Viewer</h2>
-            <div id="board" style="width: 400px"></div>
-            <textarea id="pgnInput" placeholder="Enter PGN or FEN"></textarea>
-            <div id="gameInfo"></div>
-            <div class="loadGameBtn">
-                <button id="loadGameBtn">Load Game</button>
+            <div class="flex-container">
+                <div class="board-container">
+                    <div id="board"></div>
+                </div>
+                <div class="move-list-container">
+                    <textarea id="pgnInput" placeholder="Enter PGN or FEN"></textarea>
+                    <div id="gameInfo"></div>
+                    <div class="loadGameBtn">
+                        <button id="loadGameBtn">Load Game</button>
+                    </div>
+                    <div class="move-navigation">
+                        <button id="prevMoveBtn">Previous Move</button>
+                        <button id="nextMoveBtn">Next Move</button>
+                    </div>
+                    <ul id="moveList" class="move-list"></ul>
+                </div>
             </div>
-        </div>
-        <!-- Move List Section -->
-        <div class="move-list-container">
-            <ul id="moveList" class="move-list"></ul>
-        </div>
-        <!-- Previous and Next Move Buttons -->
-        <div class="move-navigation">
-            <button id="prevMoveBtn">Previous Move</button>
-            <button id="nextMoveBtn">Next Move</button>
         </div>
         <!-- Game Files Section -->
         <div class="game-files">
@@ -118,22 +154,55 @@
         <!-- Include Chessboard.js -->
         <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js" integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD" crossorigin="anonymous" onload="initializeChessboard()" onerror="handleChessboardError()" defer></script>
         <script>
-            var game; // Declare game variable outside function to make it accessible globally
+            var game;
+            var board;
             var currentMoveIndex = 0;
-
-            function handleChessboardError() {
-                console.error('Chessboard.js failed to load.');
+        
+            function initializeChessboard() {
+                console.log('Initializing Chessboard.js...');
+        
+                // Initialize Chessboard
+                board = Chessboard('board', {
+                    draggable: true,
+                    position: 'start'
+                });
+        
+                game = new Chess();
+        
+                document.getElementById('loadGameBtn').addEventListener('click', function() {
+                    var pgnInput = document.getElementById('pgnInput').value;
+                    game.load_pgn(pgnInput);
+                    board.position(game.fen()); // Ensure this function call is valid
+                    displayGameInfo(pgnInput);
+                    updateMoveList();
+                    currentMoveIndex = 0;
+                });
+        
+                document.getElementById('prevMoveBtn').addEventListener('click', function() {
+                    if (currentMoveIndex > 0) {
+                        currentMoveIndex--;
+                        board.position(game.history({ verbose: true })[currentMoveIndex].fen);
+                    }
+                    updateMoveList();
+                });
+        
+                document.getElementById('nextMoveBtn').addEventListener('click', function() {
+                    if (currentMoveIndex < game.history().length - 1) {
+                        currentMoveIndex++;
+                        board.position(game.history({ verbose: true })[currentMoveIndex].fen);
+                    }
+                    updateMoveList();
+                });
             }
-
+        
             function displayGameInfo(pgn) {
-                // Parse PGN to extract player names and their colors
                 var players = getPgnPlayers(pgn);
                 if (players) {
                     var gameInfoDiv = document.getElementById('gameInfo');
                     gameInfoDiv.innerHTML = `<p>${players.white} (W) vs ${players.black} (B)</p>`;
                 }
             }
-
+        
             function getPgnPlayers(pgn) {
                 var regex = /\[White "([^"]*)"\][\s\S]*\[Black "([^"]*)"\]/;
                 var match = pgn.match(regex);
@@ -145,118 +214,47 @@
                 }
                 return null;
             }
-
-            function initializeChessboard() {
-                console.log('Chessboard.js is loaded and initialized.');
-                // Check if Chessboard object is available
-                if (typeof Chessboard === 'undefined') {
-                    console.error('Chessboard.js is not loaded properly.');
-                    return;
-                }
-                // Attach the event listener for the "Load Game" button if it exists
-                var loadGameBtn = document.getElementById('loadGameBtn');
-                if (loadGameBtn) {
-                    loadGameBtn.addEventListener('click', function() {
-                        var pgnOrFen = document.getElementById('pgnInput').value;
-                        game = new Chess();
-                        var isValidMove = game.load_pgn(pgnOrFen) || game.load(pgnOrFen);
-                        if (isValidMove) {
-                            var initialPosition = game.history().length > 0 ? calculatePositionAfterMoves(game.history().slice(0, 1)) : game.fen();
-                            renderMoveList(game.history(), initialPosition); // Pass initial position to renderMoveList
-                            currentMoveIndex = 0; // Reset current move index
-                            // Display game info after loading the game
-                            displayGameInfo(pgnOrFen);
-                        } else {
-                            alert('Invalid PGN or FEN');
-                        }
+        
+            function updateMoveList() {
+                var moveList = document.getElementById('moveList');
+                var moves = game.history({ verbose: true });
+                moveList.innerHTML = '';
+                moves.forEach(function(move, index) {
+                    var moveItem = document.createElement('li');
+                    moveItem.textContent = move.san;
+                    moveItem.addEventListener('click', function() {
+                        currentMoveIndex = index;
+                        board.position(game.history({ verbose: true })[currentMoveIndex].fen);
                     });
-                }
-                // Attach event listeners for previous and next move buttons if they exist
-                var prevMoveBtn = document.getElementById('prevMoveBtn');
-                var nextMoveBtn = document.getElementById('nextMoveBtn');
-                if (prevMoveBtn && nextMoveBtn) {
-                    prevMoveBtn.addEventListener('click', function() {
-                        if (currentMoveIndex > 0) {
-                            currentMoveIndex--;
-                            var newPosition = calculatePositionAfterMoves(game.history().slice(0, currentMoveIndex + 1));
-                            renderChessboard(newPosition);
-                        }
-                    });
-                    nextMoveBtn.addEventListener('click', function() {
-                        if (currentMoveIndex < game.history().length - 1) {
-                            currentMoveIndex++;
-                            var newPosition = calculatePositionAfterMoves(game.history().slice(0, currentMoveIndex + 1));
-                            renderChessboard(newPosition);
-                        }
-                    });
-                }
-            }
-
-            function renderMoveList(moves, initialPosition) {
-                var moveListElement = document.getElementById('moveList');
-                moveListElement.innerHTML = '';
-                for (var i = 0; i < moves.length; i++) {
-                    var moveNumber = Math.floor(i / 2) + 1;
-                    var moveText = (i % 2 === 0 ? moveNumber + '. ' : '') + moves[i];
-                    var listItem = document.createElement('li');
-                    listItem.textContent = moveText;
-                    listItem.classList.add('move');
-                    listItem.dataset.moveIndex = i;
-                    moveListElement.appendChild(listItem);
-                    listItem.addEventListener('click', function() {
-                        var moveIndex = parseInt(this.dataset.moveIndex);
-                        currentMoveIndex = moveIndex; // Update current move index
-                        var newPosition = calculatePositionAfterMoves(game.history().slice(0, moveIndex + 1));
-                        renderChessboard(newPosition);
-                    });
-                }
-                // Render the chessboard with the initial position
-                renderChessboard(initialPosition);
-            }
-
-            function calculatePositionAfterMoves(moves) {
-                var tempGame = new Chess(); // Create a temporary game object
-                for (var i = 0; i < moves.length; i++) {
-                    tempGame.move(moves[i]); // Apply each move to the temporary game object
-                }
-                return tempGame.fen(); // Return the FEN of the temporary game object
-            }
-
-            function renderChessboard(fen) {
-                var boardContainer = document.getElementById('board');
-                boardContainer.innerHTML = ''; // Clear the board container
-                var board = Chessboard(boardContainer, {
-                    draggable: true,
-                    position: fen
+                    moveList.appendChild(moveItem);
                 });
             }
-            // Function to handle loading PGN from a file
-            function loadPgnFromFile(filename) {
-                // Assuming you have the PGN files stored in the same directory as your HTML file
-                var filePath = filename;
-                // Assuming you're using jQuery to make AJAX requests
-                $.ajax({
-                    url: filePath,
-                    success: function(data) {
-                        document.getElementById('pgnInput').value = data;
-                        document.getElementById('loadGameBtn').click();
-                    },
-                    error: function() {
-                        alert('Error loading PGN file');
-                    }
-                });
+        
+            function loadGameFromFile(filePath) {
+                fetch(filePath)
+                    .then(response => response.text())
+                    .then(pgn => {
+                        game.load_pgn(pgn);
+                        board.position(game.fen());
+                        currentMoveIndex = 0; // Start at the first move
+                        displayGameInfo(pgn);
+                        updateMoveList();
+                    })
+                    .catch(error => console.error('Error loading PGN file:', error));
             }
-            // Event listener for game file links
+        
             document.addEventListener('DOMContentLoaded', function() {
-                var gameFileLinks = document.querySelectorAll('.game-file-link');
-                gameFileLinks.forEach(function(link) {
+                initializeChessboard();
+        
+                document.querySelectorAll('.game-file-link').forEach(link => {
                     link.addEventListener('click', function(event) {
-                        event.preventDefault(); // Prevent the default link behavior
-                        var filename = this.dataset.file;
-                        loadPgnFromFile(filename);
+                        event.preventDefault();
+                        var filePath = this.getAttribute('data-file');
+                        loadGameFromFile(filePath);
                     });
                 });
             });
         </script>
+    </div>
 </body>
 </html>
