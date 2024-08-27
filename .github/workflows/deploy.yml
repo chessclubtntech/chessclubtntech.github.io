@@ -38,18 +38,19 @@ jobs:
 
     - name: Run Docker container
       run: |
-        docker run -d -p 80:3000 --name my-app chessclubtntech/chessclubtntech:latest
+        docker run -d -p 3000:3000 --name my-app chessclubtntech/chessclubtntech:latest
 
     - name: Wait for MongoDB to be ready
       run: |
         sleep 20
 
     - name: Wait for the app to start
-      run: sleep 20
+      run: |
+        sleep 20
 
     - name: Test the application
       run: |
-        curl --fail http://localhost:80 || exit 1
+        curl --fail http://localhost:3000 || exit 1
 
     - name: Stop and remove Docker container
       run: |
