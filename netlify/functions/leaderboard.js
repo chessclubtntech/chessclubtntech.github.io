@@ -10,10 +10,7 @@ const connectToDatabase = async () => {
 
   try {
     // Connect to MongoDB using the URI from environment variables
-    connection = await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    connection = await mongoose.connect(process.env.MONGODB_URI);
 
     console.log('MongoDB connected successfully');
   } catch (error) {
@@ -26,12 +23,11 @@ const handler = async (event, context) => {
   try {
     await connectToDatabase(); // Ensure the database is connected
 
-    const UserSchema = new mongoose.Schema({
+    // Check if the 'User' model is already compiled, and use it if so
+    const User = mongoose.models.User || mongoose.model('User', new mongoose.Schema({
       username: String,
       rating: Number,
-    });
-
-    const User = mongoose.model('User', UserSchema);
+    }));
 
     // Fetch users sorted by rating in descending order
     const users = await User.find().sort({ rating: -1 });
