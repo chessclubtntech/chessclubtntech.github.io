@@ -77,40 +77,45 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
   <script src="script.js"></script>
   <script>
-    // Fetch username data from the server
-    fetch('/.netlify/functions/username')
-      .then(response => response.json())
-      .then(data => {
-        const usernameDisplay = document.getElementById('username-display');
-        if (data.username) {
-          usernameDisplay.textContent = `Welcome, ${data.username}`;
-        } else {
-          console.error('Unexpected data format:', data);
-        }
-      })
-      .catch(error => console.error('Error fetching username data:', error));
-
     // Fetch random users data from the server
     function fetchRandomUsers() {
-  $.ajax({
-    url: '/.netlify/functions/random-users',
-    method: 'GET',
-    success: function(data) {
-      console.log('Fetched data:', data); // Debugging line
-      if (data.user1 && data.user2) {
-        $('#user1').text(`${data.user1.username} - Rating: ${data.user1.rating}`);
-        $('#user1').data('userid', data.user1._id);
-        $('#user2').text(`${data.user2.username} - Rating: ${data.user2.rating}`);
-        $('#user2').data('userid', data.user2._id);
-      } else {
-        console.error('Unexpected data format:', data);
-      }
-    },
-    error: function(err) {
-      console.error('Error fetching random users:', err);
+      $.ajax({
+        url: '/.netlify/functions/random-users',
+        method: 'GET',
+        success: function(data) {
+          console.log('Fetched data:', data); // Debugging line
+          if (data.user1 && data.user2) {
+            $('#user1').text(`${data.user1.username} - Rating: ${data.user1.rating}`);
+            $('#user1').data('userid', data.user1._id);
+            $('#user2').text(`${data.user2.username} - Rating: ${data.user2.rating}`);
+            $('#user2').data('userid', data.user2._id);
+          } else {
+            console.error('Unexpected data format:', data);
+          }
+        },
+        error: function(err) {
+          console.error('Error fetching random users:', err);
+        }
+      });
     }
-  });
-}
+
+    // Fetch username data from the server
+    function fetchUsername(userId) {
+      $.ajax({
+        url: `/.netlify/functions/username?id=${userId}`,
+        method: 'GET',
+        success: function(data) {
+          if (data.username) {
+            $('#username-display').text(`Welcome, ${data.username}`);
+          } else {
+            console.error('Unexpected data format:', data);
+          }
+        },
+        error: function(err) {
+          console.error('Error fetching username data:', err);
+        }
+      });
+    }
 
     $(document).ready(function() {
       // Fetch random users when the page loads
@@ -141,10 +146,39 @@
 
       // Event listener for the submit button
       $('#submitResult').click(function() {
+        const user1Id = $('#user1').data('userid');
+        const user2Id = $('#user2').data('userid');
+
+        if (!user1Id || !user2Id) {
+          console.error('User IDs are missing');
+          return;
+        }
+
         // Call a function to handle the submission
-        submitResult(user1Selection, user2Selection);
+        submitResult(user1Id, user1Selection, user2Id, user2Selection);
       });
     });
+
+    // Define the submitResult function
+    function submitResult(user1Id, user1Result, user2Id, user2Result) {
+      $.ajax({
+        url: '/path/to/submitResult', // Replace with the actual URL or API endpoint
+        method: 'POST',
+        data: {
+          user1Id: user1Id,
+          user1Result: user1Result,
+          user2Id: user2Id,
+          user2Result: user2Result
+        },
+        success: function(response) {
+          console.log('Result submitted successfully:', response);
+          // Handle successful submission
+        },
+        error: function(err) {
+          console.error('Error submitting result:', err);
+        }
+      });
+    }
   </script>
 </body>
 </html>
