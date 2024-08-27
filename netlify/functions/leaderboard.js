@@ -26,7 +26,7 @@ const handler = async (event, context) => {
     // Check if the 'User' model is already compiled, and use it if so
     const User = mongoose.models.User || mongoose.model('User', new mongoose.Schema({
       username: String,
-      rating: Number,
+      rating: String,
     }));
 
     // Fetch users sorted by rating in descending order
