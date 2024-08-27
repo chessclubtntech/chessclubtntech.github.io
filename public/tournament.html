@@ -1,134 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tournament</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rating Calculator</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body, html {
+      background-color: #4F2984;
+      margin-top: 50px;
+    }
+    .container {
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      margin-top: -125px;
+    }
+    .leaderboard-h1 {
+      text-align: center;
+      color: white;
+      font-size: 48px;
+    }
+    .submit-container {
+      position: relative;
+      top: 0px;
+      right: 0px;
+    }
+    .home-button-leaderboard {
+      padding: 15px 30px;
+      color: #FFDD00;
+      background-color: #FFDD00;
+      border: none;
+      border-radius: 5px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-    <div class="tournament-container">
-        <h1>Tournament</h1>
-        
-        <!-- Dropdowns for selecting users -->
-        <div class="user-selection">
-            <label for="user1Dropdown">Select User 1:</label>
-            <select id="user1Dropdown">
-                <option value="">--Select User 1--</option>
-            </select>
-
-            <label for="user2Dropdown">Select User 2:</label>
-            <select id="user2Dropdown">
-                <option value="">--Select User 2--</option>
-            </select>
-        </div>
-
-        <!-- Buttons for match result input -->
-        <div class="match-results">
-            <div class="user1-buttons">
-                <button class="win-btn">Win</button>
-                <button class="draw-btn">Draw</button>
-                <button class="lose-btn">Lose</button>
-            </div>
-            
-            <div class="user2-buttons">
-                <button class="win-btn">Win</button>
-                <button class="draw-btn">Draw</button>
-                <button class="lose-btn">Lose</button>
-            </div>
-        </div>
-        
-        <!-- Submit button for match results -->
-        <button id="submitResult" style="display:none;">Submit Results</button>
+  <!-- Three.js Background Canvas -->
+  <div class="background-container">
+    <canvas id="backgroundCanvas"></canvas>
+  </div>
+  <div class="container">
+    <h1 class="leaderboard-h1">Tournaments</h1>
+    <ul class="navigation-links">
+      <li class="home-button-leaderboard"><a href="main.html"><i class="fas fa-home"></i></a></li>
+    </ul>
+    <div class="user-container">
+      <div class="user" id="user1"></div>
+      <span id="user1GamesPlayed">0</span> games played
+      <br>
+      <span id="user1TotalScore">0</span> total score
+      <div class="buttons1">
+        <button id="winButton1">Win</button>
+        <button id="drawButton1">Draw</button>
+        <button id="loseButton1">Lose</button>
+      </div>
     </div>
+    <div class="user-container">
+      <div class="user" id="user2"></div>
+      <span id="user2GamesPlayed">0</span> games played
+      <br>
+      <span id="user2TotalScore">0</span> total score
+      <div class="buttons2">
+        <button id="winButton2">Win</button>
+        <button id="drawButton2">Draw</button>
+        <button id="loseButton2">Lose</button>
+      </div>
+    </div>
+    <div class="submit-container">
+      <button id="submitResult" style="display: none;">Submit Result</button>
+    </div>
+  </div>
 
-    <script>
-        $(document).ready(function() {
-            // Fetch all users from the server and populate the dropdowns
-            fetchAllUsers();
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // Fetch username data from the server
+    fetch('/.netlify/functions/username')
+      .then(response => response.json())
+      .then(data => {
+        const usernameDisplay = document.getElementById('username-display');
+        if (data.username) {
+          usernameDisplay.textContent = `Welcome, ${data.username}`;
+        } else {
+          console.error('Unexpected data format:', data);
+        }
+      })
+      .catch(error => console.error('Error fetching username data:', error));
 
-            // Event listener for dropdown changes
-            $('#user1Dropdown, #user2Dropdown').change(function() {
-                checkSubmitVisibility();
-            });
+    // Fetch random users data from the server
+    function fetchRandomUsers() {
+      $.ajax({
+        url: '/.netlify/functions/random-users',
+        method: 'GET',
+        success: function(data) {
+          if (data.user1 && data.user2) {
+            $('#user1').text(data.user1.username + ' - Rating: ' + data.user1.rating);
+            $('#user1').data('userid', data.user1._id);
+            $('#user2').text(data.user2.username + ' - Rating: ' + data.user2.rating);
+            $('#user2').data('userid', data.user2._id);
+          } else {
+            console.error('Unexpected data format:', data);
+          }
+        },
+        error: function(err) {
+          console.error('Error fetching random users:', err);
+        }
+      });
+    }
 
-            // Event listeners for result buttons
-            $('.win-btn, .draw-btn, .lose-btn').click(function() {
-                $(this).siblings().removeClass('selected');
-                $(this).addClass('selected');
-                checkSubmitVisibility();
-            });
+    $(document).ready(function() {
+      // Fetch random users when the page loads
+      fetchRandomUsers();
 
-            // Event listener for submit button
-            $('#submitResult').click(function() {
-                const user1Id = $('#user1Dropdown').val();
-                const user2Id = $('#user2Dropdown').val();
-                const user1Outcome = $('.user1-buttons .selected').text();
-                const user2Outcome = $('.user2-buttons .selected').text();
+      // Variables to track button selections
+      var user1Selection = '';
+      var user2Selection = '';
 
-                if (user1Id && user2Id && user1Outcome && user2Outcome) {
-                    submitResult(user1Id, user2Id, user1Outcome, user2Outcome);
-                } else {
-                    alert('Please select both users and their outcomes before submitting.');
-                }
-            });
+      // Event listener for the win, draw, and lose buttons of user 1
+      $('.buttons1 button').click(function() {
+        user1Selection = $(this).text();
+        checkSubmitVisibility();
+      });
 
-            function fetchAllUsers() {
-                $.ajax({
-                    url: '/api/get-all-users',
-                    method: 'GET',
-                    success: function(data) {
-                        populateDropdowns(data.users);
-                    },
-                    error: function(err) {
-                        console.error('Error fetching users:', err);
-                    }
-                });
-            }
+      // Event listener for the win, draw, and lose buttons of user 2
+      $('.buttons2 button').click(function() {
+        user2Selection = $(this).text();
+        checkSubmitVisibility();
+      });
 
-            function populateDropdowns(users) {
-                users.forEach(function(user) {
-                    $('#user1Dropdown').append(`<option value="${user._id}">${user.username}</option>`);
-                    $('#user2Dropdown').append(`<option value="${user._id}">${user.username}</option>`);
-                });
-            }
+      // Function to check if the submit button should be visible
+      function checkSubmitVisibility() {
+        if (user1Selection !== '' && user2Selection !== '') {
+          $('#submitResult').show();
+        }
+      }
 
-            function checkSubmitVisibility() {
-                if ($('#user1Dropdown').val() && $('#user2Dropdown').val() && 
-                    $('.user1-buttons .selected').length && $('.user2-buttons .selected').length) {
-                    $('#submitResult').show();
-                } else {
-                    $('#submitResult').hide();
-                }
-            }
-
-            function submitResult(user1Id, user2Id, user1Outcome, user2Outcome) {
-                const outcomes = {
-                    'Win': 1,
-                    'Draw': 0.5,
-                    'Lose': 0
-                };
-
-                updateUserGameData(user1Id, outcomes[user1Outcome]);
-                updateUserGameData(user2Id, outcomes[user2Outcome]);
-            }
-
-            function updateUserGameData(userId, outcome) {
-                $.ajax({
-                    url: '/api/update-user-game-data',
-                    method: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({ userId: userId, outcome: outcome }),
-                    success: function(data) {
-                        console.log('User game data updated successfully:', data);
-                    },
-                    error: function(err) {
-                        console.error('Error updating user game data:', err);
-                    }
-                });
-            }
-        });
-    </script>
+      // Event listener for the submit button
+      $('#submitResult').click(function() {
+        // Call a function to handle the submission
+        submitResult(user1Selection, user2Selection);
+      });
+    });
+  </script>
 </body>
 </html>
