@@ -6,6 +6,9 @@ const mongoUri = process.env.MONGODB_URI;
 
 exports.handler = async (event) => {
   try {
+    // Log the entire event for debugging
+    console.log('Received event:', event);
+
     // Connect to MongoDB
     if (!mongoose.connection.readyState) {
       await mongoose.connect(mongoUri, {
@@ -15,7 +18,10 @@ exports.handler = async (event) => {
     }
 
     // Parse request body
-    const { username, email, password, school } = JSON.parse(event.body);
+    const body = JSON.parse(event.body);
+    console.log('Parsed body:', body); // Log the parsed body
+
+    const { username, email, password, school } = body;
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
