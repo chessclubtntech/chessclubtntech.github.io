@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 const User = require('../../models/user.js');
 const bcrypt = require('bcrypt');
 
-const { MongoClient } = require('mongodb');
-
 const mongoUri = process.env.MONGODB_URI;
 
 exports.handler = async (event) => {
@@ -25,19 +23,19 @@ exports.handler = async (event) => {
     if (!user || !await bcrypt.compare(password, user.password)) {
       return {
         statusCode: 401,
-        body: JSON.stringify({ message: 'Invalid email or password' })
+        body: JSON.stringify({ success: false, message: 'Invalid email or password' })
       };
     }
 
     // User authenticated
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: 'Login successful' })
+      body: JSON.stringify({ success: true, message: 'Login successful', redirectUrl: '/main.html' })
     };
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: 'Internal server error', error: error.message })
+      body: JSON.stringify({ success: false, message: 'Internal server error', error: error.message })
     };
   }
 };
