@@ -83,32 +83,32 @@
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
         <script>
-            // Fetch userId from localStorage
-            const userId = localStorage.getItem('userId');
-            console.log(`Retrieved userId: ${userId}`); // Debugging line
+        // Fetch userId from localStorage
+        const userId = localStorage.getItem('userId');
+        console.log(`Retrieved userId: ${userId}`); // Debugging line
 
-            if (userId) {
-                // Fetch username data from the server
-                fetch(`/.netlify/functions/username?id=${userId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        const usernameDisplay = document.getElementById("username-display");
-                        if (data.username) {
-                            usernameDisplay.textContent = `Welcome, ${data.username}`;
-                        } else {
-                            usernameDisplay.textContent = `Error: ${data.error}`;
-                        }
-                    })
-                    .catch(error => console.error("Error fetching username data:", error));
+        if (userId) {
+            // Fetch username data from the server
+            fetch(`/.netlify/functions/username?id=${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                const usernameDisplay = document.getElementById("username-display");
+                if (data.username) {
+                    usernameDisplay.textContent = `Welcome, ${data.username}`;
+                } else {
+                    usernameDisplay.textContent = `Error: ${data.error}`;
+                }
+              })
+              .catch(error => console.error("Error fetching username data:", error));
             } else {
                 console.error("User ID not found in storage.");
                 // Optionally, you can redirect or show a message here
-            }
-
-            // Log out button functionality
-            document.getElementById("logoutButton").addEventListener("click", function () {
-                window.location.href = "index.html"; // Redirect to index.html when the button is clicked
-            });
+        }
+        // Log out button functionality
+        document.getElementById("logoutButton").addEventListener("click", function () {
+            localStorage.removeItem('userId'); // Clear userId from storage
+            window.location.href = "index.html"; // Redirect to index.html when the button is clicked
+        });
         </script>
 
         <!-- Three.js Script with Import Map -->
