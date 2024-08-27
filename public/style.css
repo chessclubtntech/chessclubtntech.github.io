@@ -249,6 +249,7 @@ li {
   color: #ecba13;
 }
 
+
 /* Mobile devices (portrait and landscape) */
 @media (max-width: 768px) {
   .container {
