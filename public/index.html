@@ -117,7 +117,10 @@
           const data = JSON.parse(response);
           if (data.success) {
             $('#loginMessage').text('Login successful: ' + data.message);
-            window.location.href = data.redirectUrl; // Redirect to the specified URL
+            // Store userId in localStorage
+            localStorage.setItem('userId', data.userId);
+            // Redirect to the main page
+            window.location.href = 'main.html'; // Make sure this matches your main page URL
           } else {
             $('#loginMessage').text('Login failed: ' + data.message);
           }
