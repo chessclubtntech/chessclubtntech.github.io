@@ -1,47 +1,35 @@
 const mongoose = require('mongoose');
-const User = require('../../models/user.js'); // Adjust the path if needed
+const User = require('../../models/user.js'); // Adjust the path as necessary
 
-const mongoUri = process.env.MONGODB_URI;
+exports.handler = async (event) => {
+  const mongoUri = process.env.MONGODB_URI; // Ensure this URI is correct
 
-exports.handler = async (event, context) => {
   try {
-    console.log('Starting getUsers function');
-
-    // Check MongoDB URI
-    console.log('MongoDB URI:', mongoUri);
-
     // Connect to MongoDB
-    if (mongoose.connection.readyState === 0) {
-      console.log('Connecting to MongoDB...');
-      await mongoose.connect(mongoUri, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-      });
-      console.log('MongoDB connected');
-    }
+    await mongoose.connect(mongoUri, {
+      dbName: 'chess_database', // Specify the database name here
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
 
-    // Check Mongoose connection state
-    console.log('Mongoose connection state:', mongoose.connection.readyState);
+    console.log('MongoDB connected');
 
-    // Fetch users
+    // Fetch users from the 'users' collection
     const users = await User.find({}, 'username rating');
-
-    // Debug log users
     console.log('Fetched users:', users);
 
-    // Return response
     return {
       statusCode: 200,
       body: JSON.stringify(users),
-      headers: {
-        'Content-Type': 'application/json',
-      },
     };
   } catch (error) {
     console.error('Error fetching users:', error);
+
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: 'Failed to fetch users', error: error.message }),
+      body: JSON.stringify({ error: 'Failed to fetch users' }),
     };
+  } finally {
+    mongoose.connection.close();
   }
 };
