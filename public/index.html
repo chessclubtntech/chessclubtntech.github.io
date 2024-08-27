@@ -123,7 +123,7 @@
         });
       });
 
-      // Register Form Submission
+    // Register Form Submission
       $('#registerForm').submit(function(event) {
         event.preventDefault();
         const formData = {
@@ -134,7 +134,7 @@
         };
         $.ajax({
           type: "POST",
-          url: "https://chessclubtntech.netlify.app/.netlify/functions/registerUser", // Adjust to your Netlify function URL
+          url: "https://chessclubtntech.netlify.app/.netlify/functions/registerUser",
           data: JSON.stringify(formData),
           contentType: "application/json",
           success: function(response) {
@@ -142,7 +142,7 @@
             $('#registerForm')[0].reset();
           },
           error: function(xhr, status, error) {
-            $('#registerMessage').text('Registration failed: ' + (xhr.responseJSON ? xhr.responseJSON.message : 'An error occurred'));
+            $('#registerMessage').text('Registration failed: ' + xhr.responseJSON.message);
           }
         });
       });
