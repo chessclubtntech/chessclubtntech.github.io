@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const User = require('./models/user.js'); // Adjust the path as needed
+const User = require('../../models/user.js');
 const bcrypt = require('bcrypt');
 
 const { MongoClient } = require('mongodb');
