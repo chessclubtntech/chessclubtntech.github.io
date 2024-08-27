@@ -30,7 +30,12 @@ exports.handler = async (event) => {
     // User authenticated
     return {
       statusCode: 200,
-      body: JSON.stringify({ success: true, message: 'Login successful', redirectUrl: '/main.html' })
+      body: JSON.stringify({
+        success: true,
+        message: 'Login successful',
+        redirectUrl: '/main.html',
+        userId: user._id.toString() // Include userId here
+      })
     };
   } catch (error) {
     return {
