@@ -99,30 +99,48 @@
   </div>
 
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script src="index.js"></script>
   <script>
     $(document).ready(function() {
       // Login Form Submission
       $('#loginForm').submit(function(event) {
         event.preventDefault();
         const formData = $(this).serialize();
-        $.post('/login', formData, function(data) {
-          $('#loginMessage').text(data.message);
-          $('#loginForm')[0].reset();
-        }).fail(function(error) {
-          $('#loginMessage').text(error.responseJSON.message);
+        $.ajax({
+          type: "POST",
+          url: "https://chessclubtntech.netlify.app/.netlify/functions/loginUser", // Adjust to your Netlify function URL
+          data: JSON.stringify(formData),
+          contentType: "application/json",
+          success: function(response) {
+            $('#loginMessage').text('Login successful: ' + response.message);
+            $('#loginForm')[0].reset();
+          },
+          error: function(xhr, status, error) {
+            $('#loginMessage').text('Login failed: ' + xhr.responseJSON.message);
+          }
         });
       });
 
       // Register Form Submission
       $('#registerForm').submit(function(event) {
         event.preventDefault();
-        const formData = $(this).serialize();
-        $.post('/register', formData, function(data) {
-          $('#registerMessage').text(data.message);
-          $('#registerForm')[0].reset();
-        }).fail(function(error) {
-          $('#registerMessage').text(error.responseJSON.message);
+        const formData = {
+          username: $('#registerUsername').val(),
+          email: $('#registerEmail').val(),
+          password: $('#registerPassword').val(),
+          school: $('#registerSchool').val()
+        };
+        $.ajax({
+          type: "POST",
+          url: "https://chessclubtntech.netlify.app/.netlify/functions/registerUser", // Adjust to your Netlify function URL
+          data: JSON.stringify(formData),
+          contentType: "application/json",
+          success: function(response) {
+            $('#registerMessage').text('Registration successful: ' + response.message);
+            $('#registerForm')[0].reset();
+          },
+          error: function(xhr, status, error) {
+            $('#registerMessage').text('Registration failed: ' + xhr.responseJSON.message);
+          }
         });
       });
     });
