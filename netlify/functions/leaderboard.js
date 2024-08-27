@@ -1,18 +1,41 @@
-// netlify/functions/leaderboard.js
-
 const mongoose = require('mongoose');
-const User = require('../../models/user.js'); // Adjust the path based on your file structure
 
-const mongoURI = process.env.MONGODB_URI; // Ensure this environment variable is set in Netlify
+let connection = null; // Store the connection globally
 
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+const connectToDatabase = async () => {
+  if (connection && mongoose.connection.readyState === 1) {
+    // If a connection is already established, return it
+    return;
+  }
 
-exports.handler = async function (event, context) {
   try {
-    // Fetch users and sort by rating in descending order
-    const users = await User.find().sort({ rating: -1 }).exec();
-    
-    // Return sorted users in JSON format
+    // Connect to MongoDB using the URI from environment variables
+    connection = await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    console.log('MongoDB connected successfully');
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+    throw new Error('MongoDB connection failed');
+  }
+};
+
+const handler = async (event, context) => {
+  try {
+    await connectToDatabase(); // Ensure the database is connected
+
+    const UserSchema = new mongoose.Schema({
+      username: String,
+      rating: Number,
+    });
+
+    const User = mongoose.model('User', UserSchema);
+
+    // Fetch users sorted by rating in descending order
+    const users = await User.find().sort({ rating: -1 });
+
     return {
       statusCode: 200,
       body: JSON.stringify(users),
@@ -23,8 +46,7 @@ exports.handler = async function (event, context) {
       statusCode: 500,
       body: JSON.stringify({ message: 'Internal Server Error' }),
     };
-  } finally {
-    // Close the mongoose connection
-    mongoose.connection.close();
   }
 };
+
+module.exports = { handler };
