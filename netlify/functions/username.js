@@ -1,6 +1,6 @@
 // netlify/functions/username.js
 const mongoose = require('mongoose');
-const User = require('./models/user'); // Adjust the path as necessary
+const User = require('../../models/user.js'); // Adjust the path as necessary
 
 const uri = process.env.MONGODB_URI; // Ensure your environment variable is set correctly
 
