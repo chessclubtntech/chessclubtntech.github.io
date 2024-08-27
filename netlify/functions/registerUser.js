@@ -18,10 +18,28 @@ exports.handler = async (event) => {
     }
 
     // Parse request body
-    const body = JSON.parse(event.body);
+    let body;
+    try {
+      body = JSON.parse(event.body);
+    } catch (parseError) {
+      console.error('Error parsing JSON:', parseError);
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ message: 'Invalid JSON format' })
+      };
+    }
+
     console.log('Parsed body:', body); // Log the parsed body
 
     const { username, email, password, school } = body;
+
+    // Ensure required fields are present
+    if (!username || !email || !password || !school) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ message: 'Missing required fields' })
+      };
+    }
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
