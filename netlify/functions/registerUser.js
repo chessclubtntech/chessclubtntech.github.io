@@ -21,6 +21,7 @@ exports.handler = async (event) => {
     let body;
     try {
       body = JSON.parse(event.body);
+      console.log('Parsed body:', body); // Log the parsed body
     } catch (parseError) {
       console.error('Error parsing JSON:', parseError);
       return {
@@ -28,8 +29,6 @@ exports.handler = async (event) => {
         body: JSON.stringify({ message: 'Invalid JSON format' })
       };
     }
-
-    console.log('Parsed body:', body); // Log the parsed body
 
     const { username, email, password, school } = body;
 
