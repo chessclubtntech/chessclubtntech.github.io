@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const User = require('./models/user');
+const User = require('../../models/user.js');
 
 exports.handler = async function(event, context) {
   try {
