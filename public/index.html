@@ -149,7 +149,7 @@
         success: function(response) {
           const data = JSON.parse(response);
           if (data.success) {
-            $('#registerMessage').text('Registration successful: ' + data.message);
+            $('#registerMessage').text('Registration Completed: ' + data.message);
             $('#registerForm')[0].reset();
           } else {
             $('#registerMessage').text('Registration failed: ' + data.message);
