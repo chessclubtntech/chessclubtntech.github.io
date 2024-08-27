@@ -85,10 +85,9 @@
         <script>
             // Fetch userId from localStorage
             const userId = localStorage.getItem('userId');
+            console.log(`Retrieved userId: ${userId}`); // Debugging line
 
             if (userId) {
-                console.log(`Fetched userId: ${userId}`); // Debugging line
-
                 // Fetch username data from the server
                 fetch(`/.netlify/functions/username?id=${userId}`)
                     .then(response => response.json())
@@ -103,6 +102,7 @@
                     .catch(error => console.error("Error fetching username data:", error));
             } else {
                 console.error("User ID not found in storage.");
+                // Optionally, you can redirect or show a message here
             }
 
             // Log out button functionality
