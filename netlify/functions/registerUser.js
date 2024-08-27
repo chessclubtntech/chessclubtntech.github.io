@@ -57,13 +57,13 @@ exports.handler = async (event) => {
     // Respond with success
     return {
       statusCode: 201,
-      body: JSON.stringify({ message: 'User registered successfully' })
+      body: JSON.stringify({ success: true, message: 'Registration Completed' })
     };
   } catch (error) {
     console.error('Registration error:', error); // Log the error for debugging
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: 'Registration failed', error: error.message })
+      body: JSON.stringify({ success: false, message: 'Registration failed', error: error.message })
     };
   }
 };
