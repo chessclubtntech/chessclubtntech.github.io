@@ -1,45 +1,46 @@
 const mongoose = require('mongoose');
+const User = require('./models/user.js'); // Adjust the path as needed
 const bcrypt = require('bcrypt');
-const User = require('../../models/user'); // Adjust path as necessary
 
-exports.handler = async function(event, context) {
-    if (event.httpMethod === 'POST') {
-        const { username, email, password } = JSON.parse(event.body);
+const mongoUri = process.env.MONGODB_URI;
 
-        try {
-            // Connect to MongoDB
-            await mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-
-            // Check if the user already exists
-            const existingUser = await User.findOne({ email });
-            if (existingUser) {
-                return {
-                    statusCode: 400,
-                    body: JSON.stringify({ message: 'User already exists' }),
-                };
-            }
-
-            // Hash the password
-            const hashedPassword = await bcrypt.hash(password, 10);
-
-            // Create a new user
-            const newUser = new User({ username, email, password: hashedPassword });
-            await newUser.save();
-
-            return {
-                statusCode: 201,
-                body: JSON.stringify({ message: 'User registered successfully' }),
-            };
-        } catch (error) {
-            return {
-                statusCode: 500,
-                body: JSON.stringify({ message: 'Registration failed', error: error.message }),
-            };
-        }
-    } else {
-        return {
-            statusCode: 405,
-            body: JSON.stringify({ message: 'Method not allowed' }),
-        };
+exports.handler = async (event) => {
+  try {
+    // Connect to MongoDB
+    if (!mongoose.connection.readyState) {
+      await mongoose.connect(mongoUri, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      });
     }
+
+    // Parse request body
+    const { username, email, password, school } = JSON.parse(event.body);
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create new user
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+      school // Assuming 'school' is a field in your User schema
+    });
+
+    // Save the user to the database
+    await newUser.save();
+
+    // Respond with success
+    return {
+      statusCode: 201,
+      body: JSON.stringify({ message: 'User registered successfully' })
+    };
+  } catch (error) {
+    console.error('Registration error:', error); // Log the error for debugging
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: 'Registration failed', error: error.message })
+    };
+  }
 };
