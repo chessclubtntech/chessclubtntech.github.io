@@ -104,7 +104,10 @@
       // Login Form Submission
       $('#loginForm').submit(function(event) {
         event.preventDefault();
-        const formData = $(this).serialize();
+        const formData = {
+          email: $('#loginEmail').val(),
+          password: $('#loginPassword').val()
+        };
         $.ajax({
           type: "POST",
           url: "https://chessclubtntech.netlify.app/.netlify/functions/loginUser", // Adjust to your Netlify function URL
@@ -115,7 +118,7 @@
             $('#loginForm')[0].reset();
           },
           error: function(xhr, status, error) {
-            $('#loginMessage').text('Login failed: ' + xhr.responseJSON.message);
+            $('#loginMessage').text('Login failed: ' + (xhr.responseJSON ? xhr.responseJSON.message : 'An error occurred'));
           }
         });
       });
@@ -139,7 +142,7 @@
             $('#registerForm')[0].reset();
           },
           error: function(xhr, status, error) {
-            $('#registerMessage').text('Registration failed: ' + xhr.responseJSON.message);
+            $('#registerMessage').text('Registration failed: ' + (xhr.responseJSON ? xhr.responseJSON.message : 'An error occurred'));
           }
         });
       });
