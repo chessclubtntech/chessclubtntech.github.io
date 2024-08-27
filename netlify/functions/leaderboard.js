@@ -1,7 +1,7 @@
 // netlify/functions/leaderboard.js
 
 const mongoose = require('mongoose');
-const User = require('./models/User'); // Adjust the path based on your file structure
+const User = require('../../models/User.js'); // Adjust the path based on your file structure
 
 const mongoURI = process.env.MONGODB_URI; // Ensure this environment variable is set in Netlify
 
