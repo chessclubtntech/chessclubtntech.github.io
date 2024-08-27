@@ -5,4 +5,4 @@
 [functions]
   [functions.timeout]
     # Set the timeout in seconds
-    timeout = 30
+    timeout = 60
