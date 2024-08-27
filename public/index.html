@@ -98,57 +98,67 @@
     </div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script>
-    $(document).ready(function() {
-      // Login Form Submission
-      $('#loginForm').submit(function(event) {
-        event.preventDefault();
-        const formData = {
-          email: $('#loginEmail').val(),
-          password: $('#loginPassword').val()
-        };
-        $.ajax({
-          type: "POST",
-          url: "https://chessclubtntech.netlify.app/.netlify/functions/loginUser",
-          data: JSON.stringify(formData),
-          contentType: "application/json",
-          success: function(response) {
-            $('#loginMessage').text('Login successful: ' + response.message);
-            $('#loginForm')[0].reset();
-          },
-          error: function(xhr, status, error) {
-            const errorMessage = xhr.responseJSON ? xhr.responseJSON.message : 'An error occurred';
-            $('#loginMessage').text('Login failed: ' + errorMessage);
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+  $(document).ready(function() {
+    // Login Form Submission
+    $('#loginForm').submit(function(event) {
+      event.preventDefault();
+      const formData = {
+        email: $('#loginEmail').val(),
+        password: $('#loginPassword').val()
+      };
+      $.ajax({
+        type: "POST",
+        url: "https://chessclubtntech.netlify.app/.netlify/functions/loginUser",
+        data: JSON.stringify(formData),
+        contentType: "application/json",
+        success: function(response) {
+          const data = JSON.parse(response);
+          if (data.success) {
+            $('#loginMessage').text('Login successful: ' + data.message);
+            window.location.href = data.redirectUrl; // Redirect to the specified URL
+          } else {
+            $('#loginMessage').text('Login failed: ' + data.message);
           }
-        });
-      });
-
-      // Register Form Submission
-      $('#registerForm').submit(function(event) {
-        event.preventDefault();
-        const formData = {
-          username: $('#registerUsername').val(),
-          email: $('#registerEmail').val(),
-          password: $('#registerPassword').val(),
-          school: $('#registerSchool').val()
-        };
-        $.ajax({
-          type: "POST",
-          url: "https://chessclubtntech.netlify.app/.netlify/functions/registerUser",
-          data: JSON.stringify(formData),
-          contentType: "application/json",
-          success: function(response) {
-            $('#registerMessage').text('Registration successful: ' + response.message);
-            $('#registerForm')[0].reset();
-          },
-          error: function(xhr, status, error) {
-            const errorMessage = xhr.responseJSON ? xhr.responseJSON.message : 'An error occurred';
-            $('#registerMessage').text('Registration failed: ' + errorMessage);
-          }
-        });
+        },
+        error: function(xhr, status, error) {
+          const errorMessage = xhr.responseJSON ? xhr.responseJSON.message : 'An error occurred';
+          $('#loginMessage').text('Login failed: ' + errorMessage);
+        }
       });
     });
-  </script>
+
+    // Register Form Submission
+    $('#registerForm').submit(function(event) {
+      event.preventDefault();
+      const formData = {
+        username: $('#registerUsername').val(),
+        email: $('#registerEmail').val(),
+        password: $('#registerPassword').val(),
+        school: $('#registerSchool').val()
+      };
+      $.ajax({
+        type: "POST",
+        url: "https://chessclubtntech.netlify.app/.netlify/functions/registerUser",
+        data: JSON.stringify(formData),
+        contentType: "application/json",
+        success: function(response) {
+          const data = JSON.parse(response);
+          if (data.success) {
+            $('#registerMessage').text('Registration successful: ' + data.message);
+            $('#registerForm')[0].reset();
+          } else {
+            $('#registerMessage').text('Registration failed: ' + data.message);
+          }
+        },
+        error: function(xhr, status, error) {
+          const errorMessage = xhr.responseJSON ? xhr.responseJSON.message : 'An error occurred';
+          $('#registerMessage').text('Registration failed: ' + errorMessage);
+        }
+      });
+    });
+  });
+</script>
 </body>
 </html>
