@@ -51,14 +51,23 @@
     fetch('/.netlify/functions/leaderboard')
       .then(response => response.json())
       .then(users => {
-        const leaderboardElement = document.getElementById('leaderboard');
-        let place = 1;
-        users.forEach(user => {
-          const listItem = document.createElement('li');
-          listItem.textContent = `#${place} ${user.username} - Rating: ${user.rating}`;
-          leaderboardElement.appendChild(listItem);
-          place++;
-        });
+        // Log the response to debug
+        console.log('Response from server:', users);
+
+        // Check if the response is an array
+        if (Array.isArray(users)) {
+          const leaderboardElement = document.getElementById('leaderboard');
+          let place = 1;
+          users.forEach(user => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `#${place} ${user.username} - Rating: ${user.rating}`;
+            leaderboardElement.appendChild(listItem);
+            place++;
+          });
+        } else {
+          console.error('Unexpected data format:', users);
+          document.getElementById('leaderboard').innerHTML = '<li>Error loading leaderboard data.</li>';
+        }
       })
       .catch(error => console.error('Error fetching leaderboard data:', error));
   </script>
