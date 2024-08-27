@@ -3,4 +3,6 @@
   publish = "public"
 
 [functions]
-  timeout = 30  # Increase the timeout to 30 seconds
+  [functions.timeout]
+    # Set the timeout in seconds
+    timeout = 30
