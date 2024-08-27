@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const User = require('../../models/user'); // Adjust path as needed
+const User = require('../../models/user.js'); // Adjust path as needed
 
 exports.handler = async (event) => {
   try {
