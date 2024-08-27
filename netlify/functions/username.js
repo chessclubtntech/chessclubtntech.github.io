@@ -3,8 +3,15 @@ const User = require('../../models/user.js');
 
 exports.handler = async function(event, context) {
   try {
-    // Retrieve user ID from query parameters or event body
-    const userId = event.queryStringParameters.id;
+    // Retrieve user ID from query parameters
+    const userId = event.queryStringParameters && event.queryStringParameters.id;
+
+    if (!userId) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'User ID is required' }),
+      };
+    }
 
     // Check if userId is a valid ObjectId
     if (!mongoose.Types.ObjectId.isValid(userId)) {
