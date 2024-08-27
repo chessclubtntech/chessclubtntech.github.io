@@ -1,241 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Main Page</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-        <link rel="stylesheet" href="style.css" />
-        <style>
-            body {
-                margin: 0;
-                overflow: hidden;
-            }
-            .background-container {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-            }
-            #backgroundCanvas {
-                width: 100%;
-                height: 100%;
-                display: block; /* Ensure it occupies the whole container */
-            }
-            .hub {
-                position: relative;
-                z-index: 1; /* Ensure this is above the background */
-                background-color: #4f2984;
-            }
-            .container {
-                position: relative;
-                z-index: 1; /* Ensure this is above the background */
-            }
-            .grid-container {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 10px;
-            }
-            .grid-item {
-                text-align: center;
-            }
-        </style>
-    </head>
-    <body>
-        <!-- Three.js Background Canvas -->
-        <div class="background-container">
-            <canvas id="backgroundCanvas"></canvas>
-        </div>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Main Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #backgroundCanvas {
+            width: 100%;
+            height: 100%;
+            display: block; /* Ensure it occupies the whole container */
+        }
+        .hub {
+            position: relative;
+            z-index: 1; /* Ensure this is above the background */
+            background-color: #4f2984;
+            padding: 20px;
+        }
+        .container {
+            position: relative;
+            z-index: 1; /* Ensure this is above the background */
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .grid-item {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Three.js Background Canvas -->
+    <div class="background-container">
+        <canvas id="backgroundCanvas"></canvas>
+    </div>
 
-        <div class="container">
-            <div class="hub">
-                <h1>Welcome!</h1>
-                <div class="grid-container">
-                    <div class="grid-item">
-                        <a href="leaderboard.html"><i class="fas fa-trophy chess-piece"></i> Leaderboard</a>
-                    </div>
-                    <div class="grid-item">
-                        <a href="club.html"><i class="fas fa-chess-board chess-piece"></i> Club Schedule</a>
-                    </div>
-                    <div class="grid-item">
-                        <a href="archive.html"><i class="fas fa-book chess-piece"></i> Archives</a>
-                    </div>
-                    <div class="grid-item">
-                        <a href="tournament.html"><i class="fas fa-trophy chess-piece"></i> Tournaments</a>
-                    </div>
-                    <div class="grid-item">
-                        <a href="socials.html"><i class="fas fa-user-friends"></i> Socials</a>
-                    </div>
-                    <div class="grid-item">
-                        <button class="btn btn-link dropdown-toggle" type="button" id="optionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-cog chess-piece"></i> Options</button>
-                        <div class="dropdown-menu" aria-labelledby="optionsDropdown">
-                            <a class="dropdown-item" href="profile.html"><i class="fas fa-user chess-piece"></i> Profile</a>
-                            <button class="dropdown-item" id="logoutButton"><i class="fas fa-sign-out-alt chess-piece"></i> Log Out</button>
-                        </div>
+    <div class="container">
+        <div class="hub">
+            <h1>Welcome!</h1>
+            <div class="grid-container">
+                <div class="grid-item">
+                    <a href="leaderboard.html"><i class="fas fa-trophy chess-piece"></i> Leaderboard</a>
+                </div>
+                <div class="grid-item">
+                    <a href="club.html"><i class="fas fa-chess-board chess-piece"></i> Club Schedule</a>
+                </div>
+                <div class="grid-item">
+                    <a href="archive.html"><i class="fas fa-book chess-piece"></i> Archives</a>
+                </div>
+                <div class="grid-item">
+                    <a href="tournament.html"><i class="fas fa-trophy chess-piece"></i> Tournaments</a>
+                </div>
+                <div class="grid-item">
+                    <a href="socials.html"><i class="fas fa-user-friends"></i> Socials</a>
+                </div>
+                <div class="grid-item">
+                    <button class="btn btn-link dropdown-toggle" type="button" id="optionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-cog chess-piece"></i> Options</button>
+                    <div class="dropdown-menu" aria-labelledby="optionsDropdown">
+                        <a class="dropdown-item" href="profile.html"><i class="fas fa-user chess-piece"></i> Profile</a>
+                        <button class="dropdown-item" id="logoutButton"><i class="fas fa-sign-out-alt chess-piece"></i> Log Out</button>
                     </div>
                 </div>
-                <div id="username-display"></div>
             </div>
+            <div id="username-display"></div>
         </div>
+    </div>
 
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-        <script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Fetch userId from localStorage
+        const userId = localStorage.getItem('userId');
+
+        if (userId) {
             // Fetch username data from the server
-            fetch("/api/username")
-                .then((response) => response.json())
-                .then((data) => {
+            fetch(`/.netlify/functions/username?id=${userId}`)
+                .then(response => response.json())
+                .then(data => {
                     const usernameDisplay = document.getElementById("username-display");
-                    usernameDisplay.textContent = `Welcome, ${data.username}`;
+                    if (data.username) {
+                        usernameDisplay.textContent = `Welcome, ${data.username}`;
+                    } else {
+                        usernameDisplay.textContent = `Error: ${data.error}`;
+                    }
                 })
-                .catch((error) => console.error("Error fetching username data:", error));
+                .catch(error => console.error("Error fetching username data:", error));
+        } else {
+            console.error("User ID not found in storage.");
+        }
 
-            // Log out button functionality
-            document.getElementById("logoutButton").addEventListener("click", function () {
-                window.location.href = "index.html"; // Redirect to index.html when the button is clicked
-            });
-        </script>
+        // Log out button functionality
+        document.getElementById("logoutButton").addEventListener("click", function () {
+            localStorage.removeItem('userId'); // Clear the userId from localStorage
+            localStorage.removeItem('token'); // Clear the token if you are using it
+            window.location.href = "index.html"; // Redirect to index.html when the button is clicked
+        });
+    </script>
 
-        <!-- Three.js Script with Import Map -->
-        <script type="importmap">
-            {
-                "imports": {
-                    "three": "https://cdn.jsdelivr.net/npm/three@0.152.0/build/three.module.js",
-                    "three/examples/jsm/loaders/STLLoader": "https://cdn.jsdelivr.net/npm/three@0.152.0/examples/jsm/loaders/STLLoader.js",
-                    "three/examples/jsm/controls/OrbitControls": "https://cdn.jsdelivr.net/npm/three@0.152.0/examples/jsm/controls/OrbitControls.js"
+    <!-- Three.js Script with Import Map -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.152.0/build/three.module.js",
+                "three/examples/jsm/loaders/STLLoader": "https://cdn.jsdelivr.net/npm/three@0.152.0/examples/jsm/loaders/STLLoader.js",
+                "three/examples/jsm/controls/OrbitControls": "https://cdn.jsdelivr.net/npm/three@0.152.0/examples/jsm/controls/OrbitControls.js"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from "three";
+        import { STLLoader } from "three/examples/jsm/loaders/STLLoader";
+        import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+
+        const canvas = document.getElementById("backgroundCanvas");
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x4f2984);
+
+        const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 50;
+        camera.position.y = 15;
+        camera.lookAt(new THREE.Vector3(0, 15, 0));
+
+        // Disable camera movement with mouse
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enablePan = false;
+        controls.enableRotate = false;
+        controls.enableZoom = false;
+
+        const ambientLight = new THREE.AmbientLight(0x404040);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        directionalLight.position.set(1, 1, 1).normalize();
+        scene.add(directionalLight);
+
+        const loader = new STLLoader();
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+
+        // Array of chess pieces to load
+        const pieces = ["assets/threejs-chess/King.stl", "assets/threejs-chess/Queen.stl", "assets/threejs-chess/Bishop.stl", "assets/threejs-chess/Knight.stl", "assets/threejs-chess/Rook.stl", "assets/threejs-chess/Pawn.stl"];
+
+        const gridWidth = 10;
+        const gridHeight = 6;
+        const spacing = 15;
+
+        function createChessPieces() {
+            scene.pieces = []; // Array to store the piece meshes for interaction
+
+            for (let row = 0; row < gridHeight; row++) {
+                for (let col = 0; col < gridWidth; col++) {
+                    const randomPieceIndex = Math.floor(Math.random() * pieces.length);
+                    const path = pieces[randomPieceIndex];
+
+                    loader.load(path, function (geometry) {
+                        const material = new THREE.MeshPhongMaterial({ color: 0xffffff, specular: 0x111111, shininess: 200 });
+                        const mesh = new THREE.Mesh(geometry, material);
+                        mesh.position.set(col * spacing - (gridWidth * spacing) / 2, row * spacing - (gridHeight * spacing) / 2, 0);
+                        mesh.rotation.set(-Math.PI / 2, 0, 0);
+                        mesh.scale.set(0.15, 0.15, 0.15);
+                        scene.add(mesh);
+                        scene.pieces.push(mesh); // Store mesh in the array
+
+                        // Randomly rotate the piece for a more dynamic look
+                        mesh.rotation.x = Math.random() * Math.PI;
+                        mesh.rotation.y = Math.random() * Math.PI;
+                        mesh.rotation.z = Math.random() * Math.PI;
+                    });
                 }
             }
-        </script>
-        <script type="module">
-            import * as THREE from "three";
-            import { STLLoader } from "three/examples/jsm/loaders/STLLoader";
-            import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+        }
 
-            const canvas = document.getElementById("backgroundCanvas");
-            const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-            const scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x4f2984);
+        createChessPieces();
 
-            const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 50;
-            camera.position.y = 15;
-            camera.lookAt(new THREE.Vector3(0, 15, 0));
+        function checkCollisions() {
+            for (let i = 0; i < scene.pieces.length; i++) {
+                const pieceA = scene.pieces[i];
+                pieceA.boundingBox.setFromObject(pieceA);
 
-            // Disable camera movement with mouse
-            const controls = new OrbitControls(camera, renderer.domElement);
-            controls.enablePan = false;
-            controls.enableRotate = false;
-            controls.enableZoom = false;
+                for (let j = i + 1; j < scene.pieces.length; j++) {
+                    const pieceB = scene.pieces[j];
+                    pieceB.boundingBox.setFromObject(pieceB);
 
-            const ambientLight = new THREE.AmbientLight(0x404040);
-            scene.add(ambientLight);
+                    if (pieceA.boundingBox.intersectsBox(pieceB.boundingBox)) {
+                        // Collision detected, adjust positions to resolve
+                        pieceA.position.x += Math.random() * 10;
+                        pieceA.position.y += Math.random() * 10;
+                        pieceB.position.x -= Math.random() * 10;
+                        pieceB.position.y -= Math.random() * 10;
 
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-            directionalLight.position.set(1, 1, 1).normalize();
-            scene.add(directionalLight);
-
-            const loader = new STLLoader();
-            const raycaster = new THREE.Raycaster();
-            const mouse = new THREE.Vector2();
-
-            // Array of chess pieces to load
-            const pieces = ["assets/threejs-chess/King.stl", "assets/threejs-chess/Queen.stl", "assets/threejs-chess/Bishop.stl", "assets/threejs-chess/Knight.stl", "assets/threejs-chess/Rook.stl", "assets/threejs-chess/Pawn.stl"];
-
-            const gridWidth = 10;
-            const gridHeight = 6;
-            const spacing = 15;
-
-            function createChessPieces() {
-                scene.pieces = []; // Array to store the piece meshes for interaction
-
-                for (let row = 0; row < gridHeight; row++) {
-                    for (let col = 0; col < gridWidth; col++) {
-                        const randomPieceIndex = Math.floor(Math.random() * pieces.length);
-                        const path = pieces[randomPieceIndex];
-
-                        loader.load(path, function (geometry) {
-                            const material = new THREE.MeshPhongMaterial({ color: 0xffffff, specular: 0x111111, shininess: 200 });
-                            const mesh = new THREE.Mesh(geometry, material);
-                            mesh.position.set(col * spacing - (gridWidth * spacing) / 2, row * spacing - (gridHeight * spacing) / 2, 0);
-                            mesh.rotation.set(-Math.PI / 2, 0, 0);
-                            mesh.scale.set(0.15, 0.15, 0.15);
-                            scene.add(mesh);
-                            scene.pieces.push(mesh); // Store mesh in the array
-
-                            // Randomly rotate the piece for a more dynamic look
-                            mesh.rotation.x = Math.random() * Math.PI;
-                            mesh.rotation.y = Math.random() * Math.PI;
-                            mesh.rotation.z = Math.random() * Math.PI;
-                        });
-                    }
-                }
-            }
-
-            createChessPieces();
-
-            function checkCollisions() {
-                for (let i = 0; i < scene.pieces.length; i++) {
-                    const pieceA = scene.pieces[i];
-                    pieceA.boundingBox.setFromObject(pieceA);
-
-                    for (let j = i + 1; j < scene.pieces.length; j++) {
-                        const pieceB = scene.pieces[j];
+                        pieceA.boundingBox.setFromObject(pieceA);
                         pieceB.boundingBox.setFromObject(pieceB);
-
-                        if (pieceA.boundingBox.intersectsBox(pieceB.boundingBox)) {
-                            // Collision detected, adjust positions to resolve
-                            pieceA.position.x += Math.random() * 10;
-                            pieceA.position.y += Math.random() * 10;
-                            pieceB.position.x -= Math.random() * 10;
-                            pieceB.position.y -= Math.random() * 10;
-
-                            pieceA.boundingBox.setFromObject(pieceA);
-                            pieceB.boundingBox.setFromObject(pieceB);
-                        }
                     }
                 }
             }
+        }
 
-            function onMouseClick(event) {
-                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        function onMouseClick(event) {
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-                raycaster.setFromCamera(mouse, camera);
+            raycaster.setFromCamera(mouse, camera);
 
-                const intersects = raycaster.intersectObjects(scene.pieces);
+            const intersects = raycaster.intersectObjects(scene.pieces);
 
-                if (intersects.length > 0) {
-                    const piece = intersects[0].object;
-                    piece.material.color.set(piece.material.color.getHex() === 0xffffff ? 0x000000 : 0xffffff);
+            if (intersects.length > 0) {
+                const piece = intersects[0].object;
+                piece.material.color.set(piece.material.color.getHex() === 0xffffff ? 0x000000 : 0xffffff);
+            }
+        }
+
+        window.addEventListener("click", onMouseClick, false);
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            scene.pieces.forEach((piece) => {
+                piece.position.x -= 0.1;
+                if (piece.position.x < -(gridWidth * spacing) / 2) {
+                    piece.position.x = (gridWidth * spacing) / 2;
                 }
-            }
-
-            window.addEventListener("click", onMouseClick, false);
-
-            function animate() {
-                requestAnimationFrame(animate);
-
-                scene.pieces.forEach((piece) => {
-                    piece.position.x -= 0.1;
-                    if (piece.position.x < -(gridWidth * spacing) / 2) {
-                        piece.position.x = (gridWidth * spacing) / 2;
-                    }
-                    piece.rotation.x += 0.01;
-                    piece.rotation.y += 0.01;
-                });
-
-                renderer.render(scene, camera);
-            }
-            animate();
-
-            window.addEventListener("resize", () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
+                piece.rotation.x += 0.01;
+                piece.rotation.y += 0.01;
             });
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener("resize", () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
-        </script>
-    </body>
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    </script>
+</body>
 </html>
