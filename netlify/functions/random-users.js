@@ -1,4 +1,3 @@
-//netlify/functions/random-users.js
 const mongoose = require('mongoose');
 const User = require('../../models/user.js'); // Adjust the path as necessary
 
