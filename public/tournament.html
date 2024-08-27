@@ -96,10 +96,11 @@
         url: '/.netlify/functions/random-users',
         method: 'GET',
         success: function(data) {
+          console.log('Fetched data:', data); // Debugging line
           if (data.user1 && data.user2) {
-            $('#user1').text(data.user1.username + ' - Rating: ' + data.user1.rating);
+            $('#user1').text(`${data.user1.username} - Rating: ${data.user1.rating}`);
             $('#user1').data('userid', data.user1._id);
-            $('#user2').text(data.user2.username + ' - Rating: ' + data.user2.rating);
+            $('#user2').text(`${data.user2.username} - Rating: ${data.user2.rating}`);
             $('#user2').data('userid', data.user2._id);
           } else {
             console.error('Unexpected data format:', data);
