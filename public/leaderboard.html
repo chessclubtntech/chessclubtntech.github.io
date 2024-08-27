@@ -31,6 +31,10 @@
       border-radius: 5px;
       text-align: center;
     }
+    .leaderboard_results{
+      position:relative;
+      top:-125px;
+    }
     @media (max-width: 768px) {
       .home-button-leaderboard {
         position: absolute;
@@ -44,7 +48,9 @@
     <ul class="navigation-links">
       <li class="home-button-leaderboard"><a href="main.html"><i class="fas fa-home"></i></a></li>
     </ul>
+    <div class="leaderboard_results">
     <ol id="leaderboard"></ol> <!-- Changed to ordered list -->
+    </div>
   </div>
   <script>
     // Fetch leaderboard data from the server
