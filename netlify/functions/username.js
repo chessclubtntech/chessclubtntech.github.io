@@ -1,24 +1,29 @@
-// netlify/functions/username.js
 const mongoose = require('mongoose');
-const User = require('../../models/user.js'); // Adjust the path as necessary
+const User = require('./models/user');
 
-const uri = process.env.MONGODB_URI; // Ensure your environment variable is set correctly
-
-exports.handler = async (event, context) => {
+exports.handler = async function(event, context) {
   try {
-    // Ensure MongoDB is connected
-    if (mongoose.connection.readyState === 0) {
-      await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    // Retrieve user ID from query parameters or event body
+    const userId = event.queryStringParameters.id;
+
+    // Check if userId is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'Invalid user ID format.' }),
+      };
     }
 
-    // Placeholder: Fetch username based on session or request
-    const userId = 'some-user-id'; // Replace with actual logic to fetch userId
-    const user = await User.findById(userId);
+    // Convert userId to ObjectId
+    const objectId = mongoose.Types.ObjectId(userId);
+
+    // Fetch the user by ObjectId
+    const user = await User.findById(objectId);
 
     if (!user) {
       return {
         statusCode: 404,
-        body: JSON.stringify({ error: 'User not found' }),
+        body: JSON.stringify({ error: 'User not found.' }),
       };
     }
 
