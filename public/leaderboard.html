@@ -32,39 +32,6 @@
          text-align: center;
          margin-top: -10px;
          }
-         .leaderboard_results {
-         position: relative;
-         top: 0px;
-         display: flex;
-         flex-wrap: wrap;
-         justify-content: flex-start;
-         color: white;
-         }
-         .leaderboard_column {
-         flex: 1;
-         max-width: 200px;
-         margin-right: 20px;
-         background-color: rgba(255, 255, 255, 0.1);
-         border-radius: 10px;
-         padding: 10px;
-         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-         margin-bottom: 20px; /* Space between columns */
-         }
-         .leaderboard_column ol {
-         padding: 0;
-         list-style-type: none;
-         margin: 0;
-         }
-         .leaderboard_column ol li {
-         margin-bottom: 10px;
-         font-size: 16px;
-         color: white;
-         }
-         .leaderboard-h1 {
-         text-align: center;
-         margin-bottom: 30px;
-         margin-top: 30px;
-         }
          .navigation-links {
          list-style-type: none;
          padding: 0;
@@ -76,6 +43,40 @@
          .navigation-links li a {
          text-decoration: none;
          color: black;
+         }
+         .leaderboard_results {
+         position: relative;
+         top: 0px;
+         display: flex;
+         flex-wrap: wrap;
+         justify-content: flex-start;
+         color: white;
+         }
+         .leaderboard_column {
+         flex: 1;
+         max-width: 350px;
+         height: 600px;
+         margin-right: 20px;
+         background-color: rgba(255, 255, 255, 0.1);
+         border-radius: 10px;
+         padding: 20px;
+         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+         margin-bottom: 20px; /* Space between columns */
+         }
+         .leaderboard_column ol {
+         padding: 0;
+         list-style-type: none;
+         margin: 0;
+         }
+         .leaderboard_column ol li {
+         margin-bottom: 10px;
+         font-size: 17px;
+         color: white;
+         }
+         .leaderboard-h1 {
+         text-align: center;
+         margin-bottom: 30px;
+         margin-top: 30px;
          }
       </style>
       <div class="container">
@@ -98,7 +99,7 @@
              // Check if the response is an array
              if (Array.isArray(users)) {
                const leaderboardResults = document.getElementById('leaderboardResults');
-               const itemsPerColumn = 9; // Maximum number of items per column
+               const itemsPerColumn = 15; // Maximum number of items per column
                let columnCount = Math.ceil(users.length / itemsPerColumn);
          
                for (let i = 0; i < columnCount; i++) {
