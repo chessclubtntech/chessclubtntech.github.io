@@ -7,6 +7,12 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Three.js Background Canvas -->
+  <div class="background-container">
+    <canvas id="backgroundCanvas"></canvas>
+  </div>
   <style>
     .container {
       justify-content: space-between;
@@ -25,38 +31,18 @@
       border-radius: 5px;
       text-align: center;
     }
-    .leaderboard_results {
-      position: relative;
-      top: -125px;
-    }
-    #leaderboard {
-      display: flex;
-      flex-wrap: wrap;
-      max-width: 600px; /* Adjust to limit the overall width */
-      margin: 0 auto;
-      padding: 0;
-      list-style-type: none; /* Remove default list styles */
-    }
-    #leaderboard li {
-      flex: 1 1 30%; /* Adjust width of each item to allow 3 per row */
-      margin-bottom: 10px;
-      font-size: 14px; /* Decrease font size */
-      text-align: left;
+    .leaderboard_results{
+      position:relative;
+      top:-125px;
     }
   </style>
-</head>
-<body>
-  <!-- Three.js Background Canvas -->
-  <div class="background-container">
-    <canvas id="backgroundCanvas"></canvas>
-  </div>
   <div class="container">
     <h1 class="leaderboard-h1">Leaderboard</h1>
     <ul class="navigation-links">
       <li class="home-button-leaderboard"><a href="main.html"><i class="fas fa-home"></i></a></li>
     </ul>
     <div class="leaderboard_results">
-      <ol id="leaderboard"></ol> <!-- Ordered list for the leaderboard -->
+    <ol id="leaderboard"></ol> <!-- Changed to ordered list -->
     </div>
   </div>
   <script>
