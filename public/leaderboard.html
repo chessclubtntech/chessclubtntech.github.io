@@ -46,7 +46,7 @@
          }
          .leaderboard_results {
          position: relative;
-         top: 0px;
+         top: -10px;
          display: flex;
          flex-wrap: wrap;
          justify-content: flex-start;
@@ -55,7 +55,7 @@
          .leaderboard_column {
          flex: 1;
          max-width: 350px;
-         height: 600px;
+         height: 400px;
          margin-right: 20px;
          background-color: rgba(255, 255, 255, 0.1);
          border-radius: 10px;
@@ -99,7 +99,7 @@
              // Check if the response is an array
              if (Array.isArray(users)) {
                const leaderboardResults = document.getElementById('leaderboardResults');
-               const itemsPerColumn = 15; // Maximum number of items per column
+               const itemsPerColumn = 10; // Maximum number of items per column
                let columnCount = Math.ceil(users.length / itemsPerColumn);
          
                for (let i = 0; i < columnCount; i++) {
