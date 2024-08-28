@@ -13,7 +13,7 @@
       width: 80%;
       height: 80%;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Darker box shadow */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       padding: 20px;
       margin-top: -75px;
     }
@@ -28,20 +28,23 @@
     .leaderboard_results {
       position: relative;
       top: -125px;
+      display: flex; /* Flexbox layout for columns */
+      flex-wrap: wrap; /* Allow wrapping */
+      gap: 30px; /* Gap between columns */
     }
-    #leaderboard {
-      columns: 2; /* Specify number of columns */
-      column-gap: 30px; /* Adjust gap between columns */
-      max-width: 80%; /* Adjust to limit the overall width */
-      margin: 0 auto;
+    .leaderboard_column {
+      display: flex;
+      flex-direction: column;
+      max-width: 150px; /* Adjust width to fit columns */
+    }
+    .leaderboard_column ol {
       padding: 0;
       list-style-type: none; /* Remove default list styles */
     }
-    #leaderboard li {
+    .leaderboard_column ol li {
       margin-bottom: 10px;
       font-size: 14px; /* Decrease font size */
       text-align: left;
-      break-inside: avoid; /* Prevent items from breaking between columns */
     }
   </style>
 </head>
@@ -55,8 +58,8 @@
     <ul class="navigation-links">
       <li class="home-button-leaderboard"><a href="main.html"><i class="fas fa-home"></i></a></li>
     </ul>
-    <div class="leaderboard_results">
-      <ol id="leaderboard"></ol> <!-- Ordered list for the leaderboard -->
+    <div class="leaderboard_results" id="leaderboardResults">
+      <!-- Columns will be dynamically added here -->
     </div>
   </div>
   <script>
@@ -69,17 +72,28 @@
 
         // Check if the response is an array
         if (Array.isArray(users)) {
-          const leaderboardElement = document.getElementById('leaderboard');
-          let place = 1;
-          users.forEach(user => {
-            const listItem = document.createElement('li');
-            listItem.textContent = `#${place} ${user.username} - Rating: ${user.rating}`;
-            leaderboardElement.appendChild(listItem);
-            place++;
-          });
+          const leaderboardResults = document.getElementById('leaderboardResults');
+          const itemsPerColumn = 9; // Maximum number of items per column
+          let columnCount = Math.ceil(users.length / itemsPerColumn);
+
+          for (let i = 0; i < columnCount; i++) {
+            const column = document.createElement('div');
+            column.className = 'leaderboard_column';
+            const ol = document.createElement('ol');
+
+            for (let j = i * itemsPerColumn; j < Math.min(users.length, (i + 1) * itemsPerColumn); j++) {
+              const user = users[j];
+              const listItem = document.createElement('li');
+              listItem.textContent = `#${j + 1} ${user.username} - Rating: ${user.rating}`;
+              ol.appendChild(listItem);
+            }
+
+            column.appendChild(ol);
+            leaderboardResults.appendChild(column);
+          }
         } else {
           console.error('Unexpected data format:', users);
-          document.getElementById('leaderboard').innerHTML = '<li>Error loading leaderboard data.</li>';
+          document.getElementById('leaderboardResults').innerHTML = '<li>Error loading leaderboard data.</li>';
         }
       })
       .catch(error => console.error('Error fetching leaderboard data:', error));
