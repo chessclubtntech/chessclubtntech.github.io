@@ -10,17 +10,17 @@
 </head>
 <body>
   <style>
-    body, html{
+    body, html {
       background-color: #4F2984;
     }
-    .home-button-leaderboard{
-            padding: 15px 30px;
-            color: #FFDD00;
-            background-color: #FFDD00;
-            border: none;
-            border-radius: 5px;
-            text-align: center;
-        }
+    .home-button-leaderboard {
+      padding: 15px 30px;
+      color: #FFDD00;
+      background-color: #FFDD00;
+      border: none;
+      border-radius: 5px;
+      text-align: center;
+    }
   </style>
   <div class="container">
     <h1 class="leaderboard-h1">User Profile</h1>
@@ -28,32 +28,40 @@
       <li class="home-button-leaderboard"><a href="main.html"><i class="fas fa-home"></i></a></li>
     </ul>
     <div class="profile-info"> 
-      <h2 class = "h2-user" style="color:white;">Welcome, <span id="username"></span>!</h2>
+      <h2 class="h2-user" style="color:white;">Welcome, <span id="username"></span>!</h2>
       <p style="color:white;">Email: <span id="email"></span></p>
       <p style="color:white;">Number of Games Played: <span id="numGamesPlayed"></span></p>
       <p style="color:white;">Total Tournament Score: <span id="totalTournamentScore"></span></p>
     </div>
   </div>
+
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
   <script>
-    // Fetch user profile data when the page loads
     $(document).ready(function() {
+      // Assuming you have a userId stored in localStorage after login
+      const userId = localStorage.getItem('userId');
+      
+      if (!userId) {
+        console.error('User ID not found in localStorage.');
+        return;
+      }
+
+      // Fetch username
       $.ajax({
-        url: '/api/username', // Assuming this endpoint returns the logged-in user's information
+        url: `/.netlify/functions/username?id=${userId}`, // Updated endpoint
         method: 'GET',
         success: function(data) {
           $('#username').text(data.username);
         },
         error: function(err) {
-          console.error('Error fetching user profile:', err);
+          console.error('Error fetching username:', err);
         }
       });
 
-      // Make another AJAX call to fetch additional user profile data
-      // Adjust the endpoint and data as per your server implementation
+      // Fetch additional user profile data
       $.ajax({
-        url: '/api/user-profile', // Change this to your endpoint for fetching user profile data
+        url: `/.netlify/functions/getProfile?id=${userId}`, // Updated endpoint
         method: 'GET',
         success: function(data) {
           $('#email').text(data.email);
