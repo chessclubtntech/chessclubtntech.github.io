@@ -173,7 +173,7 @@
                 document.getElementById('loadGameBtn').addEventListener('click', function() {
                     var pgnInput = document.getElementById('pgnInput').value;
                     game.load_pgn(pgnInput);
-                    moveHistory = game.history({ verbose: true }).map(move => move.san); // Initialize move history
+                    moveHistory = game.history({ verbose: true }); // Initialize move history
                     currentMoveIndex = 0; // Start at the beginning
                     board.position(game.fen()); // Set the board position to the start
                     displayGameInfo(pgnInput);
@@ -194,7 +194,7 @@
                         if (currentMoveIndex === game.history().length) {
                             game.undo(); // Undo to the last position if at end
                         } else {
-                            game.move(moveHistory[currentMoveIndex], { sloppy: true }); // Apply the move
+                            game.move(moveHistory[currentMoveIndex].san, { sloppy: true }); // Apply the move
                         }
                         board.position(game.fen());
                         currentMoveIndex++;
@@ -249,7 +249,7 @@
                     .then(response => response.text())
                     .then(pgn => {
                         game.load_pgn(pgn);
-                        moveHistory = game.history({ verbose: true }).map(move => move.san); // Initialize move history
+                        moveHistory = game.history({ verbose: true }); // Initialize move history
                         currentMoveIndex = 0; // Start at the beginning
                         board.position(game.fen());
                         displayGameInfo(pgn);
