@@ -7,11 +7,12 @@ exports.handler = async (event) => {
   try {
     // Connect to MongoDB
     if (mongoose.connection.readyState === 0) {
-      await mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
+      await mongoose.connect(mongoUri);
     }
 
     // Ensure body exists and is valid JSON
     if (!event.body) {
+      console.error('Request body is empty');
       return {
         statusCode: 400,
         body: JSON.stringify({ error: 'Request body is empty' })
@@ -19,10 +20,13 @@ exports.handler = async (event) => {
     }
 
     const parsedBody = JSON.parse(event.body);
+    console.log('Parsed Body:', parsedBody); // Debugging line
+
     const { user1Id, user1Result, user2Id, user2Result } = parsedBody;
 
     // Check for missing fields
     if (!user1Id || !user2Id || !user1Result || !user2Result) {
+      console.error('Missing required fields');
       return {
         statusCode: 400,
         body: JSON.stringify({ error: 'Bad Request: Missing required fields' })
