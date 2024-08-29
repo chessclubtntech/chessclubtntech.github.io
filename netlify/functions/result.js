@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Result = require('../../models/results.js'); // Adjust the path as necessary
+const User = require('../../models/user.js'); // Make sure you have a User model
 
 const mongoUri = process.env.MONGODB_URI; // Ensure your environment variable is set correctly
 
@@ -33,11 +34,27 @@ exports.handler = async (event) => {
       };
     }
 
+    // Fetch user names
+    const [user1, user2] = await Promise.all([
+      User.findById(user1Id),
+      User.findById(user2Id)
+    ]);
+
+    if (!user1 || !user2) {
+      console.error('One or both users not found');
+      return {
+        statusCode: 404,
+        body: JSON.stringify({ error: 'User not found' })
+      };
+    }
+
     // Create a new result document
     const result = new Result({
       user1Id,
+      user1Name: user1.username,
       user1Result,
       user2Id,
+      user2Name: user2.username,
       user2Result
     });
 
