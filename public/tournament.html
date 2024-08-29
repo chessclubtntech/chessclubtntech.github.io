@@ -88,7 +88,7 @@
 
       function fetchAllUsers() {
         $.ajax({
-          url: '/.netlify/functions/get-users', // Ensure this endpoint is correct
+          url: '/.netlify/functions/getUsers', // Ensure this endpoint is correct
           method: 'GET',
           success: function(data) {
             console.log('Fetched users:', data); // Debugging line
