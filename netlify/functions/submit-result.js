@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Result = require('../../models/results'); // Path to your Result model
-const User = require('../../models/user'); // Path to your User model
+const Result = require('../../models/results.js'); // Path to your Result model
+const User = require('../../models/user.js'); // Path to your User model
 
 const mongoUri = process.env.MONGODB_URI;
 
