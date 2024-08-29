@@ -232,12 +232,13 @@
                     moveItem.textContent = move.san;
                     moveItem.addEventListener('click', function() {
                         currentMoveIndex = index;
-                        game.undo(); // Undo to the selected move
+                        game.reset(); // Reset the game to start
                         for (let i = 0; i <= currentMoveIndex; i++) {
                             game.move(moves[i].san, { sloppy: true }); // Apply the move
                         }
                         board.position(game.fen());
                         updateMoveList(); // Update move list to reflect current position
+                        moveItem.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Scroll to the selected move
                     });
                     moveList.appendChild(moveItem);
                 });
