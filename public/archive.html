@@ -154,106 +154,117 @@
         <!-- Include Chessboard.js -->
         <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js" integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD" crossorigin="anonymous" onload="initializeChessboard()" onerror="handleChessboardError()" defer></script>
         <script>
-            var game;
-            var board;
-            var currentMoveIndex = 0;
-        
-            function initializeChessboard() {
-                console.log('Initializing Chessboard.js...');
-        
-                // Initialize Chessboard
-                board = Chessboard('board', {
-                    draggable: true,
-                    position: 'start'
-                });
-        
-                game = new Chess();
-        
-                document.getElementById('loadGameBtn').addEventListener('click', function() {
-                    var pgnInput = document.getElementById('pgnInput').value;
-                    game.load_pgn(pgnInput);
-                    board.position(game.fen()); // Ensure this function call is valid
-                    displayGameInfo(pgnInput);
-                    updateMoveList();
-                    currentMoveIndex = 0;
-                });
-        
-                document.getElementById('prevMoveBtn').addEventListener('click', function() {
-                    if (currentMoveIndex > 0) {
-                        currentMoveIndex--;
-                        board.position(game.history({ verbose: true })[currentMoveIndex].fen);
-                    }
-                    updateMoveList();
-                });
-        
-                document.getElementById('nextMoveBtn').addEventListener('click', function() {
-                    if (currentMoveIndex < game.history().length - 1) {
-                        currentMoveIndex++;
-                        board.position(game.history({ verbose: true })[currentMoveIndex].fen);
-                    }
-                    updateMoveList();
-                });
-            }
-        
-            function displayGameInfo(pgn) {
-                var players = getPgnPlayers(pgn);
-                if (players) {
-                    var gameInfoDiv = document.getElementById('gameInfo');
-                    gameInfoDiv.innerHTML = `<p>${players.white} (W) vs ${players.black} (B)</p>`;
-                }
-            }
-        
-            function getPgnPlayers(pgn) {
-                var regex = /\[White "([^"]*)"\][\s\S]*\[Black "([^"]*)"\]/;
-                var match = pgn.match(regex);
-                if (match) {
-                    return {
-                        white: match[1],
-                        black: match[2]
-                    };
-                }
-                return null;
-            }
-        
-            function updateMoveList() {
-                var moveList = document.getElementById('moveList');
-                var moves = game.history({ verbose: true });
-                moveList.innerHTML = '';
-                moves.forEach(function(move, index) {
-                    var moveItem = document.createElement('li');
-                    moveItem.textContent = move.san;
-                    moveItem.addEventListener('click', function() {
-                        currentMoveIndex = index;
-                        board.position(game.history({ verbose: true })[currentMoveIndex].fen);
-                    });
-                    moveList.appendChild(moveItem);
-                });
-            }
-        
-            function loadGameFromFile(filePath) {
-                fetch(filePath)
-                    .then(response => response.text())
-                    .then(pgn => {
-                        game.load_pgn(pgn);
-                        board.position(game.fen());
-                        currentMoveIndex = 0; // Start at the first move
-                        displayGameInfo(pgn);
-                        updateMoveList();
-                    })
-                    .catch(error => console.error('Error loading PGN file:', error));
-            }
-        
-            document.addEventListener('DOMContentLoaded', function() {
-                initializeChessboard();
-        
-                document.querySelectorAll('.game-file-link').forEach(link => {
-                    link.addEventListener('click', function(event) {
-                        event.preventDefault();
-                        var filePath = this.getAttribute('data-file');
-                        loadGameFromFile(filePath);
-                    });
-                });
+var game;
+var board;
+var currentMoveIndex = 0;
+var moveHistory = []; // Array to store FEN positions
+
+function initializeChessboard() {
+    console.log('Initializing Chessboard.js...');
+
+    // Initialize Chessboard
+    board = Chessboard('board', {
+        draggable: true,
+        position: 'start'
+    });
+
+    game = new Chess();
+
+    document.getElementById('loadGameBtn').addEventListener('click', function() {
+        var pgnInput = document.getElementById('pgnInput').value;
+        game.load_pgn(pgnInput);
+        moveHistory = [game.fen()]; // Initialize with the start position
+        game.history().forEach(move => {
+            game.move(move);
+            moveHistory.push(game.fen());
+        });
+        board.position(game.fen()); // Ensure this function call is valid
+        displayGameInfo(pgnInput);
+        updateMoveList();
+        currentMoveIndex = 0;
+    });
+
+    document.getElementById('prevMoveBtn').addEventListener('click', function() {
+        if (currentMoveIndex > 0) {
+            currentMoveIndex--;
+            board.position(moveHistory[currentMoveIndex]);
+        }
+        updateMoveList();
+    });
+
+    document.getElementById('nextMoveBtn').addEventListener('click', function() {
+        if (currentMoveIndex < moveHistory.length - 1) {
+            currentMoveIndex++;
+            board.position(moveHistory[currentMoveIndex]);
+        }
+        updateMoveList();
+    });
+}
+
+function displayGameInfo(pgn) {
+    var players = getPgnPlayers(pgn);
+    if (players) {
+        var gameInfoDiv = document.getElementById('gameInfo');
+        gameInfoDiv.innerHTML = `<p>${players.white} (W) vs ${players.black} (B)</p>`;
+    }
+}
+
+function getPgnPlayers(pgn) {
+    var regex = /\[White "([^"]*)"\][\s\S]*\[Black "([^"]*)"\]/;
+    var match = pgn.match(regex);
+    if (match) {
+        return {
+            white: match[1],
+            black: match[2]
+        };
+    }
+    return null;
+}
+
+function updateMoveList() {
+    var moveList = document.getElementById('moveList');
+    var moves = game.history({ verbose: true });
+    moveList.innerHTML = '';
+    moves.forEach(function(move, index) {
+        var moveItem = document.createElement('li');
+        moveItem.textContent = move.san;
+        moveItem.addEventListener('click', function() {
+            currentMoveIndex = index;
+            board.position(moveHistory[currentMoveIndex]);
+        });
+        moveList.appendChild(moveItem);
+    });
+}
+
+function loadGameFromFile(filePath) {
+    fetch(filePath)
+        .then(response => response.text())
+        .then(pgn => {
+            game.load_pgn(pgn);
+            moveHistory = [game.fen()]; // Initialize with the start position
+            game.history().forEach(move => {
+                game.move(move);
+                moveHistory.push(game.fen());
             });
+            board.position(game.fen());
+            currentMoveIndex = 0; // Start at the first move
+            displayGameInfo(pgn);
+            updateMoveList();
+        })
+        .catch(error => console.error('Error loading PGN file:', error));
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    initializeChessboard();
+
+    document.querySelectorAll('.game-file-link').forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            var filePath = this.getAttribute('data-file');
+            loadGameFromFile(filePath);
+        });
+    });
+});
         </script>
     </div>
 </body>
