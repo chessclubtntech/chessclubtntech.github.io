@@ -182,7 +182,7 @@
 
       function submitResult(user1Id, user1Result, user2Id, user2Result) {
         $.ajax({
-          url: '/.netlify/functions/submit-result', // Ensure this endpoint is correct
+          url: '/.netlify/functions/result', // Ensure this endpoint is correct
           method: 'POST',
           contentType: 'application/json',
           data: JSON.stringify({
