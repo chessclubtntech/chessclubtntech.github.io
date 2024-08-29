@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <!-- Include Chessboard.js CSS -->
     <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css" integrity="sha384-q94+BZtLrkL1/ohfjR8c6L+A6qzNH9R2hBLwyoAfu3i/WCvQjzL2RQJ3uNHDISdU" crossorigin="anonymous">
     <style>
         h2 {
@@ -136,28 +135,10 @@
             </ul>
         </div>
         <script>
-            // Function to check if the user is on a mobile device
-            function checkIfMobile() {
-                var overlay = document.getElementById('mobile-overlay');
-                if (/Mobi|Android/i.test(navigator.userAgent)) {
-                    overlay.style.display = 'block'; // Show overlay on mobile devices
-                }
-            }
-        
-            // Run the check when the DOM content is fully loaded
-            document.addEventListener('DOMContentLoaded', checkIfMobile);
-        </script>        
-        <!-- Include jQuery -->
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script>
-        <!-- Include Chess.js -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.min.js" defer></script>
-        <!-- Include Chessboard.js -->
-        <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js" integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD" crossorigin="anonymous" onload="initializeChessboard()" onerror="handleChessboardError()" defer></script>
-        <script>
             var game;
             var board;
-            var moveHistory = [];
-            var currentMoveIndex = 0;
+            var moveHistory;
+            var currentMoveIndex;
 
             function initializeChessboard() {
                 console.log('Initializing Chessboard.js...');
@@ -169,21 +150,23 @@
                 });
 
                 game = new Chess();
+                moveHistory = [];
 
                 document.getElementById('loadGameBtn').addEventListener('click', function() {
                     var pgnInput = document.getElementById('pgnInput').value;
                     game.load_pgn(pgnInput);
                     moveHistory = game.history({ verbose: true }); // Initialize move history
                     currentMoveIndex = 0; // Start at the beginning
-                    board.position(game.fen());
-                    displayGameInfo(pgnInput);
                     updateMoveList();
+                    board.position(game.fen()); // Ensure this function call is valid
+                    displayGameInfo(pgnInput);
                 });
 
                 document.getElementById('prevMoveBtn').addEventListener('click', function() {
                     if (currentMoveIndex > 0) {
                         currentMoveIndex--;
-                        game.undo(); // Undo the last move
+                        var move = moveHistory[currentMoveIndex];
+                        game.undo(); // Undo to the previous position
                         board.position(game.fen());
                         updateMoveList();
                     }
@@ -230,18 +213,23 @@
                 moves.forEach(function(move, index) {
                     var moveItem = document.createElement('li');
                     moveItem.textContent = move.san;
+                    moveItem.dataset.index = index;
                     moveItem.addEventListener('click', function() {
-                        currentMoveIndex = index;
-                        game.reset(); // Reset the game to start
-                        for (let i = 0; i <= currentMoveIndex; i++) {
-                            game.move(moves[i].san, { sloppy: true }); // Apply the move
-                        }
+                        currentMoveIndex = parseInt(this.dataset.index);
+                        var move = game.history({ verbose: true })[currentMoveIndex];
+                        game.reset(); // Reset the game to the starting position
+                        game.load_pgn(game.pgn().substring(0, game.pgn().indexOf(move.san) + move.san.length)); // Load up to the selected move
                         board.position(game.fen());
-                        updateMoveList(); // Update move list to reflect current position
-                        moveItem.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Scroll to the selected move
+                        updateMoveList();
                     });
                     moveList.appendChild(moveItem);
                 });
+                if (currentMoveIndex >= 0 && currentMoveIndex < moves.length) {
+                    var moveListItems = moveList.getElementsByTagName('li');
+                    if (moveListItems[currentMoveIndex]) {
+                        moveListItems[currentMoveIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                }
             }
 
             function loadGameFromFile(filePath) {
@@ -249,8 +237,8 @@
                     .then(response => response.text())
                     .then(pgn => {
                         game.load_pgn(pgn);
-                        moveHistory = game.history({ verbose: true }); // Initialize move history
-                        currentMoveIndex = 0; // Start at the beginning
+                        moveHistory = game.history({ verbose: true });
+                        currentMoveIndex = 0; // Start at the first move
                         board.position(game.fen());
                         displayGameInfo(pgn);
                         updateMoveList();
