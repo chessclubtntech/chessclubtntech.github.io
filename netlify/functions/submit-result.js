@@ -21,24 +21,22 @@ exports.handler = async function(event, context) {
     }
 
     // Connect to MongoDB
-    const client = new MongoClient(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
+    const client = new MongoClient(mongoUri);
     await client.connect();
     const db = client.db('chess_database');
-    const usersCollection = db.collection('results');
+    const resultsCollection = db.collection('results');
 
     // Update user1
-    const user1UpdateResult = await usersCollection.updateOne(
+    await resultsCollection.updateOne(
       { _id: ObjectId(user1Id) },
       { $inc: { numGamesPlayed: 1, totalTournamentScore: getScore(user1Result) } }
     );
-    console.log('User1 Update Result:', user1UpdateResult);
 
     // Update user2
-    const user2UpdateResult = await usersCollection.updateOne(
+    await resultsCollection.updateOne(
       { _id: ObjectId(user2Id) },
       { $inc: { numGamesPlayed: 1, totalTournamentScore: getScore(user2Result) } }
     );
-    console.log('User2 Update Result:', user2UpdateResult);
 
     await client.close();
 
