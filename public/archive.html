@@ -173,9 +173,9 @@
                 document.getElementById('loadGameBtn').addEventListener('click', function() {
                     var pgnInput = document.getElementById('pgnInput').value;
                     game.load_pgn(pgnInput);
-                    moveHistory = game.history({ verbose: true }).map(move => move.san); // Store move SAN
-                    currentMoveIndex = 0;
-                    board.position(game.fen()); // Reset position to start
+                    moveHistory = game.history({ verbose: true }).map(move => move.san); // Initialize move history
+                    currentMoveIndex = 0; // Start at the beginning
+                    board.position(game.fen()); // Set the board position to the start
                     displayGameInfo(pgnInput);
                     updateMoveList();
                 });
@@ -191,12 +191,14 @@
 
                 document.getElementById('nextMoveBtn').addEventListener('click', function() {
                     if (currentMoveIndex < moveHistory.length) {
-                        if (currentMoveIndex < moveHistory.length) {
+                        if (currentMoveIndex === game.history().length) {
+                            game.undo(); // Undo to the last position if at end
+                        } else {
                             game.move(moveHistory[currentMoveIndex], { sloppy: true }); // Apply the move
-                            board.position(game.fen());
-                            currentMoveIndex++;
-                            updateMoveList();
                         }
+                        board.position(game.fen());
+                        currentMoveIndex++;
+                        updateMoveList();
                     }
                 });
             }
@@ -230,7 +232,12 @@
                     moveItem.textContent = move.san;
                     moveItem.addEventListener('click', function() {
                         currentMoveIndex = index;
+                        game.undo(); // Undo to the selected move
+                        for (let i = 0; i <= currentMoveIndex; i++) {
+                            game.move(moves[i].san, { sloppy: true }); // Apply the move
+                        }
                         board.position(game.fen());
+                        updateMoveList(); // Update move list to reflect current position
                     });
                     moveList.appendChild(moveItem);
                 });
