@@ -1,7 +1,6 @@
 const { MongoClient } = require('mongodb');
 
-// Replace the following with your MongoDB connection string
-const uri = "YOUR_MONGODB_CONNECTION_STRING";
+const mongoUri = process.env.MONGODB_URI;
 
 exports.handler = async function(event, context) {
   if (event.httpMethod !== 'POST') {
@@ -22,7 +21,7 @@ exports.handler = async function(event, context) {
     }
 
     // Connect to MongoDB
-    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    const client = new MongoClient(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
     await client.connect();
     const db = client.db('tournament');
     const usersCollection = db.collection('users');
