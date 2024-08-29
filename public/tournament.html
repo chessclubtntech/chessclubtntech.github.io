@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rating Calculator</title>
+  <title>Tournament</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -90,7 +90,8 @@
         $.ajax({
           url: '/.netlify/functions/getUsers', // Ensure this endpoint is correct
           method: 'GET',
-          success: function(data) {
+          success: function(response) {
+            const data = JSON.parse(response.body); // Parse JSON response
             console.log('Fetched users:', data); // Debugging line
             populateDropdowns(data);
           },
@@ -139,8 +140,8 @@
         $.ajax({
           url: `/.netlify/functions/username?id=${userId}`, // Ensure this endpoint is correct
           method: 'GET',
-          success: function(data) {
-            callback(data);
+          success: function(response) {
+            callback(JSON.parse(response.body)); // Parse JSON response
           },
           error: function(err) {
             console.error('Error fetching user details:', err);
@@ -181,16 +182,24 @@
 
       function submitResult(user1Id, user1Result, user2Id, user2Result) {
         $.ajax({
-          url: '/path/to/submitResult', // Replace with the actual URL or API endpoint
+          url: '/.netlify/functions/submit-result', // Ensure this endpoint is correct
           method: 'POST',
-          data: {
+          contentType: 'application/json',
+          data: JSON.stringify({
             user1Id: user1Id,
             user1Result: user1Result,
             user2Id: user2Id,
             user2Result: user2Result
-          },
+          }),
           success: function(response) {
             console.log('Result submitted successfully:', response);
+            alert('Result submitted successfully!');
+            // Optionally, reset selections and hide submit button
+            $('#user1Dropdown').val('');
+            $('#user2Dropdown').val('');
+            $('.buttons1 button').removeClass('selected');
+            $('.buttons2 button').removeClass('selected');
+            $('#submitResult').hide();
           },
           error: function(err) {
             console.error('Error submitting result:', err);
