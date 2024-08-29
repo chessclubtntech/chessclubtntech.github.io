@@ -175,7 +175,7 @@
                     game.load_pgn(pgnInput);
                     moveHistory = game.history({ verbose: true }); // Initialize move history
                     currentMoveIndex = 0; // Start at the beginning
-                    board.position(game.fen()); // Set the board position to the start
+                    board.position(game.fen());
                     displayGameInfo(pgnInput);
                     updateMoveList();
                 });
@@ -183,7 +183,7 @@
                 document.getElementById('prevMoveBtn').addEventListener('click', function() {
                     if (currentMoveIndex > 0) {
                         currentMoveIndex--;
-                        game.undo(); // Undo the move to go back
+                        game.undo(); // Undo the last move
                         board.position(game.fen());
                         updateMoveList();
                     }
