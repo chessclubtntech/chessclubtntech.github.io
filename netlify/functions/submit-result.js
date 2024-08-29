@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Result = require('../../models/results'); // Adjust the path as necessary
-const User = require('../../models/user'); // Adjust the path as necessary
+const Result = require('../../models/results'); // Path to your Result model
+const User = require('../../models/user'); // Path to your User model
 
 const mongoUri = process.env.MONGODB_URI;
 
@@ -13,8 +13,10 @@ exports.handler = async function(event, context) {
   }
 
   try {
+    // Parse incoming JSON data
     const { user1Id, user1Result, user2Id, user2Result } = JSON.parse(event.body);
 
+    // Check for missing fields
     if (!user1Id || !user2Id || !user1Result || !user2Result) {
       return {
         statusCode: 400,
@@ -25,7 +27,7 @@ exports.handler = async function(event, context) {
     // Connect to MongoDB
     await mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-    // Fetch user details
+    // Fetch user details for both users
     const [user1, user2] = await Promise.all([
       User.findById(user1Id).exec(),
       User.findById(user2Id).exec()
@@ -40,15 +42,15 @@ exports.handler = async function(event, context) {
       };
     }
 
-    // Create a new result document
+    // Create a new result document with usernames
     const result = new Result({
       user1Id,
-      user1Name: user1.username || "Unknown", // Add user1 name with fallback
+      user1Name: user1.username || "Unknown", // Get user1 username
       user1Result,
       user2Id,
-      user2Name: user2.username || "Unknown", // Add user2 name with fallback
+      user2Name: user2.username || "Unknown", // Get user2 username
       user2Result,
-      date: new Date() // Add current date
+      date: new Date() // Set the current date
     });
 
     // Save the result to the database
@@ -66,6 +68,7 @@ exports.handler = async function(event, context) {
       { $inc: { numGamesPlayed: 1, totalTournamentScore: getScore(user2Result) } }
     );
 
+    // Disconnect from MongoDB
     await mongoose.disconnect();
 
     return {
@@ -73,7 +76,7 @@ exports.handler = async function(event, context) {
       body: JSON.stringify({ message: "Result submitted successfully" })
     };
   } catch (error) {
-    console.error('Error submitting result:', error); // Log the error
+    console.error('Error submitting result:', error);
     return {
       statusCode: 500,
       body: JSON.stringify({ message: "Internal Server Error", error: error.message })
