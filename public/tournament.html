@@ -91,9 +91,18 @@
           url: '/.netlify/functions/getUsers', // Ensure this endpoint is correct
           method: 'GET',
           success: function(response) {
-            const data = JSON.parse(response.body); // Parse JSON response
-            console.log('Fetched users:', data); // Debugging line
-            populateDropdowns(data);
+            console.log('Response from getUsers:', response); // Debugging line
+            if (response.body) {
+              try {
+                const data = JSON.parse(response.body); // Parse JSON response
+                console.log('Parsed users:', data); // Debugging line
+                populateDropdowns(data);
+              } catch (error) {
+                console.error('Error parsing JSON:', error);
+              }
+            } else {
+              console.error('No body in response');
+            }
           },
           error: function(err) {
             console.error('Error fetching users:', err);
@@ -141,7 +150,16 @@
           url: `/.netlify/functions/username?id=${userId}`, // Ensure this endpoint is correct
           method: 'GET',
           success: function(response) {
-            callback(JSON.parse(response.body)); // Parse JSON response
+            console.log('Response from username:', response); // Debugging line
+            if (response.body) {
+              try {
+                callback(JSON.parse(response.body)); // Parse JSON response
+              } catch (error) {
+                console.error('Error parsing JSON:', error);
+              }
+            } else {
+              console.error('No body in response');
+            }
           },
           error: function(err) {
             console.error('Error fetching user details:', err);
@@ -182,7 +200,7 @@
 
       function submitResult(user1Id, user1Result, user2Id, user2Result) {
         $.ajax({
-          url: '/.netlify/functions/result', // Ensure this endpoint is correct
+          url: '/.netlify/functions/submit-result', // Ensure this endpoint is correct
           method: 'POST',
           contentType: 'application/json',
           data: JSON.stringify({
