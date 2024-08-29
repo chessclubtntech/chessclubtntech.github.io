@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Result = require('../../models/result.js'); // Adjust the path as necessary
+const Result = require('../../models/results.js'); // Adjust the path as necessary
 
 const mongoUri = process.env.MONGODB_URI; // Ensure your environment variable is set correctly
 
