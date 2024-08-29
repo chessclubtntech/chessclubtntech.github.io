@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 const mongoUri = process.env.MONGODB_URI;
 
@@ -27,16 +27,18 @@ exports.handler = async function(event, context) {
     const usersCollection = db.collection('results');
 
     // Update user1
-    await usersCollection.updateOne(
-      { _id: user1Id },
+    const user1UpdateResult = await usersCollection.updateOne(
+      { _id: ObjectId(user1Id) },
       { $inc: { numGamesPlayed: 1, totalTournamentScore: getScore(user1Result) } }
     );
+    console.log('User1 Update Result:', user1UpdateResult);
 
     // Update user2
-    await usersCollection.updateOne(
-      { _id: user2Id },
+    const user2UpdateResult = await usersCollection.updateOne(
+      { _id: ObjectId(user2Id) },
       { $inc: { numGamesPlayed: 1, totalTournamentScore: getScore(user2Result) } }
     );
+    console.log('User2 Update Result:', user2UpdateResult);
 
     await client.close();
 
