@@ -156,8 +156,8 @@
         <script>
             var game;
             var board;
+            var moveHistory = [];
             var currentMoveIndex = 0;
-            var moveHistory = []; // Array to store FEN positions
 
             function initializeChessboard() {
                 console.log('Initializing Chessboard.js...');
@@ -173,33 +173,29 @@
                 document.getElementById('loadGameBtn').addEventListener('click', function() {
                     var pgnInput = document.getElementById('pgnInput').value;
                     game.load_pgn(pgnInput);
-                    moveHistory = [game.fen()]; // Initialize with the start position
-                    game.history().forEach(move => {
-                        game.move(move);
-                        moveHistory.push(game.fen());
-                    });
+                    moveHistory = game.history({ verbose: true }).map(move => move.san); // Store move SAN
+                    currentMoveIndex = 0;
                     board.position(game.fen());
                     displayGameInfo(pgnInput);
                     updateMoveList();
-                    currentMoveIndex = 0;
                 });
 
                 document.getElementById('prevMoveBtn').addEventListener('click', function() {
                     if (currentMoveIndex > 0) {
                         currentMoveIndex--;
-                        board.position(moveHistory[currentMoveIndex]);
-                        game.undo(); // Update the game state
+                        game.undo(); // Undo the move to get the previous state
+                        board.position(game.fen());
+                        updateMoveList();
                     }
-                    updateMoveList();
                 });
 
                 document.getElementById('nextMoveBtn').addEventListener('click', function() {
                     if (currentMoveIndex < moveHistory.length - 1) {
                         currentMoveIndex++;
-                        board.position(moveHistory[currentMoveIndex]);
-                        game.undo(); // Update the game state
+                        game.move(moveHistory[currentMoveIndex], { sloppy: true }); // Move to the next position
+                        board.position(game.fen());
+                        updateMoveList();
                     }
-                    updateMoveList();
                 });
             }
 
@@ -232,8 +228,7 @@
                     moveItem.textContent = move.san;
                     moveItem.addEventListener('click', function() {
                         currentMoveIndex = index;
-                        board.position(moveHistory[currentMoveIndex]);
-                        game.undo(); // Update the game state
+                        board.position(game.fen());
                     });
                     moveList.appendChild(moveItem);
                 });
@@ -244,13 +239,9 @@
                     .then(response => response.text())
                     .then(pgn => {
                         game.load_pgn(pgn);
-                        moveHistory = [game.fen()]; // Initialize with the start position
-                        game.history().forEach(move => {
-                            game.move(move);
-                            moveHistory.push(game.fen());
-                        });
+                        moveHistory = game.history({ verbose: true }).map(move => move.san); // Initialize move history
+                        currentMoveIndex = 0;
                         board.position(game.fen());
-                        currentMoveIndex = 0; // Start at the first move
                         displayGameInfo(pgn);
                         updateMoveList();
                     })
