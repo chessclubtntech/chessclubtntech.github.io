@@ -1,4 +1,6 @@
-const { MongoClient, ObjectId } = require('mongodb');
+const mongoose = require('mongoose');
+const Result = require('../../models/results'); // Adjust the path as necessary
+const User = require('../../models/user'); // Adjust the path as necessary
 
 const mongoUri = process.env.MONGODB_URI;
 
@@ -21,21 +23,17 @@ exports.handler = async function(event, context) {
     }
 
     // Connect to MongoDB
-    const client = new MongoClient(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
-    await client.connect();
-    const db = client.db('chess_database');
-    const usersCollection = db.collection('users');
-    const resultsCollection = db.collection('results');
+    await mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
 
     // Fetch user details
     const [user1, user2] = await Promise.all([
-      usersCollection.findOne({ _id: ObjectId(user1Id) }),
-      usersCollection.findOne({ _id: ObjectId(user2Id) })
+      User.findById(user1Id).exec(),
+      User.findById(user2Id).exec()
     ]);
 
     // Check if users are found
     if (!user1 || !user2) {
-      await client.close();
+      await mongoose.disconnect();
       return {
         statusCode: 400,
         body: JSON.stringify({ message: "User(s) not found" })
@@ -43,7 +41,7 @@ exports.handler = async function(event, context) {
     }
 
     // Create a new result document
-    const result = {
+    const result = new Result({
       user1Id,
       user1Name: user1.username || "Unknown", // Add user1 name with fallback
       user1Result,
@@ -51,34 +49,34 @@ exports.handler = async function(event, context) {
       user2Name: user2.username || "Unknown", // Add user2 name with fallback
       user2Result,
       date: new Date() // Add current date
-    };
+    });
 
     // Save the result to the database
-    await resultsCollection.insertOne(result);
+    await result.save();
 
     // Update user1
-    await usersCollection.updateOne(
-      { _id: ObjectId(user1Id) },
+    await User.updateOne(
+      { _id: user1Id },
       { $inc: { numGamesPlayed: 1, totalTournamentScore: getScore(user1Result) } }
     );
 
     // Update user2
-    await usersCollection.updateOne(
-      { _id: ObjectId(user2Id) },
+    await User.updateOne(
+      { _id: user2Id },
       { $inc: { numGamesPlayed: 1, totalTournamentScore: getScore(user2Result) } }
     );
 
-    await client.close();
+    await mongoose.disconnect();
 
     return {
       statusCode: 200,
       body: JSON.stringify({ message: "Result submitted successfully" })
     };
   } catch (error) {
-    console.error('Error submitting result:', error);
+    console.error('Error submitting result:', error); // Log the error
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: "Internal Server Error" })
+      body: JSON.stringify({ message: "Internal Server Error", error: error.message })
     };
   }
 };
