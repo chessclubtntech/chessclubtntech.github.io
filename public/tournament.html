@@ -160,22 +160,28 @@
         });
       }
 
-      var user1Selection = '';
-      var user2Selection = '';
+      let user1Selection = '';
+      let user2Selection = '';
 
       $('.buttons1 button').click(function() {
         user1Selection = $(this).text();
+        $('.buttons1 button').removeClass('selected');
+        $(this).addClass('selected');
         checkSubmitVisibility();
       });
 
       $('.buttons2 button').click(function() {
         user2Selection = $(this).text();
+        $('.buttons2 button').removeClass('selected');
+        $(this).addClass('selected');
         checkSubmitVisibility();
       });
 
       function checkSubmitVisibility() {
         if (user1Selection !== '' && user2Selection !== '') {
           $('#submitResult').show();
+        } else {
+          $('#submitResult').hide();
         }
       }
 
@@ -185,6 +191,7 @@
 
         if (!user1Id || !user2Id) {
           console.error('User IDs are missing');
+          alert('Please select users for both player slots.');
           return;
         }
 
@@ -193,7 +200,7 @@
 
       function submitResult(user1Id, user1Result, user2Id, user2Result) {
         $.ajax({
-          url: '/.netlify/functions/submit-result', // Ensure this endpoint is correct
+          url: '/.netlify/functions/result', // Ensure this endpoint is correct
           method: 'POST',
           contentType: 'application/json',
           data: JSON.stringify({
@@ -211,6 +218,8 @@
             $('.buttons1 button').removeClass('selected');
             $('.buttons2 button').removeClass('selected');
             $('#submitResult').hide();
+            user1Selection = '';
+            user2Selection = '';
           },
           error: function(err) {
             console.error('Error submitting result:', err);
