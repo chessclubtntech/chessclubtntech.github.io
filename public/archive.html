@@ -1,141 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archives</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <!-- Include Chessboard.js CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css" integrity="sha384-q94+BZtLrkL1/ohfjR8c6L+A6qzNH9R2hBLwyoAfu3i/WCvQjzL2RQJ3uNHDISdU" crossorigin="anonymous">
-    <style>
-        h2 {
-            text-align: center;
-            font-size: 2rem;
-            color: #ecba13;
-            text-shadow: 0 0 10px #fff;
-        }
-        .flex-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding: 10px;
-        }
-        .board-container {
-            width: 400px;
-            margin-right: 20px; /* Space between board and move list */
-        }
-        .move-list-container {
-            height: 500px;
-            width: 250px;
-            overflow-y: auto;
-            padding: 10px;
-            border-left: 1px solid #ddd; /* Optional border for separation */
-        }
-        .move-list {
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
-        .move-list li {
-            cursor: pointer;
-            padding: 5px;
-        }
-        .move-list li:hover {
-            background-color: #f0f0f0;
-        }
-        .move-navigation {
-            padding: 5px;
-            text-align: center;
-            margin-top: 10px; /* Add space between move buttons and move list */
-        }
-        .home-button-leaderboard {
-            padding: 15px 30px;
-            color: #FFDD00;
-            background-color: #FFDD00;
-            border: none;
-            border-radius: 5px;
-            text-align: center;
-        }
-        #mobile-overlay {
-            display: none; /* Hide by default */
-            position: fixed; /* Overlay to cover entire screen */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent gray background */
-            color: #ffffff; /* White text color */
-            text-align: center; /* Center text */
-            padding-top: 50%; /* Center the text vertically */
-            font-size: 1.5rem;
-            z-index: 1000; /* Ensure it is on top of everything */
-        }
-        .container {
-            margin-top: -20px;
-        }
-        textarea {
-            width: 100%;
-            height: 100px;
-            margin-top: 10px;
-        }
-        button {
-            margin-top: 10px;
-        }
-        .flex-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-        .move-list-container {
-            flex: 0 0 250px;
-            height: 500px;
-            overflow-y: auto;
-        }
-    </style>
-</head>
-<body>
-    <div id="mobile-overlay">This page is not available on mobile devices. Please access it from a desktop or laptop.</div>
-    <div class="container">
-        <!-- Main Page Content -->
-        <h1 class="leaderboard-h1">Archives</h1>
-        <ul class="navigation-links">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Archives</title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+      <link rel="stylesheet" href="style.css">
+      <!-- Include Chessboard.js CSS -->
+      <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css" integrity="sha384-q94+BZtLrkL1/ohfjR8c6L+A6qzNH9R2hBLwyoAfu3i/WCvQjzL2RQJ3uNHDISdU" crossorigin="anonymous">
+      <style>
+         h2 {
+         text-align: center;
+         font-size: 2rem;
+         color: #ecba13;
+         text-shadow: 0 0 10px #fff;
+         }
+         .flex-container {
+         display: flex;
+         justify-content: space-between;
+         align-items: flex-start;
+         padding: 10px;
+         }
+         .board-container {
+         width: 400px;
+         margin-right: 20px; /* Space between board and move list */
+         }
+         .move-list-container {
+         height: 500px;
+         width: 250px;
+         overflow-y: auto;
+         padding: 10px;
+         border-left: 1px solid #ddd; /* Optional border for separation */
+         }
+         .move-list {
+         margin: 0;
+         padding: 0;
+         list-style: none;
+         }
+         .move-list li {
+         cursor: pointer;
+         padding: 5px;
+         }
+         .move-list li:hover {
+         background-color: #f0f0f0;
+         }
+         .move-navigation {
+         padding: 5px;
+         text-align: center;
+         margin-top: 10px; /* Add space between move buttons and move list */
+         }
+         .home-button-leaderboard {
+         padding: 15px 30px;
+         color: #FFDD00;
+         background-color: #FFDD00;
+         border: none;
+         border-radius: 5px;
+         text-align: center;
+         }
+         #mobile-overlay {
+         display: none; /* Hide by default */
+         position: fixed; /* Overlay to cover entire screen */
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent gray background */
+         color: #ffffff; /* White text color */
+         text-align: center; /* Center text */
+         padding-top: 50%; /* Center the text vertically */
+         font-size: 1.5rem;
+         z-index: 1000; /* Ensure it is on top of everything */
+         }
+         .container {
+         margin-top: -20px;
+         }
+         textarea {
+         width: 100%;
+         height: 100px;
+         margin-top: 10px;
+         }
+         button {
+         margin-top: 10px;
+         }
+         .flex-container {
+         display: flex;
+         justify-content: space-between;
+         align-items: flex-start;
+         }
+         .move-list-container {
+         flex: 0 0 250px;
+         height: 500px;
+         overflow-y: auto;
+         }
+      </style>
+   </head>
+   <body>
+      <div id="mobile-overlay">This page is not available on mobile devices. Please access it from a desktop or laptop.</div>
+      <div class="container">
+         <!-- Main Page Content -->
+         <h1 class="leaderboard-h1">Archives</h1>
+         <ul class="navigation-links">
             <li class="home-button-leaderboard"><a href="main.html"><i class="fas fa-home"></i></a></li>
-        </ul>
-        <!-- Plugin Section -->
-        <div class="plugin-section">
+         </ul>
+         <!-- Plugin Section -->
+         <div class="plugin-section">
             <h2>Game Viewer</h2>
             <div class="flex-container">
-                <div class="board-container">
-                    <div id="board"></div>
-                </div>
-                <div class="move-list-container">
-                    <textarea id="pgnInput" placeholder="Enter PGN or FEN"></textarea>
-                    <div id="gameInfo"></div>
-                    <div class="loadGameBtn">
-                        <button id="loadGameBtn">Load Game</button>
-                    </div>
-                    <div class="move-navigation">
-                        <button id="prevMoveBtn">Previous Move</button>
-                        <button id="nextMoveBtn">Next Move</button>
-                    </div>
-                    <ul id="moveList" class="move-list"></ul>
-                </div>
+               <div class="board-container">
+                  <div id="board"></div>
+               </div>
+               <div class="move-list-container">
+                  <textarea id="pgnInput" placeholder="Enter PGN or FEN"></textarea>
+                  <div id="gameInfo"></div>
+                  <div class="loadGameBtn">
+                     <button id="loadGameBtn">Load Game</button>
+                  </div>
+                  <div class="move-navigation">
+                     <button id="prevMoveBtn">Previous Move</button>
+                     <button id="nextMoveBtn">Next Move</button>
+                  </div>
+                  <ul id="moveList" class="move-list"></ul>
+               </div>
             </div>
-        </div>
-        <!-- Game Files Section -->
-        <div class="game-files">
+         </div>
+         <!-- Game Files Section -->
+         <div class="game-files">
             <h2>Game Files</h2>
             <ul>
-                <li><a href="#" class="game-file-link" data-file="assets/pgns/lichess_pgn_2024.06.01_Meme_master_vs_ComputerConnor.w4w6DUVl.pgn">Joel(W) vs Connor(B)</a></li>
-                <li><a href="#" class="game-file-link" data-file="assets/pgns/Donald Byrne_vs_Bobby Fischer_1956.__.__.pgn">Donald Byrne(W) vs Bobby Fischer(B)</a></li>
-                <li><a href="#" class="game-file-link" data-file="assets/pgns/Garry Kasparov_vs_Veselin Topalov_1999.__.__.pgn">Garry Kasparov(W) vs Veselin Topalov(B)</a></li>
-                <li><a href="#" class="game-file-link" data-file="assets/pgns/Anatoly Karpov_vs_Garry Kasparov_1985.__.__.pgn">Anatoly Karpov(W) vs Garry Kasparov(B)</a></li>
-                <li><a href="#" class="game-file-link" data-file="assets/pgns/Paul Morphy_vs_Duke of Brunswick and Count Isouard_1858.__.__.pgn">Paul Morphy(W) vs Duke of Brunswick and Count Isouard(B)</a></li>
+               <li><a href="#" class="game-file-link" data-file="assets/pgns/lichess_pgn_2024.06.01_Meme_master_vs_ComputerConnor.w4w6DUVl.pgn">Joel(W) vs Connor(B)</a></li>
+               <li><a href="#" class="game-file-link" data-file="assets/pgns/Donald Byrne_vs_Bobby Fischer_1956.__.__.pgn">Donald Byrne(W) vs Bobby Fischer(B)</a></li>
+               <li><a href="#" class="game-file-link" data-file="assets/pgns/Garry Kasparov_vs_Veselin Topalov_1999.__.__.pgn">Garry Kasparov(W) vs Veselin Topalov(B)</a></li>
+               <li><a href="#" class="game-file-link" data-file="assets/pgns/Anatoly Karpov_vs_Garry Kasparov_1985.__.__.pgn">Anatoly Karpov(W) vs Garry Kasparov(B)</a></li>
+               <li><a href="#" class="game-file-link" data-file="assets/pgns/Paul Morphy_vs_Duke of Brunswick and Count Isouard_1858.__.__.pgn">Paul Morphy(W) vs Duke of Brunswick and Count Isouard(B)</a></li>
             </ul>
-        </div>
-        <script>
+         </div>
+         <script>
             // Function to check if the user is on a mobile device
             function checkIfMobile() {
                 var overlay = document.getElementById('mobile-overlay');
@@ -143,118 +143,122 @@
                     overlay.style.display = 'block'; // Show overlay on mobile devices
                 }
             }
-        
+            
             // Run the check when the DOM content is fully loaded
             document.addEventListener('DOMContentLoaded', checkIfMobile);
-        </script>        
-        <!-- Include jQuery -->
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script>
-        <!-- Include Chess.js -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.min.js" defer></script>
-        <!-- Include Chessboard.js -->
-        <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js" integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD" crossorigin="anonymous" onload="initializeChessboard()" onerror="handleChessboardError()" defer></script>
-        <script>
+         </script>        
+         <!-- Include jQuery -->
+         <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script>
+         <!-- Include Chess.js -->
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.min.js" defer></script>
+         <!-- Include Chessboard.js -->
+         <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js" integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD" crossorigin="anonymous" onload="initializeChessboard()" onerror="handleChessboardError()" defer></script>
+         <script>
             var game;
             var board;
             var currentMoveIndex = 0;
-        
+            
             function initializeChessboard() {
-                console.log('Initializing Chessboard.js...');
-        
-                // Initialize Chessboard
-                board = Chessboard('board', {
-                    draggable: true,
-                    position: 'start'
-                });
-        
-                game = new Chess();
-        
-                document.getElementById('loadGameBtn').addEventListener('click', function() {
-                    var pgnInput = document.getElementById('pgnInput').value;
-                    game.load_pgn(pgnInput);
-                    board.position(game.fen()); // Ensure this function call is valid
-                    displayGameInfo(pgnInput);
-                    updateMoveList();
-                    currentMoveIndex = 0;
-                });
-        
-                document.getElementById('prevMoveBtn').addEventListener('click', function() {
-                    if (currentMoveIndex > 0) {
-                        currentMoveIndex--;
-                        board.position(game.history({ verbose: true })[currentMoveIndex].fen);
-                    }
-                    updateMoveList();
-                });
-        
-                document.getElementById('nextMoveBtn').addEventListener('click', function() {
-                    if (currentMoveIndex < game.history().length - 1) {
-                        currentMoveIndex++;
-                        board.position(game.history({ verbose: true })[currentMoveIndex].fen);
-                    }
-                    updateMoveList();
-                });
-            }
-        
-            function displayGameInfo(pgn) {
-                var players = getPgnPlayers(pgn);
-                if (players) {
-                    var gameInfoDiv = document.getElementById('gameInfo');
-                    gameInfoDiv.innerHTML = <p>${players.white} (W) vs ${players.black} (B)</p>;
-                }
-            }
-        
-            function getPgnPlayers(pgn) {
-                var regex = /\[White "([^"]*)"\][\s\S]*\[Black "([^"]*)"\]/;
-                var match = pgn.match(regex);
-                if (match) {
-                    return {
-                        white: match[1],
-                        black: match[2]
-                    };
-                }
-                return null;
-            }
-        
-            function updateMoveList() {
-                var moveList = document.getElementById('moveList');
-                var moves = game.history({ verbose: true });
-                moveList.innerHTML = '';
-                moves.forEach(function(move, index) {
-                    var moveItem = document.createElement('li');
-                    moveItem.textContent = move.san;
-                    moveItem.addEventListener('click', function() {
-                        currentMoveIndex = index;
-                        board.position(game.history({ verbose: true })[currentMoveIndex].fen);
-                    });
-                    moveList.appendChild(moveItem);
-                });
-            }
-        
-            function loadGameFromFile(filePath) {
-                fetch(filePath)
-                    .then(response => response.text())
-                    .then(pgn => {
-                        game.load_pgn(pgn);
-                        board.position(game.fen());
-                        currentMoveIndex = 0; // Start at the first move
-                        displayGameInfo(pgn);
-                        updateMoveList();
-                    })
-                    .catch(error => console.error('Error loading PGN file:', error));
-            }
-        
-            document.addEventListener('DOMContentLoaded', function() {
-                initializeChessboard();
-        
-                document.querySelectorAll('.game-file-link').forEach(link => {
-                    link.addEventListener('click', function(event) {
-                        event.preventDefault();
-                        var filePath = this.getAttribute('data-file');
-                        loadGameFromFile(filePath);
-                    });
-                });
+            console.log('Initializing Chessboard.js...');
+            
+            // Initialize Chessboard
+            board = Chessboard('board', {
+            draggable: true,
+            position: 'start'
             });
-        </script>
-    </div>
-</body>
+            
+            game = new Chess();
+            
+            document.getElementById('loadGameBtn').addEventListener('click', function() {
+            var pgnInput = document.getElementById('pgnInput').value;
+            game.load_pgn(pgnInput);
+            board.position(game.fen()); // Ensure this function call is valid
+            displayGameInfo(pgnInput);
+            updateMoveList();
+            currentMoveIndex = 0;
+            });
+            
+            document.getElementById('prevMoveBtn').addEventListener('click', function() {
+            if (currentMoveIndex > 0) {
+            currentMoveIndex--;
+            board.position(game.history({ verbose: true })[currentMoveIndex].fen);
+            }
+            updateMoveList();
+            });
+            
+            document.getElementById('nextMoveBtn').addEventListener('click', function() {
+            if (currentMoveIndex < game.history().length - 1) {
+            currentMoveIndex++;
+            board.position(game.history({ verbose: true })[currentMoveIndex].fen);
+            }
+            updateMoveList();
+            });
+            }
+            
+            function displayGameInfo(pgn) {
+            var players = getPgnPlayers(pgn);
+            if (players) {
+            var gameInfoDiv = document.getElementById('gameInfo');
+            gameInfoDiv.innerHTML = `<p>${players.white} (W) vs ${players.black} (B)</p>`;
+            }
+            }
+            
+            function getPgnPlayers(pgn) {
+            var regex = /\[White "([^"]*)"\][\s\S]*\[Black "([^"]*)"\]/;
+            var match = pgn.match(regex);
+            if (match) {
+            return {
+            white: match[1],
+            black: match[2]
+            };
+            }
+            return null;
+            }
+            
+            function updateMoveList() {
+            var moveList = document.getElementById('moveList');
+            var moves = game.history({ verbose: true });
+            moveList.innerHTML = '';
+            moves.forEach(function(move, index) {
+            var moveItem = document.createElement('li');
+            moveItem.textContent = move.san;
+            moveItem.addEventListener('click', function() {
+            currentMoveIndex = index;
+            board.position(game.history({ verbose: true })[currentMoveIndex].fen);
+            });
+            moveList.appendChild(moveItem);
+            });
+            }
+            
+            function loadGameFromFile(filePath) {
+            fetch(filePath)
+            .then(response => response.text())
+            .then(pgn => {
+            game.load_pgn(pgn);
+            board.position(game.fen());
+            currentMoveIndex = 0; // Start at the first move
+            displayGameInfo(pgn);
+            updateMoveList();
+            })
+            .catch(error => console.error('Error loading PGN file:', error));
+            }
+            
+            function handleChessboardError() {
+            console.error('Failed to load Chessboard.js');
+            }
+            
+            document.addEventListener('DOMContentLoaded', function() {
+            initializeChessboard();
+            
+            document.querySelectorAll('.game-file-link').forEach(link => {
+            link.addEventListener('click', function(event) {
+            event.preventDefault();
+            var filePath = this.getAttribute('data-file');
+            loadGameFromFile(filePath);
+            });
+            });
+            });
+         </script>
+      </div>
+   </body>
 </html>
