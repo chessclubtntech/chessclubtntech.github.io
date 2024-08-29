@@ -13,15 +13,6 @@ exports.handler = async (event) => {
     // Parse the request body
     const { user1Id, user1Result, user2Id, user2Result } = JSON.parse(event.body);
 
-    // Validate input data
-    if (!user1Id || !user1Result || !user2Id || !user2Result) {
-      console.error('Invalid input data:', { user1Id, user1Result, user2Id, user2Result });
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'Invalid input data' })
-      };
-    }
-
     // Create a new result document
     const result = new Result({
       user1Id,
