@@ -175,7 +175,7 @@
                     game.load_pgn(pgnInput);
                     moveHistory = game.history({ verbose: true }).map(move => move.san); // Store move SAN
                     currentMoveIndex = 0;
-                    board.position(game.fen());
+                    board.position(game.fen()); // Reset position to start
                     displayGameInfo(pgnInput);
                     updateMoveList();
                 });
@@ -183,18 +183,20 @@
                 document.getElementById('prevMoveBtn').addEventListener('click', function() {
                     if (currentMoveIndex > 0) {
                         currentMoveIndex--;
-                        game.undo(); // Undo the move to get the previous state
+                        game.undo(); // Undo the move to go back
                         board.position(game.fen());
                         updateMoveList();
                     }
                 });
 
                 document.getElementById('nextMoveBtn').addEventListener('click', function() {
-                    if (currentMoveIndex < moveHistory.length - 1) {
-                        currentMoveIndex++;
-                        game.move(moveHistory[currentMoveIndex], { sloppy: true }); // Move to the next position
-                        board.position(game.fen());
-                        updateMoveList();
+                    if (currentMoveIndex < moveHistory.length) {
+                        if (currentMoveIndex < moveHistory.length) {
+                            game.move(moveHistory[currentMoveIndex], { sloppy: true }); // Apply the move
+                            board.position(game.fen());
+                            currentMoveIndex++;
+                            updateMoveList();
+                        }
                     }
                 });
             }
@@ -240,7 +242,7 @@
                     .then(pgn => {
                         game.load_pgn(pgn);
                         moveHistory = game.history({ verbose: true }).map(move => move.san); // Initialize move history
-                        currentMoveIndex = 0;
+                        currentMoveIndex = 0; // Start at the beginning
                         board.position(game.fen());
                         displayGameInfo(pgn);
                         updateMoveList();
