@@ -47,7 +47,7 @@
       <li class="home-button-leaderboard"><a href="main.html"><i class="fas fa-home"></i></a></li>
     </ul>
     <div class="user-container">
-      <div class="user" id="user1"></div>
+      <select id="user1Dropdown" class="form-control"></select>
       <span id="user1GamesPlayed">0</span> games played
       <br>
       <span id="user1TotalScore">0</span> total score
@@ -58,7 +58,7 @@
       </div>
     </div>
     <div class="user-container">
-      <div class="user" id="user2"></div>
+      <select id="user2Dropdown" class="form-control"></select>
       <span id="user2GamesPlayed">0</span> games played
       <br>
       <span id="user2TotalScore">0</span> total score
@@ -77,49 +77,67 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
   <script src="script.js"></script>
   <script>
-    // Fetch random users data from the server
-    function fetchRandomUsers() {
+    // Fetch users from the server
+    function fetchUsers() {
       $.ajax({
-        url: '/.netlify/functions/random-users',
+        url: '/.netlify/functions/getUsers', // Updated endpoint for fetching users
         method: 'GET',
         success: function(data) {
-          console.log('Fetched data:', data); // Debugging line
-          if (data.user1 && data.user2) {
-            $('#user1').text(`${data.user1.username} - Rating: ${data.user1.rating}`);
-            $('#user1').data('userid', data.user1._id);
-            $('#user2').text(`${data.user2.username} - Rating: ${data.user2.rating}`);
-            $('#user2').data('userid', data.user2._id);
-          } else {
-            console.error('Unexpected data format:', data);
-          }
+          populateDropdowns(data);
         },
         error: function(err) {
-          console.error('Error fetching random users:', err);
+          console.error('Error fetching users:', err);
         }
       });
     }
 
-    // Fetch username data from the server
-    function fetchUsername(userId) {
+    function populateDropdowns(users) {
+      let user1Dropdown = $('#user1Dropdown');
+      let user2Dropdown = $('#user2Dropdown');
+      user1Dropdown.empty();
+      user2Dropdown.empty();
+
+      users.forEach(user => {
+        user1Dropdown.append(`<option value="${user._id}">${user.username}</option>`);
+        user2Dropdown.append(`<option value="${user._id}">${user.username}</option>`);
+      });
+    }
+
+    // Fetch user details
+    function fetchUserDetails(userId, callback) {
       $.ajax({
-        url: `/.netlify/functions/username?id=${userId}`,
+        url: `/.netlify/functions/username?id=${userId}`, // Updated endpoint for fetching user details
         method: 'GET',
         success: function(data) {
-          if (data.username) {
-            $('#username-display').text(`Welcome, ${data.username}`);
-          } else {
-            console.error('Unexpected data format:', data);
-          }
+          callback(data);
         },
         error: function(err) {
-          console.error('Error fetching username data:', err);
+          console.error('Error fetching user details:', err);
         }
       });
     }
 
     $(document).ready(function() {
-      // Fetch random users when the page loads
-      fetchRandomUsers();
+      // Fetch users when the page loads
+      fetchUsers();
+
+      // Event listener for user1Dropdown
+      $('#user1Dropdown').change(function() {
+        const userId = $(this).val();
+        fetchUserDetails(userId, function(data) {
+          $('#user1GamesPlayed').text(data.numGamesPlayed || 0);
+          $('#user1TotalScore').text(data.totalTournamentScore || 0);
+        });
+      });
+
+      // Event listener for user2Dropdown
+      $('#user2Dropdown').change(function() {
+        const userId = $(this).val();
+        fetchUserDetails(userId, function(data) {
+          $('#user2GamesPlayed').text(data.numGamesPlayed || 0);
+          $('#user2TotalScore').text(data.totalTournamentScore || 0);
+        });
+      });
 
       // Variables to track button selections
       var user1Selection = '';
@@ -146,8 +164,8 @@
 
       // Event listener for the submit button
       $('#submitResult').click(function() {
-        const user1Id = $('#user1').data('userid');
-        const user2Id = $('#user2').data('userid');
+        const user1Id = $('#user1Dropdown').val();
+        const user2Id = $('#user2Dropdown').val();
 
         if (!user1Id || !user2Id) {
           console.error('User IDs are missing');
