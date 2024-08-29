@@ -134,23 +134,24 @@
                 <li><a href="#" class="game-file-link" data-file="assets/pgns/Paul Morphy_vs_Duke of Brunswick and Count Isouard_1858.__.__.pgn">Paul Morphy(W) vs Duke of Brunswick and Count Isouard(B)</a></li>
             </ul>
         </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.min.js" integrity="sha384-3gkUmfESzyC4uKPqaASwUlxdBzZbBz6P4UMDszU/IUUI8hH2JbLlL/7EETx7CS4" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js" integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD" crossorigin="anonymous"></script>
         <script>
             var game;
             var board;
-            var moveHistory;
+            var moveHistory = [];
             var currentMoveIndex = 0;
 
             function initializeChessboard() {
                 console.log('Initializing Chessboard.js...');
 
-                // Initialize Chessboard
                 board = Chessboard('board', {
                     draggable: true,
                     position: 'start'
                 });
 
                 game = new Chess();
-                moveHistory = [];
 
                 document.getElementById('loadGameBtn').addEventListener('click', function() {
                     var pgnInput = document.getElementById('pgnInput').value;
@@ -171,7 +172,7 @@
                 });
 
                 document.getElementById('nextMoveBtn').addEventListener('click', function() {
-                    if (currentMoveIndex < moveHistory.length) {
+                    if (currentMoveIndex < moveHistory.length - 1) {
                         currentMoveIndex++;
                         applyMove(currentMoveIndex);
                         updateMoveList();
@@ -180,9 +181,9 @@
             }
 
             function applyMove(index) {
-                game.reset(); // Reset game to the initial position
-                for (let i = 0; i < index; i++) {
-                    game.move(moveHistory[i].san, { sloppy: true });
+                game.reset();
+                for (var i = 0; i <= index; i++) {
+                    game.move(moveHistory[i].san);
                 }
                 board.position(game.fen());
             }
