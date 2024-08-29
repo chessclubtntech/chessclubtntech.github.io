@@ -23,8 +23,8 @@ exports.handler = async function(event, context) {
     // Connect to MongoDB
     const client = new MongoClient(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
     await client.connect();
-    const db = client.db('tournament');
-    const usersCollection = db.collection('users');
+    const db = client.db('chess_database');
+    const usersCollection = db.collection('results');
 
     // Update user1
     await usersCollection.updateOne(
