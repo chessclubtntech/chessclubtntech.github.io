@@ -21,19 +21,46 @@ exports.handler = async function(event, context) {
     }
 
     // Connect to MongoDB
-    const client = new MongoClient(mongoUri);
+    const client = new MongoClient(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
     await client.connect();
     const db = client.db('chess_database');
+    const usersCollection = db.collection('users'); // Collection for user data
     const resultsCollection = db.collection('results');
 
+    // Fetch user details
+    const user1 = await usersCollection.findOne({ _id: ObjectId(user1Id) });
+    const user2 = await usersCollection.findOne({ _id: ObjectId(user2Id) });
+
+    if (!user1 || !user2) {
+      await client.close();
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ message: "User(s) not found" })
+      };
+    }
+
+    // Create a new result document
+    const result = {
+      user1Id,
+      user1Name: user1.username, // Add user1 name
+      user1Result,
+      user2Id,
+      user2Name: user2.username, // Add user2 name
+      user2Result,
+      date: new Date() // Add current date
+    };
+
+    // Save the result to the database
+    await resultsCollection.insertOne(result);
+
     // Update user1
-    await resultsCollection.updateOne(
+    await usersCollection.updateOne(
       { _id: ObjectId(user1Id) },
       { $inc: { numGamesPlayed: 1, totalTournamentScore: getScore(user1Result) } }
     );
 
     // Update user2
-    await resultsCollection.updateOne(
+    await usersCollection.updateOne(
       { _id: ObjectId(user2Id) },
       { $inc: { numGamesPlayed: 1, totalTournamentScore: getScore(user2Result) } }
     );
