@@ -92,16 +92,12 @@
           method: 'GET',
           success: function(response) {
             console.log('Response from getUsers:', response); // Debugging line
-            if (response.body) {
-              try {
-                const data = JSON.parse(response.body); // Parse JSON response
-                console.log('Parsed users:', data); // Debugging line
-                populateDropdowns(data);
-              } catch (error) {
-                console.error('Error parsing JSON:', error);
-              }
-            } else {
-              console.error('No body in response');
+            try {
+              const users = JSON.parse(response); // Parse JSON response
+              console.log('Parsed users:', users); // Debugging line
+              populateDropdowns(users);
+            } catch (error) {
+              console.error('Error parsing JSON:', error);
             }
           },
           error: function(err) {
@@ -151,14 +147,11 @@
           method: 'GET',
           success: function(response) {
             console.log('Response from username:', response); // Debugging line
-            if (response.body) {
-              try {
-                callback(JSON.parse(response.body)); // Parse JSON response
-              } catch (error) {
-                console.error('Error parsing JSON:', error);
-              }
-            } else {
-              console.error('No body in response');
+            try {
+              const userDetails = JSON.parse(response); // Parse JSON response
+              callback(userDetails);
+            } catch (error) {
+              console.error('Error parsing JSON:', error);
             }
           },
           error: function(err) {
