@@ -61,6 +61,8 @@
   </style>
 </head>
 <body>
+  <!-- Password protection UI (commented out) -->
+  <!--
   <div id="passwordScreen">
     <div>
       <h2>Enter 4-Digit Code</h2>
@@ -69,6 +71,8 @@
       <p id="errorMessage" style="color: red; display: none;">Incorrect code. Please try again.</p>
     </div>
   </div>
+  -->
+
   <div class="container main-content">
     <h1 class="leaderboard-h1">Tournaments</h1>
     <ul class="navigation-links">
@@ -111,29 +115,6 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
   <script>
     $(document).ready(function() {
-      // Handle password protection
-      $('#submitPassword').click(function() {
-        const inputCode = $('#passwordInput').val();
-        $.ajax({
-          url: '/.netlify/functions/verify-password', // Your serverless function URL
-          method: 'POST',
-          contentType: 'application/json',
-          data: JSON.stringify({ code: inputCode }),
-          success: function(response) {
-            if (response.success) {
-              $('#passwordScreen').hide();
-              $('.main-content').show();
-              $('#errorMessage').hide();
-            } else {
-              $('#errorMessage').show();
-            }
-          },
-          error: function() {
-            $('#errorMessage').text('An error occurred. Please try again.').show();
-          }
-        });
-      });
-
       // Fetch all users when the page loads
       fetchAllUsers();
 
