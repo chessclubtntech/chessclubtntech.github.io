@@ -24,13 +24,16 @@ exports.handler = async function(event, context) {
     const client = new MongoClient(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
     await client.connect();
     const db = client.db('chess_database');
-    const usersCollection = db.collection('users'); // Collection for user data
+    const usersCollection = db.collection('users');
     const resultsCollection = db.collection('results');
 
     // Fetch user details
-    const user1 = await usersCollection.findOne({ _id: ObjectId(user1Id) });
-    const user2 = await usersCollection.findOne({ _id: ObjectId(user2Id) });
+    const [user1, user2] = await Promise.all([
+      usersCollection.findOne({ _id: ObjectId(user1Id) }),
+      usersCollection.findOne({ _id: ObjectId(user2Id) })
+    ]);
 
+    // Check if users are found
     if (!user1 || !user2) {
       await client.close();
       return {
@@ -42,10 +45,10 @@ exports.handler = async function(event, context) {
     // Create a new result document
     const result = {
       user1Id,
-      user1Name: user1.username, // Add user1 name
+      user1Name: user1.username || "Unknown", // Add user1 name with fallback
       user1Result,
       user2Id,
-      user2Name: user2.username, // Add user2 name
+      user2Name: user2.username || "Unknown", // Add user2 name with fallback
       user2Result,
       date: new Date() // Add current date
     };
@@ -72,7 +75,7 @@ exports.handler = async function(event, context) {
       body: JSON.stringify({ message: "Result submitted successfully" })
     };
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error submitting result:', error);
     return {
       statusCode: 500,
       body: JSON.stringify({ message: "Internal Server Error" })
