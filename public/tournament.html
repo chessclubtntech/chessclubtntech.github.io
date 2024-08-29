@@ -77,126 +77,120 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
   <script src="script.js"></script>
   <script>
-    // Fetch users from the server
-    function fetchUsers() {
-      $.ajax({
-        url: '/.netlify/functions/getUsers', // Updated endpoint for fetching users
-        method: 'GET',
-        success: function(data) {
-          populateDropdowns(data);
-        },
-        error: function(err) {
-          console.error('Error fetching users:', err);
-        }
-      });
-    }
-
-    function populateDropdowns(users) {
-      let user1Dropdown = $('#user1Dropdown');
-      let user2Dropdown = $('#user2Dropdown');
-      user1Dropdown.empty();
-      user2Dropdown.empty();
-
-      users.forEach(user => {
-        user1Dropdown.append(`<option value="${user._id}">${user.username}</option>`);
-        user2Dropdown.append(`<option value="${user._id}">${user.username}</option>`);
-      });
-    }
-
-    // Fetch user details
-    function fetchUserDetails(userId, callback) {
-      $.ajax({
-        url: `/.netlify/functions/username?id=${userId}`, // Updated endpoint for fetching user details
-        method: 'GET',
-        success: function(data) {
-          callback(data);
-        },
-        error: function(err) {
-          console.error('Error fetching user details:', err);
-        }
-      });
-    }
-
-    $(document).ready(function() {
-      // Fetch users when the page loads
-      fetchUsers();
-
-      // Event listener for user1Dropdown
-      $('#user1Dropdown').change(function() {
-        const userId = $(this).val();
-        fetchUserDetails(userId, function(data) {
-          $('#user1GamesPlayed').text(data.numGamesPlayed || 0);
-          $('#user1TotalScore').text(data.totalTournamentScore || 0);
-        });
-      });
-
-      // Event listener for user2Dropdown
-      $('#user2Dropdown').change(function() {
-        const userId = $(this).val();
-        fetchUserDetails(userId, function(data) {
-          $('#user2GamesPlayed').text(data.numGamesPlayed || 0);
-          $('#user2TotalScore').text(data.totalTournamentScore || 0);
-        });
-      });
-
-      // Variables to track button selections
-      var user1Selection = '';
-      var user2Selection = '';
-
-      // Event listener for the win, draw, and lose buttons of user 1
-      $('.buttons1 button').click(function() {
-        user1Selection = $(this).text();
-        checkSubmitVisibility();
-      });
-
-      // Event listener for the win, draw, and lose buttons of user 2
-      $('.buttons2 button').click(function() {
-        user2Selection = $(this).text();
-        checkSubmitVisibility();
-      });
-
-      // Function to check if the submit button should be visible
-      function checkSubmitVisibility() {
-        if (user1Selection !== '' && user2Selection !== '') {
-          $('#submitResult').show();
-        }
+  // Fetch random users from the server
+  function fetchRandomUsers() {
+    $.ajax({
+      url: '/.netlify/functions/random-users', // Ensure this endpoint is correct
+      method: 'GET',
+      success: function(data) {
+        console.log('Fetched data:', data); // Debugging line
+        populateDropdowns(data);
+      },
+      error: function(err) {
+        console.error('Error fetching random users:', err);
       }
+    });
+  }
 
-      // Event listener for the submit button
-      $('#submitResult').click(function() {
-        const user1Id = $('#user1Dropdown').val();
-        const user2Id = $('#user2Dropdown').val();
+  function populateDropdowns(data) {
+    let user1Dropdown = $('#user1Dropdown');
+    let user2Dropdown = $('#user2Dropdown');
+    user1Dropdown.empty();
+    user2Dropdown.empty();
 
-        if (!user1Id || !user2Id) {
-          console.error('User IDs are missing');
-          return;
-        }
+    // Assuming data.user1 and data.user2 are user objects
+    if (data.user1) {
+      user1Dropdown.append(`<option value="${data.user1._id}">${data.user1.username}</option>`);
+    }
+    if (data.user2) {
+      user2Dropdown.append(`<option value="${data.user2._id}">${data.user2.username}</option>`);
+    }
+  }
 
-        // Call a function to handle the submission
-        submitResult(user1Id, user1Selection, user2Id, user2Selection);
+  $(document).ready(function() {
+    // Fetch random users when the page loads
+    fetchRandomUsers();
+
+    // Handle dropdown change
+    $('#user1Dropdown').change(function() {
+      const userId = $(this).val();
+      fetchUserDetails(userId, function(data) {
+        $('#user1GamesPlayed').text(data.numGamesPlayed || 0);
+        $('#user1TotalScore').text(data.totalTournamentScore || 0);
       });
     });
 
-    // Define the submitResult function
-    function submitResult(user1Id, user1Result, user2Id, user2Result) {
-      $.ajax({
-        url: '/path/to/submitResult', // Replace with the actual URL or API endpoint
-        method: 'POST',
-        data: {
-          user1Id: user1Id,
-          user1Result: user1Result,
-          user2Id: user2Id,
-          user2Result: user2Result
-        },
-        success: function(response) {
-          console.log('Result submitted successfully:', response);
-          // Handle successful submission
-        },
-        error: function(err) {
-          console.error('Error submitting result:', err);
-        }
+    $('#user2Dropdown').change(function() {
+      const userId = $(this).val();
+      fetchUserDetails(userId, function(data) {
+        $('#user2GamesPlayed').text(data.numGamesPlayed || 0);
+        $('#user2TotalScore').text(data.totalTournamentScore || 0);
       });
+    });
+
+    var user1Selection = '';
+    var user2Selection = '';
+
+    $('.buttons1 button').click(function() {
+      user1Selection = $(this).text();
+      checkSubmitVisibility();
+    });
+
+    $('.buttons2 button').click(function() {
+      user2Selection = $(this).text();
+      checkSubmitVisibility();
+    });
+
+    function checkSubmitVisibility() {
+      if (user1Selection !== '' && user2Selection !== '') {
+        $('#submitResult').show();
+      }
     }
-  </script>
+
+    $('#submitResult').click(function() {
+      const user1Id = $('#user1Dropdown').val();
+      const user2Id = $('#user2Dropdown').val();
+
+      if (!user1Id || !user2Id) {
+        console.error('User IDs are missing');
+        return;
+      }
+
+      submitResult(user1Id, user1Selection, user2Id, user2Selection);
+    });
+  });
+
+  function fetchUserDetails(userId, callback) {
+    $.ajax({
+      url: `/.netlify/functions/username?id=${userId}`, // Ensure this endpoint is correct
+      method: 'GET',
+      success: function(data) {
+        callback(data);
+      },
+      error: function(err) {
+        console.error('Error fetching user details:', err);
+      }
+    });
+  }
+
+  function submitResult(user1Id, user1Result, user2Id, user2Result) {
+    $.ajax({
+      url: '/path/to/submitResult', // Replace with the actual URL or API endpoint
+      method: 'POST',
+      data: {
+        user1Id: user1Id,
+        user1Result: user1Result,
+        user2Id: user2Id,
+        user2Result: user2Result
+      },
+      success: function(response) {
+        console.log('Result submitted successfully:', response);
+      },
+      error: function(err) {
+        console.error('Error submitting result:', err);
+      }
+    });
+  }
+</script>
 </body>
 </html>
