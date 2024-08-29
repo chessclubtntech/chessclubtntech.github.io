@@ -10,7 +10,89 @@
     <!-- Include Chessboard.js CSS -->
     <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css" integrity="sha384-q94+BZtLrkL1/ohfjR8c6L+A6qzNH9R2hBLwyoAfu3i/WCvQjzL2RQJ3uNHDISdU" crossorigin="anonymous">
     <style>
-        /* Your existing styles */
+        h2 {
+            text-align: center;
+            font-size: 2rem;
+            color: #ecba13;
+            text-shadow: 0 0 10px #fff;
+        }
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 10px;
+        }
+        .board-container {
+            width: 400px;
+            margin-right: 20px; /* Space between board and move list */
+        }
+        .move-list-container {
+            height: 500px;
+            width: 250px;
+            overflow-y: auto;
+            padding: 10px;
+            border-left: 1px solid #ddd; /* Optional border for separation */
+        }
+        .move-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .move-list li {
+            cursor: pointer;
+            padding: 5px;
+        }
+        .move-list li:hover {
+            background-color: #f0f0f0;
+        }
+        .move-navigation {
+            padding: 5px;
+            text-align: center;
+            margin-top: 10px; /* Add space between move buttons and move list */
+        }
+        .home-button-leaderboard {
+            padding: 15px 30px;
+            color: #FFDD00;
+            background-color: #FFDD00;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+        #mobile-overlay {
+            display: none; /* Hide by default */
+            position: fixed; /* Overlay to cover entire screen */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent gray background */
+            color: #ffffff; /* White text color */
+            text-align: center; /* Center text */
+            padding-top: 50%; /* Center the text vertically */
+            font-size: 1.5rem;
+            z-index: 1000; /* Ensure it is on top of everything */
+        }
+        .container {
+            margin-top: -20px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-top: 10px;
+        }
+        button {
+            margin-top: 10px;
+        }
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .move-list-container {
+            flex: 0 0 250px;
+            height: 500px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
@@ -117,14 +199,14 @@
                 game.reset(); // Reset the game to initial state
                 board.position('start'); // Reset board to initial state
 
-                if (game.load_pgn(pgn)) { // Load new game
-                    currentMoveIndex = 0; // Start at the beginning
-                    board.position(game.fen()); // Set board to the starting position of the game
-                    displayGameInfo(pgn);
-                    updateMoveList();
-                } else {
-                    console.error('Invalid PGN format.');
-                }
+                game.load_pgn(pgn); // Load new game
+
+                // Update the board with the game state
+                board.position(game.fen()); 
+
+                currentMoveIndex = 0; // Start at the beginning
+                displayGameInfo(pgn);
+                updateMoveList();
             }
 
             function displayGameInfo(pgn) {
