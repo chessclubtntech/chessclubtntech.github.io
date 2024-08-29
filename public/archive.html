@@ -138,7 +138,7 @@
             var game;
             var board;
             var moveHistory;
-            var currentMoveIndex;
+            var currentMoveIndex = 0;
 
             function initializeChessboard() {
                 console.log('Initializing Chessboard.js...');
@@ -157,33 +157,34 @@
                     game.load_pgn(pgnInput);
                     moveHistory = game.history({ verbose: true }); // Initialize move history
                     currentMoveIndex = 0; // Start at the beginning
-                    updateMoveList();
-                    board.position(game.fen()); // Ensure this function call is valid
+                    board.position(game.fen()); // Reset board position
                     displayGameInfo(pgnInput);
+                    updateMoveList();
                 });
 
                 document.getElementById('prevMoveBtn').addEventListener('click', function() {
                     if (currentMoveIndex > 0) {
                         currentMoveIndex--;
-                        var move = moveHistory[currentMoveIndex];
-                        game.undo(); // Undo to the previous position
-                        board.position(game.fen());
+                        applyMove(currentMoveIndex);
                         updateMoveList();
                     }
                 });
 
                 document.getElementById('nextMoveBtn').addEventListener('click', function() {
                     if (currentMoveIndex < moveHistory.length) {
-                        if (currentMoveIndex === game.history().length) {
-                            game.undo(); // Undo to the last position if at end
-                        } else {
-                            game.move(moveHistory[currentMoveIndex].san, { sloppy: true }); // Apply the move
-                        }
-                        board.position(game.fen());
                         currentMoveIndex++;
+                        applyMove(currentMoveIndex);
                         updateMoveList();
                     }
                 });
+            }
+
+            function applyMove(index) {
+                game.reset(); // Reset game to the initial position
+                for (let i = 0; i < index; i++) {
+                    game.move(moveHistory[i].san, { sloppy: true });
+                }
+                board.position(game.fen());
             }
 
             function displayGameInfo(pgn) {
@@ -216,10 +217,7 @@
                     moveItem.dataset.index = index;
                     moveItem.addEventListener('click', function() {
                         currentMoveIndex = parseInt(this.dataset.index);
-                        var move = game.history({ verbose: true })[currentMoveIndex];
-                        game.reset(); // Reset the game to the starting position
-                        game.load_pgn(game.pgn().substring(0, game.pgn().indexOf(move.san) + move.san.length)); // Load up to the selected move
-                        board.position(game.fen());
+                        applyMove(currentMoveIndex);
                         updateMoveList();
                     });
                     moveList.appendChild(moveItem);
