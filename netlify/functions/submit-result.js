@@ -45,10 +45,10 @@ exports.handler = async function(event, context) {
     // Create a new result document with usernames
     const result = new Result({
       user1Id,
-      user1Name: user1.username || "Unknown", // Get user1 username
+      user1Name: user1.username, // Ensure user1's username is set
       user1Result,
       user2Id,
-      user2Name: user2.username || "Unknown", // Get user2 username
+      user2Name: user2.username, // Ensure user2's username is set
       user2Result,
       date: new Date() // Set the current date
     });
