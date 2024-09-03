@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Live Tournament Bracket</title>
+  <!-- Include Socket.IO client library -->
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -12,7 +13,7 @@
     <!-- Bracket will be dynamically populated here -->
   </div>
   <script>
-    const socket = io();
+    const socket = io(); // Initialize Socket.IO
 
     $(document).ready(function() {
       fetchTournamentData();
