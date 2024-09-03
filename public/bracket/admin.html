@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard - Manage Tournament</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <h1>Manage Tournament Bracket</h1>
+  <div id="bracket-container">
+    <!-- Bracket will be dynamically populated here -->
+  </div>
+  <script>
+    const socket = io();
+
+    $(document).ready(function() {
+      fetchTournamentData();
+
+      // Listen for match updates from the server
+      socket.on('matchUpdated', function(data) {
+        updateBracketDisplay(data.match);
+      });
+    });
+
+    function fetchTournamentData() {
+      $.get('/api/tournaments/tournament1', function(data) {
+        populateBracket(data.matches);
+      });
+    }
+
+    function populateBracket(matches) {
+      // This function populates the bracket in the admin interface
+      matches.forEach(match => {
+        $('#bracket-container').append(`
+          <div class="match" id="match-${match._id}">
+            ${match.player1} vs ${match.player2}
+            <button onclick="setWinner('${match._id}', '${match.player1}')">${match.player1} Wins</button>
+            <button onclick="setWinner('${match._id}', '${match.player2}')">${match.player2} Wins</button>
+          </div>
+        `);
+      });
+    }
+
+    function setWinner(matchId, winner) {
+      const data = { tournamentId: 'tournament1', matchId, winner };
+      socket.emit('updateMatch', data);
+    }
+
+    function updateBracketDisplay(match) {
+      // Update the match display with the winner
+      $(`#match-${match._id}`).append(` - Winner: ${match.winner}`);
+    }
+  </script>
+</body>
+</html>
