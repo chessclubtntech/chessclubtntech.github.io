@@ -45,12 +45,22 @@ jobs:
       run: |
         docker run -d -p 3000:3000 --name my-app chessclubtntech/chessclubtntech:latest
 
+    - name: Check Docker container logs
+      run: |
+        docker logs my-app
+
     - name: Wait for the app to start
       run: |
-        sleep 20
+        echo "Waiting for the app to start..."
+        sleep 30
+
+    - name: Check Docker container status
+      run: |
+        docker ps
 
     - name: Test the application
       run: |
+        echo "Testing application..."
         curl --fail http://localhost:3000 || exit 1
 
     - name: Stop and remove Docker container
