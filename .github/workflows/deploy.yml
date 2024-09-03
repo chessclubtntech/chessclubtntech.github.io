@@ -46,18 +46,23 @@ jobs:
         docker run -d -p 3000:3000 --name my-app chessclubtntech/chessclubtntech:latest
         docker ps -a
 
-    - name: Check Docker container logs
-      run: |
-        docker logs my-app
-
     - name: Wait for the app to start
       run: |
         echo "Waiting for the app to start..."
-        sleep 30
+        for i in {1..30}; do
+          if curl --silent --fail http://localhost:3000 > /dev/null; then
+            echo "App is up"
+            exit 0
+          fi
+          echo "App is not up yet, retrying in 10 seconds..."
+          sleep 10
+        done
+        echo "App did not start within the expected time"
+        exit 1
 
-    - name: Check Docker container status
+    - name: Check Docker container logs
       run: |
-        docker ps
+        docker logs my-app
 
     - name: Test the application
       run: |
