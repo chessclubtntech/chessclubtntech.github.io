@@ -1,20 +1,19 @@
-{
-  "tournament": [
-    {
-      "id": "tournament1",
-      "name": "Monrhlt Club Tournament",
-      "status": "active",
-      "matches": [
-        {
-          "id": "match1",
-          "player1": "user1",
-          "player2": "user2",
-          "winner": null,
-          "round": 1,
-          "nextMatchId": "match5"
-        },
-        ...
-      ]
-    }
-  ]
-}
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const matchSchema = new Schema({
+  player1: { type: String, required: true },
+  player2: { type: String, required: true },
+  winner: { type: String, default: null },
+  round: { type: Number, required: true },
+  nextMatchId: { type: Schema.Types.ObjectId, ref: 'Match', default: null },
+});
+
+const tournamentSchema = new Schema({
+  name: { type: String, required: true },
+  status: { type: String, enum: ['active', 'completed'], default: 'active' },
+  matches: [matchSchema],
+});
+
+const Tournament = mongoose.model('Tournament', tournamentSchema);
+module.exports = Tournament;
