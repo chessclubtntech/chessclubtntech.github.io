@@ -21,12 +21,15 @@
       border-radius: 5px;
       text-align: center;
     }
+    /* Commented out profile picture related styles */
+    /*
     .profile-picture {
       width: 150px;
       height: 150px;
       border-radius: 50%;
       margin-bottom: 20px;
     }
+    */
     .progress-bar {
       height: 20px;
       background-color: #FFDD00;
@@ -50,10 +53,12 @@
     </ul>
     
     <!-- Profile Picture Section -->
-    <!--<div class="profile-info text-center">
+    <!-- 
+    <div class="profile-info text-center">
       <img id="profilePicture" class="profile-picture" src="default-profile.png" alt="Profile Picture">
       <input type="file" id="uploadProfilePicture" class="form-control-file mt-2">
-    </div>-->
+    </div>
+    -->
     
     <!-- User Info -->
     <div class="profile-info text-center">
@@ -72,12 +77,14 @@
     </div>
 
     <!-- Progress Tracker -->
-    <!-- <div class="profile-info text-center">
+    <!-- 
+    <div class="profile-info text-center">
       <h3 style="color:white;">Progress Tracker</h3>
       <div class="progress">
         <div id="progressBar" class="progress-bar" role="progressbar" style="width: 50%">50%</div>
       </div>
-    </div> -->
+    </div> 
+    -->
 
     <!-- Feedback Button -->
     <div class="profile-info text-center mt-4">
@@ -125,7 +132,8 @@
         }
       });
 
-      // Upload Profile Picture
+      // Upload Profile Picture (commented out)
+      /*
       $('#uploadProfilePicture').change(function() {
         const file = this.files[0];
         if (file) {
@@ -136,6 +144,7 @@
           reader.readAsDataURL(file);
         }
       });
+      */
 
       // Save Bio
       $('#saveBio').click(function() {
