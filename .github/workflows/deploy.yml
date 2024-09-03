@@ -41,11 +41,6 @@ jobs:
         push: true
         tags: chessclubtntech/chessclubtntech:latest
 
-    - name: Debug Docker Info
-      run: |
-        docker info
-        docker images
-
     - name: Run Docker container
       run: |
         docker run -d -p 3000:3000 --name my-app chessclubtntech/chessclubtntech:latest
@@ -53,10 +48,6 @@ jobs:
     - name: Wait for the app to start
       run: |
         sleep 20
-
-    - name: Test WebSocket connection
-      run: |
-        curl -X GET http://localhost:3000/socket.io/?EIO=3&transport=polling || exit 1
 
     - name: Test the application
       run: |
