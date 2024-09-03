@@ -44,6 +44,7 @@ jobs:
     - name: Run Docker container
       run: |
         docker run -d -p 3000:3000 --name my-app chessclubtntech/chessclubtntech:latest
+        docker ps -a
 
     - name: Check Docker container logs
       run: |
@@ -65,5 +66,5 @@ jobs:
 
     - name: Stop and remove Docker container
       run: |
-        docker stop my-app
-        docker rm my-app
+        docker stop my-app || true
+        docker rm my-app || true
