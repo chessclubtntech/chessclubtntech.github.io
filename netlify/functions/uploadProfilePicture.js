@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+/*const mongoose = require('mongoose');
 const User = require('../../models/user.js'); // Adjust the path as necessary
 const aws = require('aws-sdk'); // Assuming you're using AWS S3 for storage
 const { v4: uuidv4 } = require('uuid');
@@ -63,3 +63,4 @@ exports.handler = async (event) => {
     };
   }
 };
+*/
