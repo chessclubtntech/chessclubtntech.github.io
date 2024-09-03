@@ -2,18 +2,23 @@ const express = require('express');
 const http = require('http');
 const mongoose = require('mongoose');
 const socketIo = require('socket.io');
-const Tournament = require('../../models/tournament.js');
+const path = require('path'); // Add this line
+const Tournament = require('./models/Tournament');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
+// Serve static files for student and admin pages
+app.use(express.static(path.join(__dirname, 'public'))); // Adjust path if needed
+
 const PORT = process.env.PORT || 3000;
 
 // Connect to MongoDB
-mongoose.connect('your-mongodb-connection-string', {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  dbName: 'chess_database', // Make sure to use the correct database name
 });
 
 // WebSocket setup
