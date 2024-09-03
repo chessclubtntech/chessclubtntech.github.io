@@ -20,6 +20,14 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14' # Adjust to your Node.js version
+
+    - name: Install dependencies
+      run: npm install
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
@@ -38,7 +46,7 @@ jobs:
 
     - name: Run Docker container
       run: |
-        docker run -d -p 3000:3000 -p 4000:4000 --name my-app chessclubtntech/chessclubtntech:latest
+        docker run -d -p 3000:3000 --name my-app chessclubtntech/chessclubtntech:latest
 
     - name: Wait for MongoDB to be ready
       run: |
@@ -48,7 +56,7 @@ jobs:
       run: |
         sleep 20
 
-    - name: Test HTTP application
+    - name: Test the application
       run: |
         curl --fail http://localhost:3000 || exit 1
 
