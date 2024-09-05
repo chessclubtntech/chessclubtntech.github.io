@@ -236,6 +236,12 @@ li {
   outline: none;
 }
 
+.dropdown-menu.show {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
 .dropdown-menu a,
 .dropdown-menu button {
   color: #ecba13;
