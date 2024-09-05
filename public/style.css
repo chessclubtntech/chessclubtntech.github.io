@@ -234,12 +234,14 @@ li {
   border: none;
   box-shadow: none;
   outline: none;
+  background-color: #1e1e1e;
 }
 
 .dropdown-menu.show {
   border: none;
   box-shadow: none;
   outline: none;
+  background-color: #1e1e1e;
 }
 
 .dropdown-menu a,
