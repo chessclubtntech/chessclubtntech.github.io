@@ -170,12 +170,6 @@ li {
   border-radius: 5px;
 }
 
-/*#username-display {*/
-/*  position: absolute;*/
-/*  top: -100px; /* Adjust the top position as needed */
-/*  right: -10px;*/
-/*}*/
-
 .user-container {
   display: flex;
   flex-direction: column; /* Display users and buttons vertically */
