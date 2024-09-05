@@ -29,6 +29,7 @@
       font-size: 18px;
       color: #333;
       text-align: left;
+      z-index: 2;
     }
     textarea {
       width: 100%;
@@ -80,7 +81,6 @@
     </form>
     <div id="feedback-message"></div>
   </div>
-
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const userId = localStorage.getItem('userId'); // Assuming userId is stored in localStorage
