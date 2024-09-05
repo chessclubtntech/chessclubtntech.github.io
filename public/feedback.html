@@ -14,7 +14,6 @@
       align-items: center;
       height: 100vh;
       margin: 0;
-      font-family: Arial, sans-serif;
     }
     .feedback-container {
       width: 80%;
@@ -23,6 +22,12 @@
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       text-align: center;
+    }
+    #username-display {
+      margin-bottom: 20px;
+      font-size: 18px;
+      color: #333;
+      text-align: left;
     }
     textarea {
       width: 100%;
@@ -67,11 +72,11 @@
     <ul class="navigation-links">
       <li class="home-button-leaderboard"><a href="main.html"><i class="fas fa-home"></i></a></li>
     </ul>
+    <div id="username-display">Loading...</div> <!-- Added for displaying username -->
     <form id="feedback-form">
       <textarea id="feedback" placeholder="Enter your feedback here" required></textarea>
       <button type="submit">Submit Feedback</button>
     </form>
-
     <div id="feedback-message"></div>
   </div>
 
@@ -79,7 +84,6 @@
     document.getElementById('feedback-form').addEventListener('submit', async function(event) {
       event.preventDefault();
       const userId = localStorage.getItem('userId'); // Assuming userId is stored in localStorage
-      console.log(`Retrieved userId: ${userId}`);
       const feedback = document.getElementById('feedback').value;
 
       if (userId) {
@@ -94,10 +98,13 @@
                 usernameDisplay.textContent = `Error: ${data.error}`;
             }
           })
-          .catch(error => console.error("Error fetching username data:", error));
-        } else {
-            console.error("User ID not found in storage.");
-            // Optionally, you can redirect or show a message here
+          .catch(error => {
+            document.getElementById("username-display").textContent = `Error fetching username data.`;
+            console.error("Error fetching username data:", error);
+          });
+      } else {
+          console.error("User ID not found in storage.");
+          // Optionally, you can redirect or show a message here
       }
 
       if (!userId || !feedback) {
