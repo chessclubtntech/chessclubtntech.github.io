@@ -231,11 +231,19 @@ li {
   cursor: pointer;
 }
 
+.dropdown-menu {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
 .dropdown-menu a,
 .dropdown-menu button {
   color: #ecba13;
   background-color: #1e1e1e;
-  text-align:center;
+  text-align: center;
+  border: none;
+  outline: none;
 }
 
 .dropdown-menu a:hover,
