@@ -44,10 +44,12 @@
             text-align: center;
         }
         .grid-item a {
-            /*display: flex; */
-            /* align-items: center;  /* Centers the icon and text vertically */
-            gap: 10px;            /* Adds space between the icon and text */
+            gap: 10px;
             text-decoration: none;
+            transition: transform 0.2s ease-in-out; /* Adds smooth animation */
+        }
+        .grid-item a:hover {
+            transform: scale(1.05)
         }
         .feedback-button-container {
             display: flex;
