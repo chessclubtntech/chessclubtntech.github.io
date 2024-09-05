@@ -1,6 +1,6 @@
 name: Deploy and Test
 
-on:
+#on:
   push:
     branches:
       - main
