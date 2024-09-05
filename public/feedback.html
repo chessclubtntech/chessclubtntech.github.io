@@ -4,10 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Submit Feedback</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .home-button-leaderboard{
+      padding: 15px 30px;
+      color: #FFDD00;
+      background-color: #FFDD00;
+      border: none;
+      border-radius: 5px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
   <h1>Feedback</h1>
+  <ul class="navigation-links">
+    <li class="home-button-leaderboard"><a href="main.html"><i class="fas fa-home"></i></a></li>
+  </ul>
   <form id="feedback-form">
     <textarea id="feedback" placeholder="Enter your feedback here" required></textarea>
     <button type="submit">Submit Feedback</button>
