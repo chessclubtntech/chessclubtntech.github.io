@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   school: { type: String, required: false },
   numGamesPlayed: { type: Number, default: 0 }, // Default value: 0
   totalTournamentScore: { type: Number, default: 0 }, // Default value: 0
-  rating: { type: String, default: "300P" }, // Default rating: 300P
+  rating: { type: String, default: "---" }, // Default rating: Blank (---)
   role: { type: String, default: "student" }
 });
 
