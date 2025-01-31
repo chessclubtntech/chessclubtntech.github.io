@@ -128,6 +128,8 @@
 
             // Check if the response is an array
             if (Array.isArray(users)) {
+               // Filter out users with rating "---"
+               users = users.filter(user => user.rating !== "---");
                const podium = document.getElementById('podium');
                const leaderboardResults = document.getElementById('leaderboardResults');
 
